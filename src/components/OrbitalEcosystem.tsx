@@ -5,13 +5,15 @@ import gsap from "gsap";
 import { ecosystemNodes } from "@/data/content";
 import { ecosystemIcons } from "@/components/icons/EcosystemIcons";
 
-const SIZE = 600;
+const SIZE = 860;
 const CENTER = SIZE / 2;
+const NODE_RADIUS = 42;
+const ICON_SIZE = 50;
 
 const RINGS = [
-  { radius: 118, period: 26, direction: 1 },
-  { radius: 185, period: 34, direction: -1 },
-  { radius: 250, period: 44, direction: 1 },
+  { radius: 170, period: 26, direction: 1 },
+  { radius: 265, period: 34, direction: -1 },
+  { radius: 355, period: 44, direction: 1 },
 ];
 
 const nodesByRing = RINGS.map((_, ringIndex) =>
@@ -112,7 +114,7 @@ export default function OrbitalEcosystem() {
   }, [reduced]);
 
   return (
-    <div ref={wrapRef} className="mx-auto w-full max-w-[560px]">
+    <div ref={wrapRef} className="mx-auto w-full max-w-[760px]">
       <svg
         viewBox={`0 0 ${SIZE} ${SIZE}`}
         className="h-auto w-full overflow-visible"
@@ -132,8 +134,8 @@ export default function OrbitalEcosystem() {
             y2={CENTER}
             className="orbit-line"
             stroke="currentColor"
-            strokeWidth={hoveredId === node.id ? 1.6 : 1}
-            strokeOpacity={hoveredId === node.id ? 0.55 : 0.18}
+            strokeWidth={hoveredId === node.id ? 2.6 : 1.8}
+            strokeOpacity={hoveredId === node.id ? 0.7 : 0.32}
             style={{
               transition: "stroke-opacity 0.3s ease, stroke-width 0.3s ease",
               animationDelay: `${i * 0.35}s`,
@@ -143,20 +145,20 @@ export default function OrbitalEcosystem() {
 
         {/* center */}
         <g className="orbit-center-pulse">
-          <circle cx={CENTER} cy={CENTER} r={44} fill="#000" />
+          <circle cx={CENTER} cy={CENTER} r={62} fill="#000" />
           <circle
-            cx={CENTER - 12}
-            cy={CENTER - 14}
-            r={16}
+            cx={CENTER - 17}
+            cy={CENTER - 20}
+            r={22}
             fill="#fff"
             opacity={0.08}
           />
           <text
             x={CENTER}
-            y={CENTER + 8}
+            y={CENTER + 11}
             textAnchor="middle"
             fill="#fff"
-            fontSize={20}
+            fontSize={28}
             style={{ fontFamily: "var(--font-hand)" }}
           >
             NADA
@@ -192,25 +194,25 @@ export default function OrbitalEcosystem() {
                 onBlur={() => setHoveredId(null)}
               >
                 <circle
-                  r={30}
-                  fill="rgba(255,255,255,0.7)"
+                  r={NODE_RADIUS}
+                  fill="rgba(255,255,255,0.85)"
                   stroke="#000"
-                  strokeOpacity={isHovered ? 0.9 : 0.35}
+                  strokeOpacity={isHovered ? 0.9 : 0.3}
                   strokeWidth={1.4}
                   style={{
                     filter: isHovered
-                      ? "drop-shadow(0 10px 18px rgba(0,0,0,0.18))"
-                      : "drop-shadow(0 4px 10px rgba(0,0,0,0.08))",
+                      ? "drop-shadow(0 14px 24px rgba(0,0,0,0.2))"
+                      : "drop-shadow(0 6px 14px rgba(0,0,0,0.1))",
                     transition: "stroke-opacity 0.3s ease, filter 0.3s ease",
                   }}
                 />
-                <g transform="translate(-11 -11)" className="text-black">
-                  <Icon size={22} />
+                <g transform={`translate(${-ICON_SIZE / 2} ${-ICON_SIZE / 2})`}>
+                  <Icon size={ICON_SIZE} />
                 </g>
                 <text
-                  y={48}
+                  y={NODE_RADIUS + 26}
                   textAnchor="middle"
-                  fontSize={12}
+                  fontSize={14}
                   fontWeight={500}
                   fill="#000"
                   opacity={isHovered ? 1 : 0}
