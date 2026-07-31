@@ -8,7 +8,7 @@ import { ecosystemIcons } from "@/components/icons/EcosystemIcons";
 const SIZE = 860;
 const CENTER = SIZE / 2;
 const NODE_RADIUS = 42;
-const ICON_SIZE = 50;
+const ICON_SIZE = 46;
 
 const RINGS = [
   { radius: 170, period: 26, direction: 1 },
@@ -206,7 +206,10 @@ export default function OrbitalEcosystem() {
                     transition: "stroke-opacity 0.3s ease, filter 0.3s ease",
                   }}
                 />
-                <g transform={`translate(${-ICON_SIZE / 2} ${-ICON_SIZE / 2})`}>
+                <g
+                  transform={`translate(${-ICON_SIZE / 2} ${-ICON_SIZE / 2})`}
+                  className="text-black"
+                >
                   <Icon size={ICON_SIZE} />
                 </g>
                 <text

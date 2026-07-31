@@ -82,13 +82,12 @@ export const ecosystemIntro = {
 
 export const ecosystemNodes = [
   { id: "whatsapp", label: "WhatsApp", short: "Atendimento", ring: 0, icon: "whatsapp" },
-  { id: "gmail", label: "Gmail", short: "E-mail automático", ring: 0, icon: "mail" },
+  { id: "gmail", label: "Gmail", short: "E-mail", ring: 0, icon: "mail" },
   { id: "agenda", label: "Google Agenda", short: "Agendamento", ring: 0, icon: "calendar" },
-  { id: "n8n", label: "n8n", short: "Automação", ring: 1, icon: "workflow" },
-  { id: "instagram", label: "Instagram", short: "Presença", ring: 1, icon: "camera" },
-  { id: "ia", label: "IA", short: "Inteligência", ring: 1, icon: "spark" },
-  { id: "sheets", label: "Google Planilhas", short: "Dados", ring: 2, icon: "table" },
-  { id: "site", label: "Site", short: "Presença digital", ring: 2, icon: "globe" },
+  { id: "instagram", label: "Instagram", short: "Presença", ring: 1, icon: "instagram" },
+  { id: "n8n", label: "n8n", short: "Automação", ring: 1, icon: "n8n" },
+  { id: "ia", label: "IA", short: "Inteligência", ring: 2, icon: "spark" },
+  { id: "pix", label: "Pix", short: "Cobrança", ring: 2, icon: "pix" },
 ] as const;
 
 export const trustBadges = [
