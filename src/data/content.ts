@@ -75,6 +75,22 @@ export const forYouPersonal = {
   ],
 };
 
+export const ecosystemIntro = {
+  header: "Tudo que seu negócio usa. Conectado num lugar só.",
+  sub: "A gente liga as ferramentas que você já usa — WhatsApp, Google, e-mail, automação — pra tudo funcionar junto, sozinho.",
+};
+
+export const ecosystemNodes = [
+  { id: "whatsapp", label: "WhatsApp", short: "Atendimento", ring: 0, icon: "whatsapp" },
+  { id: "gmail", label: "Gmail", short: "E-mail automático", ring: 0, icon: "mail" },
+  { id: "agenda", label: "Google Agenda", short: "Agendamento", ring: 0, icon: "calendar" },
+  { id: "n8n", label: "n8n", short: "Automação", ring: 1, icon: "workflow" },
+  { id: "instagram", label: "Instagram", short: "Presença", ring: 1, icon: "camera" },
+  { id: "ia", label: "IA", short: "Inteligência", ring: 1, icon: "spark" },
+  { id: "sheets", label: "Google Planilhas", short: "Dados", ring: 2, icon: "table" },
+  { id: "site", label: "Site", short: "Presença digital", ring: 2, icon: "globe" },
+] as const;
+
 export const trustBadges = [
   "Sem mensalidade escondida",
   "100% sob medida",
@@ -108,11 +124,12 @@ export const faqItems = [
 export const sectionMarkers = {
   problem: "001",
   whatWeDo: "002",
-  howItWorks: "003",
-  membership: "004",
-  forYou: "005",
-  whyNada: "006",
-  trust: "007",
-  faq: "008",
-  cta: "009",
+  ecosystem: "003",
+  howItWorks: "004",
+  membership: "005",
+  forYou: "006",
+  whyNada: "007",
+  trust: "008",
+  faq: "009",
+  cta: "010",
 };

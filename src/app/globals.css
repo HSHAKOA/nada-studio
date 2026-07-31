@@ -192,6 +192,45 @@
 .marquee-viewport:hover .marquee-track {
   animation-play-state: paused;
 }
+
+/* orbital ecosystem */
+.orbit-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s ease;
+  cursor: pointer;
+  outline: none;
+}
+
+.orbit-node:focus-visible circle {
+  stroke-opacity: 1 !important;
+}
+
+.orbit-line {
+  stroke-dasharray: 2 12;
+  animation: orbit-pulse 2.6s linear infinite;
+}
+
+@keyframes orbit-pulse {
+  to {
+    stroke-dashoffset: -112;
+  }
+}
+
+.orbit-center-pulse {
+  animation: orbit-breathe 4s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes orbit-breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
 } /* end @layer components */
 
 @media (prefers-reduced-motion: reduce) {

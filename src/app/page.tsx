@@ -4,6 +4,7 @@ import IntroOverlayLoader from "@/components/IntroOverlayLoader";
 import Marquee from "@/components/Marquee";
 import Problem from "@/components/sections/Problem";
 import WhatWeDo from "@/components/sections/WhatWeDo";
+import Ecosystem from "@/components/sections/Ecosystem";
 import HowItWorks from "@/components/sections/HowItWorks";
 import Membership from "@/components/sections/Membership";
 import ForYouToo from "@/components/sections/ForYouToo";
@@ -22,6 +23,7 @@ export default function Home() {
         <Hero />
         <Problem />
         <WhatWeDo />
+        <Ecosystem />
         <Marquee />
         <HowItWorks />
         <Membership />
