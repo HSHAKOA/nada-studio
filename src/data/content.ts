@@ -4,6 +4,7 @@ export const INSTAGRAM_LINK = "PLACEHOLDER";
 export const navLinks = [
   { label: "Serviços", href: "#o-que-fazemos" },
   { label: "Como funciona", href: "#como-funciona" },
+  { label: "Portfólio", href: "#portfolio" },
   { label: "Pra você", href: "#pra-voce" },
   { label: "Contato", href: "#comecar" },
 ];
@@ -90,6 +91,50 @@ export const ecosystemNodes = [
   { id: "pix", label: "Pix", short: "Cobrança", ring: 2, icon: "pix" },
 ] as const;
 
+export const costOfNotDoing = {
+  header: "“É caro?” O caro é continuar perdendo tempo.",
+  text: "Faz a conta. Quantas horas por semana você (ou sua equipe) gasta no repetitivo? Multiplica por um mês. Por um ano. Esse tempo já tem um custo — só que ele é invisível, sai fatiado, todo dia. A gente transforma esse custo escondido numa solução que se paga em tempo livre e cliente bem atendido.",
+  destaque: "Não fazer nada também custa. Só que você paga em hora perdida.",
+  microCta: "Descobrir quanto você perde →",
+};
+
+export const portfolioIntro = {
+  header: "A gente começou construindo pra nós mesmos.",
+  sub: "Antes de vender, a gente fez. Cada projeto abaixo nasceu de um problema real que a gente resolveu com código, automação e IA. É a nossa prova de que funciona.",
+  fecho: "O próximo caso de sucesso pode ser o seu.",
+};
+
+// PLACEHOLDER — trocar pelos projetos reais (nome, o que resolve, print/preview, tag)
+export const portfolioProjects = [
+  {
+    title: "Projeto 01",
+    tag: "Site",
+    body: "Adicionar aqui o que esse projeto resolve.",
+  },
+  {
+    title: "Projeto 02",
+    tag: "Automação",
+    body: "Adicionar aqui o que esse projeto resolve.",
+  },
+  {
+    title: "Projeto 03",
+    tag: "Aplicação",
+    body: "Adicionar aqui o que esse projeto resolve.",
+  },
+];
+
+export const foundersIntro = {
+  header: "Gente de verdade por trás do código.",
+  text: "A NADA é tocada por dois sócios que gostam de resolver problema de gente. A gente atende de perto, fala a sua língua e não some depois de entregar. Aqui você fala direto com quem constrói — não com um call center.",
+  fecho: "Quando você contrata a NADA, você sabe com quem tá falando.",
+};
+
+// PLACEHOLDER — trocar pelos nomes e fotos reais dos sócios
+export const founders = [
+  { name: "Sócio 01", role: "Fundador" },
+  { name: "Sócio 02", role: "Fundador" },
+];
+
 export const trustBadges = [
   "Sem mensalidade escondida",
   "100% sob medida",
@@ -122,13 +167,16 @@ export const faqItems = [
 
 export const sectionMarkers = {
   problem: "001",
-  whatWeDo: "002",
-  ecosystem: "003",
+  ecosystem: "002",
+  whatWeDo: "003",
   howItWorks: "004",
   membership: "005",
-  forYou: "006",
-  whyNada: "007",
-  trust: "008",
-  faq: "009",
-  cta: "010",
+  costOfNotDoing: "006",
+  portfolio: "007",
+  forYou: "008",
+  founders: "009",
+  whyNada: "010",
+  trust: "011",
+  faq: "012",
+  cta: "013",
 };

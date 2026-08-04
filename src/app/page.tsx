@@ -3,11 +3,14 @@ import Hero from "@/components/Hero";
 import IntroOverlayLoader from "@/components/IntroOverlayLoader";
 import Marquee from "@/components/Marquee";
 import Problem from "@/components/sections/Problem";
-import WhatWeDo from "@/components/sections/WhatWeDo";
 import Ecosystem from "@/components/sections/Ecosystem";
+import WhatWeDo from "@/components/sections/WhatWeDo";
 import HowItWorks from "@/components/sections/HowItWorks";
 import Membership from "@/components/sections/Membership";
+import CostOfInaction from "@/components/sections/CostOfInaction";
+import Portfolio from "@/components/sections/Portfolio";
 import ForYouToo from "@/components/sections/ForYouToo";
+import Founders from "@/components/sections/Founders";
 import WhyNada from "@/components/sections/WhyNada";
 import Trust from "@/components/sections/Trust";
 import FAQ from "@/components/sections/FAQ";
@@ -22,12 +25,15 @@ export default function Home() {
       <main>
         <Hero />
         <Problem />
-        <WhatWeDo />
         <Ecosystem />
         <Marquee />
+        <WhatWeDo />
         <HowItWorks />
         <Membership />
+        <CostOfInaction />
+        <Portfolio />
         <ForYouToo />
+        <Founders />
         <WhyNada />
         <Trust />
         <FAQ />
