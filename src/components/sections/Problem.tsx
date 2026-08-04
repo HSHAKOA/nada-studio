@@ -4,8 +4,16 @@ import { sectionMarkers } from "@/data/content";
 
 export default function Problem() {
   return (
-    <section id="o-problema" className="section">
-      <div className="wrap">
+    <section id="o-problema" className="section relative overflow-hidden">
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none text-center font-bold text-[26vw] leading-none text-black/[0.04]"
+        style={{ fontFamily: "var(--font-display)" }}
+      >
+        NADA
+      </span>
+
+      <div className="wrap relative z-10">
         <Reveal>
           <SectionMarker label="O problema" number={sectionMarkers.problem} />
         </Reveal>

@@ -1,5 +1,6 @@
-export const WHATSAPP_LINK = "SEU_LINK_WHATSAPP";
-export const INSTAGRAM_LINK = "PLACEHOLDER";
+export const WHATSAPP_LINK =
+  "https://wa.me/5511932159328?text=Oi!%20Quero%20saber%20mais%20sobre%20a%20NADA.";
+export const INSTAGRAM_LINK = "https://www.instagram.com/nada.studio.br/";
 
 export const navLinks = [
   { label: "Serviços", href: "#o-que-fazemos" },

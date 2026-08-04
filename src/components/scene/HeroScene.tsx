@@ -56,6 +56,7 @@ function HeroBlob({ progress, lowPower }: { progress: ProgressBox; lowPower: boo
 function Floaters({ progress }: { progress: ProgressBox }) {
   const orbRef = useRef<THREE.Mesh>(null);
   const ringRef = useRef<THREE.Mesh>(null);
+  const deepOrbRef = useRef<THREE.Mesh>(null);
 
   useFrame((state, delta) => {
     const p = progress.current;
@@ -76,6 +77,15 @@ function Floaters({ progress }: { progress: ProgressBox }) {
       ring.rotation.x -= delta * 0.25;
       ring.rotation.y += delta * 0.2;
     }
+
+    // extra orb set further back for parallax depth
+    const deepOrb = deepOrbRef.current;
+    if (deepOrb) {
+      deepOrb.position.x = 0.6 + Math.sin(t * 0.3 + 1) * 0.5;
+      deepOrb.position.y = 1.6 + Math.cos(t * 0.35) * 0.3 - p * 0.3;
+      deepOrb.rotation.x += delta * 0.15;
+      deepOrb.rotation.y -= delta * 0.18;
+    }
   });
 
   return (
@@ -87,6 +97,10 @@ function Floaters({ progress }: { progress: ProgressBox }) {
       <mesh ref={ringRef} position={[-2.4, -0.4, -0.5]}>
         <torusGeometry args={[0.4, 0.16, 24, 64]} />
         <MeshDistortMaterial color="#0a0a0a" roughness={0.1} metalness={0.75} distort={0.3} speed={1.4} />
+      </mesh>
+      <mesh ref={deepOrbRef} position={[0.6, 1.6, -3.5]}>
+        <icosahedronGeometry args={[0.3, 3]} />
+        <MeshDistortMaterial color="#111111" roughness={0.15} metalness={0.7} distort={0.35} speed={1.2} />
       </mesh>
     </>
   );

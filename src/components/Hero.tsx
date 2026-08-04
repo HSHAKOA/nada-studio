@@ -12,15 +12,7 @@ export default function Hero() {
       id="top"
       className="relative flex min-h-[100svh] items-center overflow-hidden pt-24"
     >
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none text-center font-bold text-[26vw] leading-none text-black/[0.04]"
-        style={{ fontFamily: "var(--font-display)" }}
-      >
-        NADA
-      </span>
-
-      <div className="wrap relative z-10 grid items-center gap-10 md:grid-cols-2">
+      <div className="wrap relative z-10 grid items-center gap-16 md:grid-cols-[1fr_1.15fr] md:gap-10">
         <div>
           <p className="eyebrow mb-6">DO NADA NASCE TUDO</p>
           <h1 className="text-[clamp(40px,6vw,72px)]">
@@ -42,7 +34,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative h-[360px] md:h-[520px]">
+        <div className="relative h-[320px] md:h-[560px]">
           <HeroScene />
         </div>
       </div>

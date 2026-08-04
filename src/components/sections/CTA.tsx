@@ -18,8 +18,8 @@ export default function CTA() {
         </Reveal>
         <Reveal delay={160}>
           <p className="prose-measure mx-auto mt-6 text-[18px] text-white/70">
-            A primeira conversa é de graça. Chama no WhatsApp, conta o que
-            trava o seu dia e a gente te mostra como resolver.
+            Chama no WhatsApp, conta o que trava o seu dia e a gente te
+            mostra como resolver.
           </p>
         </Reveal>
         <Reveal delay={240}>
