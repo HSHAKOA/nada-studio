@@ -12,8 +12,8 @@ export default function Hero() {
       id="top"
       className="relative flex min-h-[100svh] items-center overflow-hidden pt-24"
     >
-      <div className="wrap relative z-10 grid items-center gap-16 md:grid-cols-[1fr_1.15fr] md:gap-10">
-        <div>
+      <div className="wrap relative z-10 grid grid-cols-1 items-center gap-16 md:grid-cols-[1fr_1.15fr] md:gap-10">
+        <div className="min-w-0">
           <p className="eyebrow mb-6">DO NADA NASCE TUDO</p>
           <h1 className="text-[clamp(40px,6vw,72px)]">
             Menos tarefa manual.
@@ -34,7 +34,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative h-[320px] md:h-[560px]">
+        <div className="relative h-[320px] min-w-0 md:h-[560px]">
           <HeroScene />
         </div>
       </div>
