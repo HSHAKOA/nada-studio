@@ -45,3 +45,4 @@ desktop.ini
 
 # claude code local state
 .claude/
+*.skill

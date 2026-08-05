@@ -24,12 +24,21 @@ export default function Founders() {
           {founders.map((founder, i) => (
             <Reveal key={founder.name} delay={200 + i * 80}>
               <div className="card flex items-center gap-4">
-                <span
-                  aria-hidden
-                  className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white text-xs text-black/30"
-                >
-                  foto
-                </span>
+                {founder.photo ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={founder.photo}
+                    alt={founder.name}
+                    className="h-16 w-16 shrink-0 rounded-full border border-black/10 object-cover grayscale contrast-125"
+                  />
+                ) : (
+                  <span
+                    aria-hidden
+                    className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white text-xs text-black/30"
+                  >
+                    foto
+                  </span>
+                )}
                 <div>
                   <p className="text-lg font-medium">{founder.name}</p>
                   <p className="text-sm text-black/60">{founder.role}</p>

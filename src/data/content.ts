@@ -105,22 +105,21 @@ export const portfolioIntro = {
   fecho: "O próximo caso de sucesso pode ser o seu.",
 };
 
-// PLACEHOLDER — trocar pelos projetos reais (nome, o que resolve, print/preview, tag)
 export const portfolioProjects = [
   {
-    title: "Projeto 01",
-    tag: "Site",
-    body: "Adicionar aqui o que esse projeto resolve.",
+    title: "NADA Studio",
+    tag: "Next.js + Three.js",
+    body: "O site que você tá vendo agora. Feito do zero, com objeto 3D e scroll cinematográfico — pra provar que a gente entrega o que promete.",
   },
   {
-    title: "Projeto 02",
-    tag: "Automação",
-    body: "Adicionar aqui o que esse projeto resolve.",
+    title: "Hub interno",
+    tag: "Netlify + Supabase",
+    body: "Ferramenta de gestão que a gente usa todo dia pra rodar a operação. Construída sob medida, do jeito que o nosso processo pede.",
   },
   {
-    title: "Projeto 03",
-    tag: "Aplicação",
-    body: "Adicionar aqui o que esse projeto resolve.",
+    title: "No Azul",
+    tag: "Cakto + Supabase",
+    body: "App de controle financeiro pessoal. Ajuda a saber pra onde o dinheiro vai, sem precisar de planilha.",
   },
 ];
 
@@ -130,10 +129,9 @@ export const foundersIntro = {
   fecho: "Quando você contrata a NADA, você sabe com quem tá falando.",
 };
 
-// PLACEHOLDER — trocar pelos nomes e fotos reais dos sócios
-export const founders = [
-  { name: "Sócio 01", role: "Fundador" },
-  { name: "Sócio 02", role: "Fundador" },
+export const founders: { name: string; role: string; photo?: string }[] = [
+  { name: "João Passos", role: "Fundador", photo: "/Joao_IMG.jpeg" },
+  { name: "Eric Crispim", role: "Fundador" },
 ];
 
 export const trustBadges = [
