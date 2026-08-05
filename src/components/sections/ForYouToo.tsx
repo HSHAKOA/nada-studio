@@ -53,7 +53,7 @@ export default function ForYouToo() {
 
         <Reveal delay={200}>
           <p className="mt-14 text-[clamp(22px,2.6vw,30px)] font-semibold">
-            Se dá pra resolver com IA, a gente resolve com você.
+            Se a tarefa é repetitiva, a gente resolve com você.
           </p>
         </Reveal>
         <Reveal delay={260}>

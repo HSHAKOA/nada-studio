@@ -17,8 +17,8 @@ export default function WhyNada() {
         <Reveal delay={160}>
           <p className="prose-measure mt-6 text-[18px] text-black/70">
             Porque toda grande ideia começa do zero. De uma folha em branco,
-            de um &ldquo;e se...&rdquo;. A gente pega esse nada — o seu
-            problema, o seu tempo perdido, a sua ideia solta — e transforma em
+            de um &ldquo;e se...&rdquo;. A gente pega esse nada (o seu
+            problema, o seu tempo perdido, a sua ideia solta) e transforma em
             algo que funciona. Sem complicação. Sem promessa vazia. Só
             solução que entrega.
           </p>

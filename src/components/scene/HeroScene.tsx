@@ -166,10 +166,10 @@ export default function HeroScene() {
 
   return (
     <Canvas
-      dpr={lowPower ? [1, 1.25] : [1, 2]}
+      dpr={[1, 2]}
       camera={{ position: [0, 0, 6], fov: 45 }}
       frameloop={visible ? "always" : "never"}
-      gl={{ antialias: !lowPower }}
+      gl={{ antialias: true }}
     >
       <ambientLight intensity={0.6} />
       <directionalLight position={[3, 4, 5]} intensity={1.2} />

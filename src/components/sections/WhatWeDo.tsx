@@ -16,7 +16,7 @@ export default function WhatWeDo() {
         </Reveal>
         <Reveal delay={160}>
           <p className="prose-measure mt-6 text-[18px] text-black/70">
-            Do site à automação, montamos tudo do zero — do jeito que o seu
+            Do site à automação, montamos tudo do zero, do jeito que o seu
             negócio precisa. Sem template pronto, sem enrolação.
           </p>
         </Reveal>

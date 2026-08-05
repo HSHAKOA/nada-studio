@@ -106,7 +106,7 @@ export default function Footer() {
 
       <div className="wrap mt-10 flex flex-col gap-2 text-xs text-white/40 md:flex-row md:items-center md:justify-between">
         <span>© 2026 NADA Studio. Todos os direitos reservados.</span>
-        <span>Feito pela NADA Studio — do nada nasce tudo.</span>
+        <span>Feito pela NADA Studio. Do nada nasce tudo.</span>
       </div>
     </footer>
   );

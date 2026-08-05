@@ -22,11 +22,12 @@ export default function Navbar() {
   }, [open]);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled ? "bg-white/85 backdrop-blur-md border-b border-black/10" : "bg-transparent"
-      }`}
-    >
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+          scrolled ? "bg-white/85 backdrop-blur-md border-b border-black/10" : "bg-transparent"
+        }`}
+      >
       <div className="wrap flex items-center justify-between py-4">
         <a
           href="#top"
@@ -74,9 +75,10 @@ export default function Navbar() {
           />
         </button>
       </div>
+      </header>
 
       <div
-        className={`md:hidden fixed inset-0 bg-white transition-opacity duration-300 ${
+        className={`md:hidden fixed inset-0 z-40 bg-white transition-opacity duration-300 ${
           open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
@@ -100,6 +102,6 @@ export default function Navbar() {
           </a>
         </nav>
       </div>
-    </header>
+    </>
   );
 }

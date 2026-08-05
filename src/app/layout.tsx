@@ -25,8 +25,8 @@ const siteUrl = "https://nada-studio.vercel.app";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "NADA Studio — Do nada nasce tudo",
-    template: "%s — NADA Studio",
+    default: "NADA Studio · Do nada nasce tudo",
+    template: "%s · NADA Studio",
   },
   description:
     "Criação de sites, automação com n8n e aplicações sob medida pra pequenos negócios e profissionais autônomos. Menos tarefa manual, mais tempo pro que importa.",
@@ -52,13 +52,13 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     url: siteUrl,
     siteName: "NADA Studio",
-    title: "NADA Studio — Do nada nasce tudo",
+    title: "NADA Studio · Do nada nasce tudo",
     description:
       "A gente cria seu site, automatiza o repetitivo e cuida de tudo por você. Você foca no que importa: vender.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "NADA Studio — Do nada nasce tudo",
+    title: "NADA Studio · Do nada nasce tudo",
     description:
       "A gente cria seu site, automatiza o repetitivo e cuida de tudo por você. Você foca no que importa: vender.",
   },

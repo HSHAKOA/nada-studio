@@ -21,7 +21,7 @@ export const services = [
     number: "02",
     title: "Automação",
     headline: "Chega de fazer na mão",
-    body: "Aquela tarefa repetitiva que come seu dia? A gente automatiza. Mensagem, planilha, agendamento, cobrança — no piloto automático. Você ganha o tempo de volta.",
+    body: "Aquela tarefa repetitiva que come seu dia? A gente automatiza. Mensagem, planilha, agendamento, cobrança. Tudo no piloto automático. Você ganha o tempo de volta.",
   },
   {
     number: "03",
@@ -35,7 +35,7 @@ export const steps = [
   {
     number: "01",
     title: "A gente conversa.",
-    body: "Você conta o que trava seu dia. A gente entende seu negócio de verdade.",
+    body: "Você conta o que trava seu dia. A gente entende seu negócio.",
   },
   {
     number: "02",
@@ -58,12 +58,12 @@ export const membershipItems = [
   "Site no ar, rápido e sempre atualizado",
   "Ajustes e melhorias sempre que precisar",
   "Automações rodando sem parar, 24h",
-  "Suporte direto no WhatsApp — fala com gente, não com robô",
+  "Suporte direto no WhatsApp. Fala com gente, não com robô",
 ];
 
 export const forYouPro = {
   title: "Profissionais",
-  body: "Professor, nutricionista, personal, médico — automatize a papelada da rotina e use IA a seu favor no atendimento, no conteúdo e na organização.",
+  body: "Professor, nutricionista, personal, médico. Automatize a papelada da rotina e use IA a seu favor no atendimento, no conteúdo e na organização.",
 };
 
 export const forYouPersonal = {
@@ -79,7 +79,7 @@ export const forYouPersonal = {
 
 export const ecosystemIntro = {
   header: "Tudo que seu negócio usa. Conectado num lugar só.",
-  sub: "A gente liga as ferramentas que você já usa — WhatsApp, Google, e-mail, automação — pra tudo funcionar junto, sozinho.",
+  sub: "A gente liga as ferramentas que você já usa (WhatsApp, Google, e-mail, automação) pra tudo funcionar junto, sozinho.",
 };
 
 export const ecosystemNodes = [
@@ -94,7 +94,7 @@ export const ecosystemNodes = [
 
 export const costOfNotDoing = {
   header: "“É caro?” O caro é continuar perdendo tempo.",
-  text: "Faz a conta. Quantas horas por semana você (ou sua equipe) gasta no repetitivo? Multiplica por um mês. Por um ano. Esse tempo já tem um custo — só que ele é invisível, sai fatiado, todo dia. A gente transforma esse custo escondido numa solução que se paga em tempo livre e cliente bem atendido.",
+  text: "Faz a conta. Quantas horas por semana você (ou sua equipe) gasta no repetitivo? Multiplica por um mês. Por um ano. Esse tempo já tem um custo. Só que ele é invisível, sai fatiado, todo dia. A gente transforma esse custo escondido numa solução que se paga em tempo livre e cliente bem atendido.",
   destaque: "Não fazer nada também custa. Só que você paga em hora perdida.",
   microCta: "Descobrir quanto você perde →",
 };
@@ -109,7 +109,7 @@ export const portfolioProjects = [
   {
     title: "NADA Studio",
     tag: "Next.js + Three.js",
-    body: "O site que você tá vendo agora. Feito do zero, com objeto 3D e scroll cinematográfico — pra provar que a gente entrega o que promete.",
+    body: "O site que você tá vendo agora. Feito do zero, com objeto 3D e scroll cinematográfico. É prova de que a gente entrega o que promete.",
   },
   {
     title: "Hub interno",
@@ -125,7 +125,7 @@ export const portfolioProjects = [
 
 export const foundersIntro = {
   header: "Gente de verdade por trás do código.",
-  text: "A NADA é tocada por dois sócios que gostam de resolver problema de gente. A gente atende de perto, fala a sua língua e não some depois de entregar. Aqui você fala direto com quem constrói — não com um call center.",
+  text: "A NADA é tocada por dois sócios que gostam de resolver problema de gente. A gente atende de perto, fala a sua língua e não some depois de entregar. Aqui você fala direto com quem constrói, não com um call center.",
   fecho: "Quando você contrata a NADA, você sabe com quem tá falando.",
 };
 
