@@ -131,7 +131,7 @@ export const foundersIntro = {
 
 export const founders: { name: string; role: string; photo?: string }[] = [
   { name: "João Passos", role: "Fundador", photo: "/Joao_IMG.jpeg" },
-  { name: "Eric Crispim", role: "Fundador" },
+  { name: "Eric Crispim", role: "Fundador", photo: "/Eric_IMG.jpeg" },
 ];
 
 export const trustBadges = [
