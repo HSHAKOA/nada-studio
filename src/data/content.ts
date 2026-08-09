@@ -138,7 +138,6 @@ export const trustBadges = [
   "Sem mensalidade escondida",
   "100% sob medida",
   "Suporte de gente de verdade",
-  "Sem fidelidade forçada",
 ];
 
 export const faqItems = [
@@ -157,10 +156,6 @@ export const faqItems = [
   {
     q: "Vocês atendem meu tipo de negócio?",
     a: "Comércio local, profissionais e pessoas comuns. Se tem tarefa repetitiva, tem solução.",
-  },
-  {
-    q: "Tem fidelidade?",
-    a: "Não. Você fica porque funciona, não porque é obrigado.",
   },
 ];
 
