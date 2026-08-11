@@ -1,14 +1,10 @@
 export default function Hero() {
   return (
-    <section id="top" className="relative">
-      {/*
-        Tela vazia no topo: aqui a marca da navbar aparece grande no centro e
-        sobe conforme o scroll. O espaço é só o palco dela — o elemento em si
-        vive na Navbar (MarcaNavbar), pra ser sempre o mesmo.
-      */}
-      <div className="h-[100svh]" aria-hidden />
-
-      <div className="wrap pb-28">
+    <section
+      id="top"
+      className="relative flex min-h-[100svh] items-center overflow-hidden pt-24"
+    >
+      <div className="wrap relative z-10">
         <p className="eyebrow mb-6">DO NADA NASCE TUDO</p>
         <h1 className="text-[clamp(40px,6vw,72px)]">
           Menos tarefa manual.
