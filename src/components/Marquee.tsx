@@ -4,7 +4,7 @@ export default function Marquee() {
   const items = Array.from({ length: 8 }, () => PHRASE);
 
   return (
-    <div className="marquee-viewport overflow-hidden border-y border-black/10 py-6">
+    <div className="marquee-viewport overflow-hidden border-y border-white/10 py-6">
       <div className="marquee-track">
         {[...items, ...items].map((text, i) => (
           <span

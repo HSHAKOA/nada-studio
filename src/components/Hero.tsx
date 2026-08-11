@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-const HeroScene = dynamic(() => import("@/components/scene/HeroScene"), {
+const BigBangHero = dynamic(() => import("@/components/BigBangHero"), {
   ssr: false,
 });
 
@@ -35,7 +35,7 @@ export default function Hero() {
         </div>
 
         <div className="relative h-[320px] min-w-0 md:h-[560px]">
-          <HeroScene />
+          <BigBangHero logoSrc="/NADAlogopretatransparente.png" />
         </div>
       </div>
     </section>

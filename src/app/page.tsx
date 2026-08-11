@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import IntroOverlayLoader from "@/components/IntroOverlayLoader";
-import Marquee from "@/components/Marquee";
+import TechMarquee from "@/components/TechMarquee";
 import Problem from "@/components/sections/Problem";
 import Ecosystem from "@/components/sections/Ecosystem";
 import WhatWeDo from "@/components/sections/WhatWeDo";
@@ -26,7 +26,7 @@ export default function Home() {
         <Hero />
         <Problem />
         <Ecosystem />
-        <Marquee />
+        <TechMarquee />
         <WhatWeDo />
         <HowItWorks />
         <Membership />

@@ -1,3 +1,4 @@
+import Marquee from "@/components/Marquee";
 import { SiInstagram, SiWhatsapp } from "react-icons/si";
 import {
   INSTAGRAM_LINK,
@@ -10,7 +11,8 @@ import {
 export default function Footer() {
   return (
     <footer className="section-invert border-t border-white/10 py-16">
-      <div className="wrap grid gap-12 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
+      <Marquee />
+      <div className="wrap mt-14 grid gap-12 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
         <div>
           <span
             className="text-3xl"

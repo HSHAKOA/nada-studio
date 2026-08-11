@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Archivo, Inter, Caveat } from "next/font/google";
 import "./globals.css";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const archivo = Archivo({
   variable: "--font-display",
@@ -111,7 +112,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }

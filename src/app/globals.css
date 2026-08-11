@@ -23,6 +23,26 @@
     scroll-behavior: smooth;
   }
 
+  /* Lenis: o scroll nativo suave briga com o wheel suave do Lenis.
+     Com o Lenis ativo (classe no <html>) o nativo sai de cena — inclusive nos
+     links âncora, que o próprio Lenis passa a animar. O smooth acima fica de
+     fallback pra quem cai sem JS ou com reduced-motion. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  /* Com o Lenis ativo o smooth nativo sai de cena: os dois brigam pela posição
+     do scroll e o nativo acaba cancelado no meio. O SmoothScroll passa a animar
+     os links de âncora. O smooth acima fica de fallback sem JS. */
+  html.lenis {
+    scroll-behavior: auto;
+  }
+
+  html.lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
   body {
     background: var(--background);
     color: var(--foreground);
