@@ -5,6 +5,11 @@ import Lenis from "lenis";
 
 export default function SmoothScroll() {
   useEffect(() => {
+    // O navegador restaura a posição do scroll ao recarregar. Numa página só,
+    // que ainda abre com a intro, isso fazia o site aparecer no rodapé.
+    history.scrollRestoration = "manual";
+    if (!location.hash) window.scrollTo(0, 0);
+
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const lenis = new Lenis({
