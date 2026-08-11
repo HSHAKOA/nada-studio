@@ -104,8 +104,16 @@ export default function Footer() {
         ))}
       </div>
 
-      <div className="wrap mt-10 flex flex-col gap-2 text-xs text-white/40 md:flex-row md:items-center md:justify-between">
+      <div className="wrap mt-10 flex flex-col gap-4 text-xs text-white/40 md:flex-row md:items-center md:justify-between">
         <span>© 2026 NADA Studio. Todos os direitos reservados.</span>
+        <div className="flex gap-4">
+          <a href="/termos-de-uso" className="hover:text-white/70">
+            Termos de Uso
+          </a>
+          <a href="/politica-de-privacidade" className="hover:text-white/70">
+            Política de Privacidade
+          </a>
+        </div>
         <span>Feito pela NADA Studio. Do nada nasce tudo.</span>
       </div>
     </footer>
