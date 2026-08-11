@@ -1,19 +1,14 @@
-"use client";
-
-import dynamic from "next/dynamic";
-
-const BigBangHero = dynamic(() => import("@/components/BigBangHero"), {
-  ssr: false,
-  // Reserva a mesma altura da trilha pra página não saltar quando o canvas monta.
-  loading: () => <div className="h-[295svh]" />,
-});
-
 export default function Hero() {
   return (
     <section id="top" className="relative">
-      <BigBangHero logoSrc="/NADAlogopretatransparente.png" />
+      {/*
+        Tela vazia no topo: aqui a marca da navbar aparece grande no centro e
+        sobe conforme o scroll. O espaço é só o palco dela — o elemento em si
+        vive na Navbar (MarcaNavbar), pra ser sempre o mesmo.
+      */}
+      <div className="h-[100svh]" aria-hidden />
 
-      <div className="wrap pb-24 pt-16">
+      <div className="wrap pb-28">
         <p className="eyebrow mb-6">DO NADA NASCE TUDO</p>
         <h1 className="text-[clamp(40px,6vw,72px)]">
           Menos tarefa manual.

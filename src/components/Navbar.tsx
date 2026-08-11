@@ -1,11 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { navLinks, WHATSAPP_LINK } from "@/data/content";
+import MarcaNavbar from "./MarcaNavbar";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  // 0 = marca grande no centro da tela, 1 = assentada na navbar.
+  const [assentou, setAssentou] = useState(0);
+
+  const aoProgredir = useCallback((p: number) => setAssentou(p), []);
+
+  const esperando: React.CSSProperties = {
+    opacity: assentou,
+    pointerEvents: assentou > 0.9 ? undefined : "none",
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -29,15 +39,10 @@ export default function Navbar() {
         }`}
       >
       <div className="wrap flex items-center justify-between py-4">
-        <a
-          href="#top"
-          className="text-3xl leading-none"
-          style={{ fontFamily: "var(--font-hand)" }}
-        >
-          NADA
-        </a>
+        <MarcaNavbar aoProgredir={aoProgredir} />
 
-        <nav className="hidden md:flex items-center gap-8">
+        {/* Enquanto a marca está grande no centro, o resto da navbar espera. */}
+        <nav className="hidden md:flex items-center gap-8" style={esperando}>
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -52,6 +57,7 @@ export default function Navbar() {
         <a
           href={WHATSAPP_LINK}
           className="btn btn-primary hidden md:inline-flex"
+          style={esperando}
         >
           Falar no WhatsApp
         </a>
@@ -62,6 +68,7 @@ export default function Navbar() {
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
           className="md:hidden relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5"
+          style={esperando}
         >
           <span
             className={`block h-[1.5px] w-6 bg-black transition-transform duration-300 ${
