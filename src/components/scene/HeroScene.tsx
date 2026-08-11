@@ -40,14 +40,28 @@ function HeroBlob({ progress, lowPower }: { progress: ProgressBox; lowPower: boo
   return (
     <group ref={group}>
       <mesh ref={mesh}>
-        <icosahedronGeometry args={[1.4, lowPower ? 4 : 8]} />
-        <MeshDistortMaterial
-          color="#0a0a0a"
-          roughness={0.12}
-          metalness={0.7}
-          distort={0.42}
-          speed={1.6}
-        />
+        <icosahedronGeometry args={[1.4, lowPower ? 5 : 8]} />
+        {lowPower ? (
+          // No HDRI on mobile: a mirror-like metal needs environment
+          // reflections to read cleanly, and without them it either goes
+          // flat/muddy or bands where the GPU can't filter it well. A
+          // matte material lit by direct lights stays crisp at any dpr.
+          <MeshDistortMaterial
+            color="#141414"
+            roughness={0.55}
+            metalness={0.15}
+            distort={0.38}
+            speed={1.4}
+          />
+        ) : (
+          <MeshDistortMaterial
+            color="#0a0a0a"
+            roughness={0.12}
+            metalness={0.7}
+            distort={0.42}
+            speed={1.6}
+          />
+        )}
       </mesh>
     </group>
   );
@@ -118,9 +132,11 @@ function getInitialLowPower() {
 
 export default function HeroScene() {
   const progress = useMemo<ProgressBox>(() => ({ current: 0 }), []);
+  const wrapRef = useRef<HTMLDivElement>(null);
   const [lowPower, setLowPower] = useState(getInitialLowPower);
   const [reduced, setReduced] = useState(getInitialReduced);
-  const [visible, setVisible] = useState(true);
+  const [tabVisible, setTabVisible] = useState(true);
+  const [inView, setInView] = useState(true);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -130,8 +146,13 @@ export default function HeroScene() {
     const onResize = () => setLowPower(window.innerWidth < 768);
     window.addEventListener("resize", onResize);
 
-    const onVisibility = () => setVisible(document.visibilityState === "visible");
+    const onVisibility = () => setTabVisible(document.visibilityState === "visible");
     document.addEventListener("visibilitychange", onVisibility);
+
+    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
+      threshold: 0.05,
+    });
+    if (wrapRef.current) io.observe(wrapRef.current);
 
     gsap.registerPlugin(ScrollTrigger);
     const st = ScrollTrigger.create({
@@ -148,9 +169,12 @@ export default function HeroScene() {
       mq.removeEventListener("change", onMotionChange);
       window.removeEventListener("resize", onResize);
       document.removeEventListener("visibilitychange", onVisibility);
+      io.disconnect();
       st.kill();
     };
   }, [progress]);
+
+  const visible = tabVisible && inView;
 
   if (reduced) {
     return (
@@ -165,20 +189,29 @@ export default function HeroScene() {
   }
 
   return (
-    <Canvas
-      dpr={[1, 2]}
-      camera={{ position: [0, 0, 6], fov: 45 }}
-      frameloop={visible ? "always" : "never"}
-      gl={{ antialias: true }}
-    >
-      <ambientLight intensity={0.6} />
-      <directionalLight position={[3, 4, 5]} intensity={1.2} />
-      <directionalLight position={[-4, -2, -3]} intensity={0.4} />
-      <Suspense fallback={null}>
-        <Environment preset="studio" />
-        <HeroBlob progress={progress} lowPower={lowPower} />
-        {!lowPower && <Floaters progress={progress} />}
-      </Suspense>
-    </Canvas>
+    <div ref={wrapRef} className="h-full w-full">
+      <Canvas
+        dpr={lowPower ? [1, 1.5] : [1, 2]}
+        camera={{ position: [0, 0, 6], fov: 45 }}
+        frameloop={visible ? "always" : "never"}
+        gl={{ antialias: true, powerPreference: lowPower ? "low-power" : "high-performance" }}
+      >
+        <ambientLight intensity={lowPower ? 0.75 : 0.6} />
+        <directionalLight position={[3, 4, 5]} intensity={lowPower ? 1.8 : 1.2} />
+        <directionalLight position={[-4, -2, -3]} intensity={lowPower ? 0.6 : 0.4} />
+        {/* Own Suspense boundary: the HDRI fetch can take several seconds,
+            and sharing a boundary with the blob would hide the blob too
+            (Suspense hides the whole subtree, not just the slow part). */}
+        {!lowPower && (
+          <Suspense fallback={null}>
+            <Environment preset="studio" />
+          </Suspense>
+        )}
+        <Suspense fallback={null}>
+          <HeroBlob progress={progress} lowPower={lowPower} />
+          {!lowPower && <Floaters progress={progress} />}
+        </Suspense>
+      </Canvas>
+    </div>
   );
 }
