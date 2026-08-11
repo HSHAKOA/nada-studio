@@ -18,7 +18,9 @@ const inter = Inter({
 const caveat = Caveat({
   variable: "--font-hand",
   subsets: ["latin"],
-  weight: ["600", "700"],
+  // Só 600: todo uso do font-hand herda peso 400/500, então o 700 baixava sem
+  // nunca ser escolhido.
+  weight: ["600"],
 });
 
 const siteUrl = "https://nada-studio.vercel.app";
