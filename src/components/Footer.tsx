@@ -116,7 +116,7 @@ export default function Footer() {
             Política de Privacidade
           </a>
         </div>
-        <span>Feito pela NADA Studio. Do nada nasce tudo.</span>
+        <span>Jundiaí e região. Brasil inteiro no remoto.</span>
       </div>
     </footer>
   );

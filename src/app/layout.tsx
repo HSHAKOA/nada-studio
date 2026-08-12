@@ -23,31 +23,19 @@ const caveat = Caveat({
   weight: ["600"],
 });
 
-const siteUrl = "https://nada-studio.vercel.app";
+const siteUrl = "https://www.nadastudio.com.br";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "NADA Studio · Do nada nasce tudo",
+    default: "NADA Studio · Sites e automação sob medida | Jundiaí SP",
     template: "%s · NADA Studio",
   },
   description:
     "Criação de sites, automação com n8n e aplicações sob medida pra pequenos negócios e profissionais autônomos. Menos tarefa manual, mais tempo pro que importa.",
-  keywords: [
-    "criação de site",
-    "criação de sites para pequenos negócios",
-    "automação de whatsapp",
-    "automação com n8n",
-    "agência de automação",
-    "desenvolvimento de aplicativo sob medida",
-    "automação de atendimento",
-    "automação de agendamento",
-    "site para autônomo",
-    "site para profissional liberal",
-    "inteligência artificial para negócios",
-    "cobrança automática pix",
-    "NADA Studio",
-  ],
+  alternates: {
+    canonical: siteUrl,
+  },
   authors: [{ name: "NADA Studio" }],
   creator: "NADA Studio",
   openGraph: {

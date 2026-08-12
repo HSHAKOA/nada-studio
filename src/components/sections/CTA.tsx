@@ -1,6 +1,6 @@
 import Reveal from "@/components/Reveal";
 import SectionMarker from "@/components/SectionMarker";
-import { WHATSAPP_LINK, sectionMarkers } from "@/data/content";
+import { sectionMarkers, waLink } from "@/data/content";
 
 export default function CTA() {
   return (
@@ -23,7 +23,10 @@ export default function CTA() {
           </p>
         </Reveal>
         <Reveal delay={240}>
-          <a href={WHATSAPP_LINK} className="btn btn-primary mt-10">
+          <a
+            href={waLink("Oi! Bora recuperar meu tempo.")}
+            className="btn btn-primary mt-10"
+          >
             Chamar no WhatsApp →
           </a>
         </Reveal>

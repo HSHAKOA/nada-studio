@@ -1,3 +1,5 @@
+import { waLink } from "@/data/content";
+
 export default function Hero() {
   return (
     <section
@@ -16,7 +18,10 @@ export default function Hero() {
           você. Você foca no que importa: vender.
         </p>
         <div className="mt-10 flex flex-wrap gap-4">
-          <a href="#comecar" className="btn btn-primary">
+          <a
+            href={waLink("Oi! Vi o site e quero começar do nada.")}
+            className="btn btn-primary"
+          >
             Começar do nada
           </a>
           <a href="#como-funciona" className="btn btn-secondary">

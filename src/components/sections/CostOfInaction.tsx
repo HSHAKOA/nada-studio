@@ -1,6 +1,6 @@
 import Reveal from "@/components/Reveal";
 import SectionMarker from "@/components/SectionMarker";
-import { WHATSAPP_LINK, costOfNotDoing, sectionMarkers } from "@/data/content";
+import { costOfNotDoing, sectionMarkers, waLink } from "@/data/content";
 
 export default function CostOfInaction() {
   return (
@@ -29,7 +29,7 @@ export default function CostOfInaction() {
         </Reveal>
         <Reveal delay={300}>
           <a
-            href={WHATSAPP_LINK}
+            href={waLink("Oi! Quero fazer a conta de quanto tempo eu tô perdendo.")}
             className="mt-6 inline-flex items-center gap-2 text-lg font-medium underline decoration-black/30 underline-offset-4 hover:decoration-black"
           >
             {costOfNotDoing.microCta}

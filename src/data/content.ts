@@ -1,5 +1,11 @@
-export const WHATSAPP_LINK =
-  "https://wa.me/5511932159328?text=Oi!%20Quero%20saber%20mais%20sobre%20a%20NADA.";
+const WHATSAPP_NUMBER = "5511932159328";
+const WHATSAPP_DEFAULT_MESSAGE = "Oi! Quero saber mais sobre a NADA.";
+
+export function waLink(mensagem: string = WHATSAPP_DEFAULT_MESSAGE) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
+}
+
+export const WHATSAPP_LINK = waLink();
 export const INSTAGRAM_LINK = "https://www.instagram.com/nada.studio.br/";
 
 export const navLinks = [
@@ -58,7 +64,7 @@ export const membershipItems = [
   "Site no ar, rápido e sempre atualizado",
   "Ajustes e melhorias sempre que precisar",
   "Automações rodando sem parar, 24h",
-  "Suporte direto no WhatsApp. Fala com gente, não com robô",
+  "Suporte direto no WhatsApp, com quem construiu",
 ];
 
 export const forYouPro = {
@@ -109,7 +115,7 @@ export const portfolioProjects = [
   {
     title: "NADA Studio",
     tag: "Next.js + Three.js",
-    body: "O site que você tá vendo agora. Feito do zero, com objeto 3D e scroll cinematográfico. É prova de que a gente entrega o que promete.",
+    body: "O site que você tá vendo agora. Feito do zero, com objeto 3D e scroll cinematográfico.",
   },
   {
     title: "Hub interno",
@@ -124,8 +130,8 @@ export const portfolioProjects = [
 ];
 
 export const foundersIntro = {
-  header: "Gente de verdade por trás do código.",
-  text: "A NADA é tocada por dois sócios que gostam de resolver problema de gente. A gente atende de perto, fala a sua língua e não some depois de entregar. Aqui você fala direto com quem constrói, não com um call center.",
+  header: "Tem gente por trás do código.",
+  text: "A NADA é tocada por dois sócios de Jundiaí que gostam de resolver problema de gente. O atendimento é presencial na região e remoto pro Brasil inteiro. A gente atende de perto, fala a sua língua e não some depois de entregar. Aqui você fala direto com quem constrói.",
   fecho: "Quando você contrata a NADA, você sabe com quem tá falando.",
 };
 
@@ -135,7 +141,7 @@ export const founders: { name: string; role: string; photo?: string }[] = [
 ];
 
 export const trustBadges = [
-  "Sem mensalidade escondida",
+  "Preço fechado antes de começar",
   "100% sob medida",
   "Suporte de gente de verdade",
 ];
@@ -147,7 +153,11 @@ export const faqItems = [
   },
   {
     q: "Quanto custa?",
-    a: "Depende do que você precisa. Tem um valor pra montar e uma mensalidade pra cuidar. A primeira conversa é de graça e sem compromisso.",
+    a: "Cada projeto é sob medida, então o valor sai depois que a gente entende o que você precisa. A estrutura é sempre a mesma: um valor pra montar e uma mensalidade pra cuidar. O que muda o preço é o tamanho: quantas páginas, quantas automações, quantas ferramentas conectar. Na primeira conversa você já sai com o número na mão. Ela é de graça e sem compromisso.",
+  },
+  {
+    q: "Tem fidelidade?",
+    a: "Sem contrato de 12 meses. Você avisa com 30 dias e leva tudo que é seu: site, domínio e automações.",
   },
   {
     q: "E se eu já tenho site?",
@@ -156,6 +166,10 @@ export const faqItems = [
   {
     q: "Vocês atendem meu tipo de negócio?",
     a: "Comércio local, profissionais e pessoas comuns. Se tem tarefa repetitiva, tem solução.",
+  },
+  {
+    q: "Quanto tempo demora?",
+    a: "Site fica pronto em 2 a 3 semanas. Automação depende do tamanho e a gente fala o prazo já na primeira conversa.",
   },
 ];
 

@@ -11,7 +11,7 @@ export default function Membership() {
         </Reveal>
         <Reveal delay={80}>
           <h2 className="max-w-2xl text-[clamp(32px,4.2vw,52px)]">
-            Tecnologia não é &ldquo;faz e esquece&rdquo;. A gente fica.
+            Depois de pronto, a gente continua junto.
           </h2>
         </Reveal>
         <Reveal delay={160}>
