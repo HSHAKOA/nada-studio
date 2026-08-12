@@ -32,10 +32,7 @@ export const metadata: Metadata = {
     template: "%s · NADA Studio",
   },
   description:
-    "Criação de sites, automação com n8n e aplicações sob medida pra pequenos negócios e profissionais autônomos. Menos tarefa manual, mais tempo pro que importa.",
-  alternates: {
-    canonical: siteUrl,
-  },
+    "Criação de sites, automação com n8n e aplicações sob medida pra pequenos negócios e profissionais autônomos. Menos tarefa manual, mais tempo livre.",
   authors: [{ name: "NADA Studio" }],
   creator: "NADA Studio",
   openGraph: {

@@ -4,6 +4,11 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Política de Privacidade",
+  description:
+    "Política de privacidade da NADA Studio: quais dados coletamos, por que coletamos e quais são os seus direitos conforme a LGPD.",
+  alternates: {
+    canonical: "/politica-de-privacidade",
+  },
 };
 
 export default function PoliticaDePrivacidade() {
