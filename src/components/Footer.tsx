@@ -30,7 +30,7 @@ export default function Footer() {
               aria-label="WhatsApp"
               className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white"
             >
-              <SiWhatsapp size={17} />
+              <SiWhatsapp size={17} aria-hidden="true" />
             </a>
             <a
               href={INSTAGRAM_LINK}
@@ -39,7 +39,7 @@ export default function Footer() {
               aria-label="Instagram"
               className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white"
             >
-              <SiInstagram size={17} />
+              <SiInstagram size={17} aria-hidden="true" />
             </a>
           </div>
         </div>
@@ -106,7 +106,7 @@ export default function Footer() {
         ))}
       </div>
 
-      <div className="wrap mt-10 flex flex-col gap-4 text-xs text-white/40 md:flex-row md:items-center md:justify-between">
+      <div className="wrap mt-10 flex flex-col gap-4 text-xs text-white/50 md:flex-row md:items-center md:justify-between">
         <span>© 2026 NADA Studio. Todos os direitos reservados.</span>
         <div className="flex gap-4">
           <a href="/termos-de-uso" className="hover:text-white/70">

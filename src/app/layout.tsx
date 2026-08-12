@@ -21,6 +21,10 @@ const caveat = Caveat({
   // Só 600: todo uso do font-hand herda peso 400/500, então o 700 baixava sem
   // nunca ser escolhido.
   weight: ["600"],
+  // Só aparece em dois rótulos decorativos abaixo da dobra (label central do
+  // ecossistema e o "NADA" manuscrito do footer). Sem preload pra não
+  // disputar banda com as fontes que realmente formam o LCP.
+  preload: false,
 });
 
 const siteUrl = "https://www.nadastudio.com.br";

@@ -22,13 +22,16 @@ export default function Membership() {
 
         <ul className="mt-10 grid gap-4 md:grid-cols-2">
           {membershipItems.map((item, i) => (
-            <Reveal key={item} delay={i * 80}>
-              <li className="flex items-start gap-3 border-t border-white/15 pt-4 text-lg">
-                <span aria-hidden className="text-white/40">
-                  ·
-                </span>
-                {item}
-              </li>
+            <Reveal
+              key={item}
+              delay={i * 80}
+              as="li"
+              className="flex items-start gap-3 border-t border-white/15 pt-4 text-lg"
+            >
+              <span aria-hidden className="text-white/40">
+                ·
+              </span>
+              {item}
             </Reveal>
           ))}
         </ul>

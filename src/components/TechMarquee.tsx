@@ -31,7 +31,7 @@ function Row() {
       {TECHS_LOOP.map(({ nome, Icone }, i) => (
         <span
           key={`${nome}-${i}`}
-          className="flex items-center gap-2.5 whitespace-nowrap text-lg font-medium tracking-tight text-neutral-400 transition-colors duration-300 hover:text-black"
+          className="flex items-center gap-2.5 whitespace-nowrap text-lg font-medium tracking-tight text-black/60 transition-colors duration-300 hover:text-black"
         >
           <Icone className="h-[1.1em] w-[1.1em] shrink-0" />
           {nome}
@@ -47,7 +47,7 @@ export default function TechMarquee() {
       className="marquee-viewport overflow-hidden border-y border-black/10 py-8"
       aria-label="Tecnologias que usamos"
     >
-      <p className="mb-5 text-center text-xs uppercase tracking-[0.2em] text-neutral-400">
+      <p className="mb-5 text-center text-xs uppercase tracking-[0.2em] text-black/60">
         Construído com
       </p>
       {/* Duas cópias da linha (já repetida 3x) fecham o loop sem emenda; o
