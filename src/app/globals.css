@@ -55,6 +55,21 @@
     color: #fff;
   }
 
+  /* Cobertura preta que já vem no HTML do servidor, pra ninguém ver a
+     página real piscar antes da intro (IntroOverlay é client-only). O
+     script inline em layout.tsx decide antes da 1a pintura se pula. O
+     próprio IntroOverlay remove esse nó assim que ele monta. */
+  #intro-cover {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #000;
+  }
+
+  html.intro-skip #intro-cover {
+    display: none;
+  }
+
   /* focus visibility (a11y) */
   a:focus-visible,
   button:focus-visible,

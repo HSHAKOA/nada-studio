@@ -95,6 +95,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
+      suppressHydrationWarning
       className={`${archivo.variable} ${inter.variable} ${caveat.variable} antialiased`}
     >
       <head>
@@ -102,9 +103,19 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
+        {/* Evita o flash da página real antes da intro cobrir a tela:
+            decide antes da primeira pintura se quem já viu a intro pula
+            a cobertura preta abaixo (ver #intro-cover em globals.css). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(sessionStorage.getItem('nada-intro-seen')||window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('intro-skip')}}catch(e){}",
+          }}
+        />
       </head>
       <body>
         <SmoothScroll />
+        <div id="intro-cover" />
         {children}
       </body>
     </html>
