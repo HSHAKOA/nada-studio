@@ -1,5 +1,4 @@
 import type { ComponentType } from "react";
-import { Sparkles } from "lucide-react";
 import {
   SiAnthropic,
   SiGoogle,
@@ -7,13 +6,12 @@ import {
   SiN8N,
   SiSupabase,
 } from "react-icons/si";
+import { OpenAIIcon } from "@/components/icons/OpenAIIcon";
 
 type Tech = { nome: string; Icone: ComponentType<{ className?: string }> };
 
-// OpenAI não tem logo no Simple Icons (removido a pedido da marca), então
-// entra com ícone conceitual do lucide.
 const TECHS: Tech[] = [
-  { nome: "OpenAI", Icone: Sparkles },
+  { nome: "OpenAI", Icone: OpenAIIcon },
   { nome: "Anthropic", Icone: SiAnthropic },
   { nome: "Google", Icone: SiGoogle },
   { nome: "Meta", Icone: SiMeta },
@@ -48,18 +46,22 @@ export default function TechMarquee() {
       aria-label="Tecnologias que usamos"
     >
       <p className="mb-5 text-center text-xs uppercase tracking-[0.2em] text-black/60">
-        Construído com
+        Construímos com
       </p>
       {/* Duas cópias da linha (já repetida 3x) fecham o loop sem emenda; o
           conjunto é decorativo, então a faixa toda fica fora da árvore de
           acessibilidade e o aria-label da section já descreve o conteúdo. */}
-      <div
-        className="marquee-track"
-        style={{ animationDuration: "28s" }}
-        aria-hidden="true"
-      >
-        <Row />
-        <Row />
+      <div className="relative">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent backdrop-blur-[2px] sm:w-32" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent backdrop-blur-[2px] sm:w-32" />
+        <div
+          className="marquee-track"
+          style={{ animationDuration: "28s" }}
+          aria-hidden="true"
+        >
+          <Row />
+          <Row />
+        </div>
       </div>
     </section>
   );
