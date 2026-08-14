@@ -45,12 +45,11 @@
 .ag-panel__media {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .ag-panel__media img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -60,14 +59,23 @@
   filter: grayscale(1);
 }
 
+/* ícone: área própria, centralizado, com estado de repouso definido em CSS
+   pra não haver flash antes do primeiro useEffect assumir via GSAP. */
 .ag-panel__icon {
-  width: 120px;
-  height: 120px;
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  width: 96px;
+  height: 96px;
   color: #ffffff;
   opacity: 0.9;
+  /* Sem transform estático aqui de propósito: o GSAP assume o transform
+     (xPercent/yPercent) assim que monta. Um transform vindo do stylesheet
+     faz o GSAP decompor esse valor em px e empilhar com o novo — vira
+     translate(-50%,-50%) translate(-48px,-57.6px) em vez de substituir. */
 }
 
-/* rótulo compacto — visível quando o painel está fechado */
+/* rótulo vertical — visível só quando o painel está fechado */
 .ag-panel__label {
   position: absolute;
   z-index: 2;
@@ -75,14 +83,14 @@
   align-items: center;
   gap: 12px;
   color: var(--ag-text);
-  transition: opacity 0.3s ease;
 }
 
 .ag-root[data-orientation="horizontal"] .ag-panel__label {
+  top: 50%;
   left: 50%;
-  bottom: 24px;
-  transform: translateX(-50%) rotate(-90deg);
-  transform-origin: center;
+  transform: translate(-50%, -50%);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
   white-space: nowrap;
 }
 
@@ -92,11 +100,6 @@
   top: 50%;
   transform: translateY(-50%);
   white-space: nowrap;
-}
-
-.ag-panel[data-active="true"] .ag-panel__label {
-  opacity: 0;
-  pointer-events: none;
 }
 
 .ag-panel__label-num {
@@ -110,13 +113,16 @@
   font-weight: 500;
 }
 
-/* conteúdo expandido */
+/* conteúdo expandido — largura própria, nunca herda a largura instantânea
+   do painel enquanto ele ainda está animando (evita título quebrado). */
 .ag-panel__content {
   position: absolute;
   z-index: 3;
-  left: 28px;
-  right: 28px;
-  bottom: 28px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+  width: auto;
+  max-width: 460px;
   color: var(--ag-text);
 }
 
@@ -140,9 +146,12 @@
 
 .ag-panel__title {
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(20px, 2.4vw, 30px);
-  line-height: 1.1;
+  font-size: clamp(18px, 2.2vw, 28px);
+  line-height: 1.15;
   margin: 0;
+  white-space: normal;
+  overflow-wrap: normal;
+  hyphens: none;
 }
 
 .ag-panel__desc {
@@ -151,6 +160,10 @@
   font-size: 14px;
   line-height: 1.5;
   opacity: 0.75;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 @media (max-width: 767px) {
@@ -158,41 +171,39 @@
     left: 20px;
     right: 20px;
     bottom: 20px;
+    max-width: none;
   }
 }
 
-/* mobile: painel fechado (96px) não cabe o ícone de 120px junto do rótulo —
-   ícone só aparece no painel ativo, reposicionado pro topo. */
-.ag-root[data-mobile="true"] .ag-panel__media {
+/* mobile: painel fechado (96px) não cabe o ícone junto do rótulo — ícone só
+   aparece no painel ativo, reposicionado pro topo. Label sem rotação (o
+   empilhamento vertical já deixa a leitura horizontal natural). */
+.ag-root[data-mobile="true"] .ag-panel__icon {
   opacity: 0;
   transition: opacity 0.25s ease;
-}
-
-.ag-root[data-mobile="true"] .ag-panel[data-active="true"] .ag-panel__media {
-  opacity: 1;
-  top: 20px;
-  bottom: auto;
-  height: 84px;
-}
-
-.ag-root[data-mobile="true"] .ag-panel__icon {
   width: 56px;
   height: 56px;
+  transform: translate(-50%, -50%);
+  top: 44px;
+}
+
+.ag-root[data-mobile="true"] .ag-panel[data-active="true"] .ag-panel__icon {
+  opacity: 1;
 }
 
 .ag-root[data-mobile="true"] .ag-panel__label {
-  left: 20px;
   right: 20px;
 }
 
 .ag-root[data-mobile="true"] .ag-panel[data-active="true"] .ag-panel__content {
-  top: 116px;
+  top: 100px;
   bottom: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ag-panel,
-  .ag-panel__label {
+  .ag-panel__label,
+  .ag-panel__icon {
     transition: none !important;
   }
 }

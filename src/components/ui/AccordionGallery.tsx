@@ -30,6 +30,19 @@ const MOBILE_BREAKPOINT = 768;
 const MOBILE_COLLAPSED = 96;
 const MOBILE_EXPANDED = 340;
 
+// Posição de repouso (colapsado) e de destaque (ativo) do ícone — a mesma
+// dupla de valores serve de estado inicial em CSS (evita flash antes do
+// primeiro useEffect) e de alvo do GSAP.
+// `top` percentual controla a âncora vertical (colapsado no meio-alto do
+// painel, ativo recuado pro topo pra abrir espaço pro texto); xPercent/
+// yPercent só centralizam o ícone em cima dessa âncora.
+const ICON_REST = { top: "15%", xPercent: -50, yPercent: -50, scale: 1, autoAlpha: 1 };
+const ICON_ACTIVE = { top: "12%", xPercent: -50, yPercent: -50, scale: 0.7, autoAlpha: 0.35 };
+// Mobile: painel fechado tem 96px de altura — não cabe ícone + rótulo, então
+// o ícone só existe visualmente no painel ativo, sem o recuo do desktop.
+const ICON_MOBILE_REST = { xPercent: -50, yPercent: -50, scale: 1, autoAlpha: 0 };
+const ICON_MOBILE_ACTIVE = { xPercent: -50, yPercent: -50, scale: 1, autoAlpha: 1 };
+
 export default function AccordionGallery({
   items,
   orientation = "horizontal",
@@ -59,7 +72,8 @@ export default function AccordionGallery({
   const [reducedMotion, setReducedMotion] = useState(false);
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const mediaRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const iconRefs = useRef<(SVGSVGElement | null)[]>([]);
 
   useEffect(() => {
     const mqMobile = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
@@ -100,52 +114,61 @@ export default function AccordionGallery({
     }
 
     const outroProp = sizeProp === "width" ? "height" : "width";
+
     panels.forEach((panel, i) => {
       if (!panel) return;
+      const isActive = i === activeIndex;
+
       // limpa a dimensão da orientação anterior — senão um width/height
       // inline sobrevive à troca de orientação (ex.: resize pra mobile).
       gsap.set(panel, { clearProps: outroProp });
-      const target = i === activeIndex ? activeSize : restSize;
+      const target = isActive ? activeSize : restSize;
+
+      const content = contentRefs.current[i];
+      const label = labelRefs.current[i];
+      const icon = iconRefs.current[i];
+      const words = content?.querySelectorAll<HTMLElement>("[data-stagger]") ?? [];
+      const iconRest = isMobile ? ICON_MOBILE_REST : ICON_REST;
+      const iconActive = isMobile ? ICON_MOBILE_ACTIVE : ICON_ACTIVE;
+
       if (reducedMotion) {
         gsap.set(panel, { [sizeProp]: target });
-      } else {
-        gsap.to(panel, { [sizeProp]: target, duration, ease });
+        if (label) gsap.set(label, { autoAlpha: isActive ? 0 : 1 });
+        if (words.length) gsap.set(words, { autoAlpha: isActive ? 1 : 0, x: 0 });
+        if (content) gsap.set(content, { pointerEvents: isActive ? "auto" : "none" });
+        if (icon) gsap.set(icon, isActive ? iconActive : iconRest);
+        return;
       }
-    });
 
-    contentRefs.current.forEach((content, i) => {
-      if (!content) return;
-      const words = content.querySelectorAll<HTMLElement>("[data-stagger]");
-      if (i === activeIndex) {
-        if (reducedMotion) {
-          gsap.set(words, { opacity: 1, y: 0 });
-        } else {
+      gsap.to(panel, { [sizeProp]: target, duration, ease });
+
+      if (icon) gsap.to(icon, { ...(isActive ? iconActive : iconRest), duration, ease });
+
+      if (isActive) {
+        if (label) gsap.to(label, { autoAlpha: 0, duration: duration * 0.4, ease });
+        if (content) gsap.set(content, { pointerEvents: "auto" });
+        if (words.length) {
           gsap.fromTo(
             words,
-            { opacity: 0, y: 14 },
+            { autoAlpha: 0, x: -14 },
             {
-              opacity: 1,
-              y: 0,
-              duration: duration * 0.55,
+              autoAlpha: 1,
+              x: 0,
+              duration,
               ease,
               stagger: 0.07,
-              delay: duration * 0.3,
+              delay: duration * 0.25,
             }
           );
         }
       } else {
-        gsap.set(words, { opacity: 0, y: 14 });
+        if (label) gsap.to(label, { autoAlpha: 1, duration: duration * 0.4, ease, delay: duration * 0.2 });
+        if (content) gsap.set(content, { pointerEvents: "none" });
+        if (words.length) {
+          gsap.to(words, { autoAlpha: 0, x: -14, duration: duration * 0.6, ease });
+        }
       }
     });
-
-    const media = mediaRefs.current[activeIndex];
-    if (media && !reducedMotion) {
-      gsap.fromTo(
-        media,
-        { y: 18 * parallax },
-        { y: 0, duration, ease }
-      );
-    }
   }, [
     activeIndex,
     expandRatio,
@@ -229,12 +252,7 @@ export default function AccordionGallery({
                 : undefined
             }
           >
-            <div
-              className="ag-panel__media"
-              ref={(el) => {
-                mediaRefs.current[i] = el;
-              }}
-            >
+            <div className="ag-panel__media">
               {item.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -243,11 +261,25 @@ export default function AccordionGallery({
                   className={grayscale && !isActive ? "ag-grayscale" : undefined}
                 />
               ) : (
-                <Icon aria-hidden="true" className="ag-panel__icon" />
+                <Icon
+                  aria-hidden="true"
+                  className="ag-panel__icon"
+                  ref={(el) => {
+                    iconRefs.current[i] = el;
+                  }}
+                />
               )}
             </div>
 
-            <div className="ag-panel__label" aria-hidden={isActive}>
+            {/* Regra binária: só um dos dois (label ou content) fica visível
+                por vez — nunca os dois ao mesmo tempo. */}
+            <div
+              className="ag-panel__label"
+              ref={(el) => {
+                labelRefs.current[i] = el;
+              }}
+              aria-hidden={isActive}
+            >
               <span className="ag-panel__label-num">{item.num}</span>
               <span className="ag-panel__label-title">{item.titulo}</span>
             </div>
@@ -257,6 +289,7 @@ export default function AccordionGallery({
               ref={(el) => {
                 contentRefs.current[i] = el;
               }}
+              aria-hidden={!isActive}
             >
               <span data-stagger className="ag-panel__bar" aria-hidden="true" />
               <span data-stagger className="ag-panel__num">
