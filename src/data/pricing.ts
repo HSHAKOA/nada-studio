@@ -1,65 +1,73 @@
-export type Plano = {
+export type Porte = {
   id: string;
   nome: string;
+  precoBase: number;
+  prazo: string;
   promessa: string;
-  setup: string;
-  mensal: number;
-  anual: number;
   destaque?: boolean;
   inclui: string[];
+  cta: string;
+  whatsappMsg: string;
 };
 
-export const PLANOS: Plano[] = [
+export const PORTES: Porte[] = [
   {
-    id: "arrumada",
-    nome: "Casa Arrumada",
-    promessa: "Seu negócio achável e com cara de sério.",
-    setup: "a partir de R$ 900",
-    mensal: 100,
-    anual: 83,
+    id: "pequeno",
+    nome: "Pequeno",
+    precoBase: 100,
+    prazo: "2 a 5 dias",
+    promessa: "Uma coisa só, resolvida rápido.",
     inclui: [
-      "Site sob medida",
-      "Aparece no Google",
-      "Botão de WhatsApp",
-      "Hospedagem e ajustes inclusos",
+      "Página única",
+      "Ajuste no site que você já tem",
+      "Uma tarefa repetitiva saindo das suas costas",
+      "Formulário ou orçamento automático",
     ],
+    cta: "Quero começar por aqui",
+    whatsappMsg: "Oi! Quero saber sobre um projeto pequeno.",
   },
   {
-    id: "automatizada",
-    nome: "Casa Automatizada",
-    promessa: "O trabalho repetitivo sai das suas costas.",
-    setup: "a partir de R$ 2.500",
-    mensal: 350,
-    anual: 292,
+    id: "medio",
+    nome: "Médio",
+    precoBase: 500,
+    prazo: "1 a 3 semanas",
+    promessa: "Seu negócio inteiro no ar.",
     destaque: true,
     inclui: [
-      "Tudo da Casa Arrumada",
+      "Site completo sob medida",
+      "Página feita pra vender",
       "Atendimento respondendo sozinho",
-      "Agendamento e pedido sem você no meio",
-      "Suporte no WhatsApp",
+      "Agenda e pedido sem você no meio",
     ],
+    cta: "Quero o médio",
+    whatsappMsg: "Oi! Quero saber sobre um projeto médio.",
   },
   {
-    id: "inteligente",
-    nome: "Casa Inteligente",
-    promessa: "Roda sozinho e melhora todo mês.",
-    setup: "a partir de R$ 5.900",
-    mensal: 790,
-    anual: 658,
+    id: "grande",
+    nome: "Grande",
+    precoBase: 2500,
+    prazo: "prazo a combinar",
+    promessa: "Sistema feito pro seu processo.",
     inclui: [
-      "Tudo da Casa Automatizada",
-      "Sistema sob medida pro seu processo",
-      "Relatório do que economizou",
-      "Ajustes contínuos junto com você",
+      "Ferramenta sob medida",
+      "Loja online",
+      "Tudo que você usa conversando entre si",
+      "Acompanhamento e ajuste contínuo",
     ],
+    cta: "Quero conversar sobre isso",
+    whatsappMsg: "Oi! Quero saber sobre um projeto grande.",
   },
 ];
 
 export const SOB_MEDIDA = {
-  titulo: "Precisa de outra coisa?",
-  texto: "Loja online, aplicativo próprio, vídeo e conteúdo, integração com o sistema que você já usa.",
+  titulo: "Não achou o seu?",
+  texto:
+    "Conta o que você precisa. Se der pra fazer, a gente faz. Orçamento em 1 minuto.",
   cta: "Pedir orçamento",
+  whatsappMsg: "Oi! Preciso de algo diferente, posso explicar?",
 };
 
-export const GARANTIA = "30 dias. Não gostou, devolvo o setup.";
-export const NOTA_ANUAL = "12 meses pelo preço de 10";
+export const MANUTENCAO =
+  "Depois de pronto, mantemos tudo rodando por R$ 100/mês — hospedagem, ajustes e suporte no WhatsApp. Opcional, sem fidelidade.";
+
+export const SELO_DESTAQUE = "mais pedido";
