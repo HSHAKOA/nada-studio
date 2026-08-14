@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import type { ServicoPainel } from "@/data/content";
 import { serviceIcons } from "@/components/icons/ServiceIcons";
@@ -22,7 +23,6 @@ export type AccordionGalleryProps = {
   accentColor?: string;
   overlayColor?: string;
   textColor?: string;
-  grayscale?: boolean;
   className?: string;
 };
 
@@ -43,6 +43,17 @@ const ICON_ACTIVE = { top: "12%", xPercent: -50, yPercent: -50, scale: 0.7, auto
 const ICON_MOBILE_REST = { xPercent: -50, yPercent: -50, scale: 1, autoAlpha: 0 };
 const ICON_MOBILE_ACTIVE = { xPercent: -50, yPercent: -50, scale: 1, autoAlpha: 1 };
 
+// Com imagem de fundo o ícone vira um detalhe discreto, não o protagonista —
+// mesma posição, autoAlpha mais baixo.
+const ICON_REST_IMG = { ...ICON_REST, autoAlpha: 0.9 };
+const ICON_ACTIVE_IMG = { ...ICON_ACTIVE, autoAlpha: 0.25 };
+
+// Dimming sobre a imagem: painel colapsado escurece mais (o texto ali é só o
+// rótulo vertical, não precisa competir com a foto); painel ativo abre mais
+// luz porque o gradiente do rodapé já cobre a área do texto.
+const DIM_REST = 0.55;
+const DIM_ACTIVE = 0.3;
+
 export default function AccordionGallery({
   items,
   orientation = "horizontal",
@@ -59,7 +70,6 @@ export default function AccordionGallery({
   accentColor = "#FFFFFF",
   overlayColor = "#000000",
   textColor = "#FFFFFF",
-  grayscale = false,
   className,
 }: AccordionGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(
@@ -74,6 +84,10 @@ export default function AccordionGallery({
   const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
   const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const iconRefs = useRef<(SVGSVGElement | null)[]>([]);
+  const dimRefs = useRef<(HTMLDivElement | null)[]>([]);
+  // Painéis cuja imagem falhou ao carregar — caem pro fallback do ícone em
+  // vez de deixar um <img> quebrado.
+  const [imagensComErro, setImagensComErro] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     const mqMobile = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
@@ -118,6 +132,7 @@ export default function AccordionGallery({
     panels.forEach((panel, i) => {
       if (!panel) return;
       const isActive = i === activeIndex;
+      const temImagem = Boolean(items[i]?.image) && !imagensComErro.has(i);
 
       // limpa a dimensão da orientação anterior — senão um width/height
       // inline sobrevive à troca de orientação (ex.: resize pra mobile).
@@ -127,9 +142,10 @@ export default function AccordionGallery({
       const content = contentRefs.current[i];
       const label = labelRefs.current[i];
       const icon = iconRefs.current[i];
+      const dim = dimRefs.current[i];
       const words = content?.querySelectorAll<HTMLElement>("[data-stagger]") ?? [];
-      const iconRest = isMobile ? ICON_MOBILE_REST : ICON_REST;
-      const iconActive = isMobile ? ICON_MOBILE_ACTIVE : ICON_ACTIVE;
+      const iconRest = isMobile ? ICON_MOBILE_REST : temImagem ? ICON_REST_IMG : ICON_REST;
+      const iconActive = isMobile ? ICON_MOBILE_ACTIVE : temImagem ? ICON_ACTIVE_IMG : ICON_ACTIVE;
 
       if (reducedMotion) {
         gsap.set(panel, { [sizeProp]: target });
@@ -137,12 +153,20 @@ export default function AccordionGallery({
         if (words.length) gsap.set(words, { autoAlpha: isActive ? 1 : 0, x: 0 });
         if (content) gsap.set(content, { pointerEvents: isActive ? "auto" : "none" });
         if (icon) gsap.set(icon, isActive ? iconActive : iconRest);
+        if (dim) gsap.set(dim, { opacity: isActive ? DIM_ACTIVE : DIM_REST });
         return;
       }
 
-      gsap.to(panel, { [sizeProp]: target, duration, ease });
+      gsap.set(panel, { willChange: "width, height" });
+      gsap.to(panel, {
+        [sizeProp]: target,
+        duration,
+        ease,
+        onComplete: () => gsap.set(panel, { clearProps: "willChange" }),
+      });
 
       if (icon) gsap.to(icon, { ...(isActive ? iconActive : iconRest), duration, ease });
+      if (dim) gsap.to(dim, { opacity: isActive ? DIM_ACTIVE : DIM_REST, duration, ease });
 
       if (isActive) {
         if (label) gsap.to(label, { autoAlpha: 0, duration: duration * 0.4, ease });
@@ -175,10 +199,11 @@ export default function AccordionGallery({
     sizeProp,
     duration,
     ease,
-    items.length,
+    items,
     reducedMotion,
     isMobile,
     parallax,
+    imagensComErro,
   ]);
 
   function activar(i: number) {
@@ -223,6 +248,7 @@ export default function AccordionGallery({
       {items.map((item, i) => {
         const isActive = i === activeIndex;
         const Icon = serviceIcons[item.icone];
+        const temImagem = Boolean(item.image) && !imagensComErro.has(i);
         const hoverHandlers =
           effectiveTrigger === "hover"
             ? {
@@ -253,22 +279,43 @@ export default function AccordionGallery({
             }
           >
             <div className="ag-panel__media">
-              {item.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={item.image}
-                  alt={item.alt ?? item.titulo}
-                  className={grayscale && !isActive ? "ag-grayscale" : undefined}
-                />
-              ) : (
-                <Icon
-                  aria-hidden="true"
-                  className="ag-panel__icon"
-                  ref={(el) => {
-                    iconRefs.current[i] = el;
-                  }}
-                />
+              {temImagem && item.image && (
+                <>
+                  <Image
+                    src={item.image}
+                    alt={item.alt || item.titulo}
+                    fill
+                    sizes={
+                      isMobile
+                        ? "100vw"
+                        : "(max-width: 768px) 100vw, 50vw"
+                    }
+                    quality={85}
+                    priority={i === defaultIndex}
+                    placeholder="empty"
+                    className="ag-panel__img"
+                    style={{ objectFit: "cover" }}
+                    onError={() =>
+                      setImagensComErro((atual) => new Set(atual).add(i))
+                    }
+                  />
+                  <div
+                    className="ag-panel__dim"
+                    ref={(el) => {
+                      dimRefs.current[i] = el;
+                    }}
+                    aria-hidden="true"
+                  />
+                  <div className="ag-panel__gradient" aria-hidden="true" />
+                </>
               )}
+              <Icon
+                aria-hidden="true"
+                className="ag-panel__icon"
+                ref={(el) => {
+                  iconRefs.current[i] = el;
+                }}
+              />
             </div>
 
             {/* Regra binária: só um dos dois (label ou content) fica visível

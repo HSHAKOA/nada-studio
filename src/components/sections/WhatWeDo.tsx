@@ -35,7 +35,6 @@ export default function WhatWeDo() {
             accentColor="#FFFFFF"
             overlayColor="#000000"
             textColor="#FFFFFF"
-            grayscale={false}
           />
         </div>
       </Reveal>

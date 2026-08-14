@@ -47,22 +47,35 @@
   inset: 0;
 }
 
-.ag-panel__media img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* imagem é fundo, não protagonista — P&B puro, sempre, não é opcional. */
+.ag-panel__img {
+  filter: grayscale(1) contrast(1.08);
 }
 
-.ag-panel__media img.ag-grayscale {
-  filter: grayscale(1);
+/* duas camadas de legibilidade sobre a imagem: dimming (intensidade anima
+   junto do expand) + gradiente fixo no rodapé, onde o texto vive. */
+.ag-panel__dim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #000000;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.ag-panel__gradient {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, transparent 40%, #000000 100%);
+  pointer-events: none;
 }
 
 /* ícone: área própria, centralizado, com estado de repouso definido em CSS
    pra não haver flash antes do primeiro useEffect assumir via GSAP. */
 .ag-panel__icon {
   position: absolute;
+  z-index: 2;
   top: 15%;
   left: 50%;
   width: 96px;

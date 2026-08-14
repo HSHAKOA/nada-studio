@@ -70,6 +70,8 @@ export const SERVICOS: ServicoPainel[] = [
     descricao:
       "Seu negócio achável, com cara de sério, e o cliente chegando sem você correr atrás.",
     icone: "site",
+    image: "/servicos/01-site.webp",
+    alt: "Objeto tridimensional brilhante em preto e branco representando um site",
   },
   {
     id: "manual",
@@ -78,6 +80,8 @@ export const SERVICOS: ServicoPainel[] = [
     descricao:
       "O que você repete toda semana passa a acontecer sozinho, sem você no meio.",
     icone: "manual",
+    image: "/servicos/02-manual.webp",
+    alt: "Objeto tridimensional brilhante em preto e branco representando automação de tarefa manual",
   },
   {
     id: "pagina",
@@ -86,6 +90,8 @@ export const SERVICOS: ServicoPainel[] = [
     descricao:
       "Uma página só, com um objetivo só: transformar quem clicou em quem comprou.",
     icone: "pagina",
+    image: "/servicos/03-pagina.webp",
+    alt: "Objeto tridimensional brilhante em preto e branco representando uma página de vendas",
   },
   {
     id: "anuncio",
@@ -94,6 +100,8 @@ export const SERVICOS: ServicoPainel[] = [
     descricao:
       "Seu dinheiro aparecendo pra quem já está procurando o que você vende. Sem torrar verba.",
     icone: "anuncio",
+    image: "/servicos/04-anuncio.webp",
+    alt: "Objeto tridimensional brilhante em preto e branco representando um anúncio",
   },
   {
     id: "integracao",
@@ -102,6 +110,8 @@ export const SERVICOS: ServicoPainel[] = [
     descricao:
       "WhatsApp, agenda, pedido e planilha parando de ser ilhas separadas.",
     icone: "integracao",
+    image: "/servicos/05-integracao.webp",
+    alt: "Objeto tridimensional brilhante em preto e branco representando integração entre sistemas",
   },
   {
     id: "sobMedida",
@@ -110,6 +120,8 @@ export const SERVICOS: ServicoPainel[] = [
     descricao:
       "Quando nada pronto serve, a gente constrói do jeito que o seu processo pede.",
     icone: "sobMedida",
+    image: "/servicos/06-sob-medida.webp",
+    alt: "Objeto tridimensional brilhante em preto e branco representando uma ferramenta sob medida",
   },
 ];
 
