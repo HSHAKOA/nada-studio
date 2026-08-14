@@ -1,6 +1,6 @@
 import Reveal from "@/components/Reveal";
 import SectionMarker from "@/components/SectionMarker";
-import AccordionGallery from "@/components/ui/AccordionGallery";
+import { serviceIcons } from "@/components/icons/ServiceIcons";
 import { sectionMarkers, SERVICOS } from "@/data/content";
 
 export default function WhatWeDo() {
@@ -15,29 +15,23 @@ export default function WhatWeDo() {
             A gente constrói. Você só usa.
           </h2>
         </Reveal>
-      </div>
 
-      <Reveal delay={160}>
-        <div className="wrap mt-14">
-          <AccordionGallery
-            items={SERVICOS}
-            orientation="horizontal"
-            trigger="hover"
-            defaultIndex={1}
-            expandRatio={0.46}
-            height={520}
-            gap={2}
-            radius={0}
-            tilt={0}
-            parallax={0.35}
-            duration={0.7}
-            ease="power3.out"
-            accentColor="#FFFFFF"
-            overlayColor="#000000"
-            textColor="#FFFFFF"
-          />
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {SERVICOS.map((servico, i) => {
+            const Icon = serviceIcons[servico.icone];
+            return (
+              <Reveal key={servico.id} delay={i * 80}>
+                <div className="card flex h-full flex-col">
+                  <Icon aria-hidden="true" className="h-10 w-10 text-black" />
+                  <span className="eyebrow mt-6">{servico.num}</span>
+                  <h3 className="mt-3 text-xl">{servico.titulo}</h3>
+                  <p className="mt-3 text-black/70">{servico.descricao}</p>
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
-      </Reveal>
+      </div>
     </section>
   );
 }
