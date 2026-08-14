@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import gsap from "gsap";
 import { ecosystemNodes } from "@/data/content";
 import { ecosystemIcons } from "@/components/icons/EcosystemIcons";
@@ -35,6 +35,7 @@ function computeInitialAngles() {
 }
 
 export default function OrbitalEcosystem() {
+  const titleId = useId();
   const wrapRef = useRef<HTMLDivElement>(null);
   const groupRefs = useRef<(SVGGElement | null)[]>([]);
   const lineRefs = useRef<(SVGLineElement | null)[]>([]);
@@ -119,8 +120,11 @@ export default function OrbitalEcosystem() {
         viewBox={`0 0 ${SIZE} ${SIZE}`}
         className="h-auto w-full overflow-visible"
         role="img"
-        aria-label="Ecossistema de ferramentas conectadas pela NADA"
+        aria-labelledby={titleId}
       >
+        <title id={titleId}>
+          Ecossistema de ferramentas conectadas pela NADA
+        </title>
         {/* connecting lines */}
         {ecosystemNodes.map((node, i) => (
           <line
@@ -210,7 +214,7 @@ export default function OrbitalEcosystem() {
                   transform={`translate(${-ICON_SIZE / 2} ${-ICON_SIZE / 2})`}
                   className="text-black"
                 >
-                  <Icon size={ICON_SIZE} />
+                  <Icon size={ICON_SIZE} aria-hidden="true" />
                 </g>
                 <text
                   y={NODE_RADIUS + 26}

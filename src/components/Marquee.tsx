@@ -13,7 +13,10 @@ export default function Marquee() {
             style={{ fontFamily: "var(--font-display)" }}
           >
             {text}
-            <span className="mx-6 inline-block align-middle text-black/30">
+            <span
+              aria-hidden="true"
+              className="mx-6 inline-block align-middle text-black/30"
+            >
               ·
             </span>
           </span>

@@ -4,6 +4,11 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Termos de Uso",
+  description:
+    "Termos de uso do site da NADA Studio: como funciona a navegação, os serviços oferecidos e as responsabilidades de cada parte.",
+  alternates: {
+    canonical: "/termos-de-uso",
+  },
 };
 
 export default function TermosDeUso() {

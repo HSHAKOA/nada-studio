@@ -9,6 +9,11 @@ import CostOfInaction from "@/components/sections/CostOfInaction";
 
 export const metadata: Metadata = {
   title: "Como funciona",
+  description:
+    "Do primeiro contato à manutenção contínua: como a NADA Studio conduz cada projeto, sem tecniquês.",
+  alternates: {
+    canonical: "/como-funciona",
+  },
 };
 
 export default function ComoFunciona() {

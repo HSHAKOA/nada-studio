@@ -7,6 +7,11 @@ import Portfolio from "@/components/sections/Portfolio";
 
 export const metadata: Metadata = {
   title: "Sobre",
+  description:
+    "A história por trás da NADA Studio: de onde veio o nome, a filosofia e pra quem a gente trabalha.",
+  alternates: {
+    canonical: "/sobre",
+  },
 };
 
 export default function Sobre() {

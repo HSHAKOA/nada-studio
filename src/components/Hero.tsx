@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { HERO_HEADLINE_FIXA, HERO_VARIACOES } from "@/data/content";
+import { buildWhatsAppLink, HERO_HEADLINE_FIXA, HERO_VARIACOES } from "@/data/content";
 
 const CICLO_MS = 3400;
 const SAIDA_S = 0.32;
@@ -87,10 +87,13 @@ export default function Hero() {
           você. Você foca no que importa: vender.
         </p>
         <div className="mt-10 flex flex-wrap gap-4">
-          <a href="#comecar" className="btn btn-primary">
+          <a
+            href={buildWhatsAppLink("Oi! Vi o site e quero começar do nada.")}
+            className="btn btn-primary"
+          >
             Começar do nada
           </a>
-          <a href="#como-funciona" className="btn btn-secondary">
+          <a href="/como-funciona" className="btn btn-secondary">
             Ver como funciona
           </a>
         </div>

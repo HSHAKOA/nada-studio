@@ -5,6 +5,10 @@ import Founders from "@/components/sections/Founders";
 
 export const metadata: Metadata = {
   title: "Equipe",
+  description: "Quem constrói a NADA Studio: João e Eric, os dois fundadores.",
+  alternates: {
+    canonical: "/equipe",
+  },
 };
 
 export default function Equipe() {

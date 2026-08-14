@@ -6,6 +6,10 @@ import Trust from "@/components/sections/Trust";
 
 export const metadata: Metadata = {
   title: "FAQ",
+  description: "Perguntas frequentes sobre os serviços da NADA Studio.",
+  alternates: {
+    canonical: "/faq",
+  },
 };
 
 export default function FaqPage() {

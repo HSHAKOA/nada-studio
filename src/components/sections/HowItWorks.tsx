@@ -20,7 +20,7 @@ export default function HowItWorks() {
             <Reveal key={step.number} delay={i * 90}>
               <div className="flex gap-5 border-t border-black/10 pt-6">
                 <span
-                  className="text-3xl text-black/25"
+                  className="text-3xl text-black/45"
                   style={{ fontFamily: "var(--font-display)" }}
                 >
                   {step.number}

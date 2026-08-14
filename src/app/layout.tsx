@@ -21,33 +21,22 @@ const caveat = Caveat({
   // Só 600: todo uso do font-hand herda peso 400/500, então o 700 baixava sem
   // nunca ser escolhido.
   weight: ["600"],
+  // Só aparece em dois rótulos decorativos abaixo da dobra (label central do
+  // ecossistema e o "NADA" manuscrito do footer). Sem preload pra não
+  // disputar banda com as fontes que realmente formam o LCP.
+  preload: false,
 });
 
-const siteUrl = "https://nada-studio.vercel.app";
+const siteUrl = "https://www.nadastudio.com.br";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "NADA Studio · Do nada nasce tudo",
+    default: "NADA Studio · Sites e automação sob medida | Jundiaí SP",
     template: "%s · NADA Studio",
   },
   description:
-    "Criação de sites, automação com n8n e aplicações sob medida pra pequenos negócios e profissionais autônomos. Menos tarefa manual, mais tempo pro que importa.",
-  keywords: [
-    "criação de site",
-    "criação de sites para pequenos negócios",
-    "automação de whatsapp",
-    "automação com n8n",
-    "agência de automação",
-    "desenvolvimento de aplicativo sob medida",
-    "automação de atendimento",
-    "automação de agendamento",
-    "site para autônomo",
-    "site para profissional liberal",
-    "inteligência artificial para negócios",
-    "cobrança automática pix",
-    "NADA Studio",
-  ],
+    "Criação de sites, automação com n8n e aplicações sob medida pra pequenos negócios e profissionais autônomos. Menos tarefa manual, mais tempo livre.",
   authors: [{ name: "NADA Studio" }],
   creator: "NADA Studio",
   openGraph: {
@@ -106,6 +95,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
+      suppressHydrationWarning
       className={`${archivo.variable} ${inter.variable} ${caveat.variable} antialiased`}
     >
       <head>
@@ -113,9 +103,19 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
+        {/* Evita o flash da página real antes da intro cobrir a tela:
+            decide antes da primeira pintura se quem já viu a intro pula
+            a cobertura preta abaixo (ver #intro-cover em globals.css). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(sessionStorage.getItem('nada-intro-seen')||window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('intro-skip')}}catch(e){}",
+          }}
+        />
       </head>
       <body>
         <SmoothScroll />
+        <div id="intro-cover" />
         {children}
       </body>
     </html>

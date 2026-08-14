@@ -11,7 +11,7 @@ export default function Membership() {
         </Reveal>
         <Reveal delay={80}>
           <h2 className="max-w-2xl text-[clamp(32px,4.2vw,52px)]">
-            Tecnologia não é &ldquo;faz e esquece&rdquo;. A gente fica.
+            Depois de pronto, a gente continua junto.
           </h2>
         </Reveal>
         <Reveal delay={160}>
@@ -22,13 +22,16 @@ export default function Membership() {
 
         <ul className="mt-10 grid gap-4 md:grid-cols-2">
           {membershipItems.map((item, i) => (
-            <Reveal key={item} delay={i * 80}>
-              <li className="flex items-start gap-3 border-t border-white/15 pt-4 text-lg">
-                <span aria-hidden className="text-white/40">
-                  ·
-                </span>
-                {item}
-              </li>
+            <Reveal
+              key={item}
+              delay={i * 80}
+              as="li"
+              className="flex items-start gap-3 border-t border-white/15 pt-4 text-lg"
+            >
+              <span aria-hidden className="text-white/40">
+                ·
+              </span>
+              {item}
             </Reveal>
           ))}
         </ul>

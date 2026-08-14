@@ -6,17 +6,22 @@ type RevealProps = {
   children: React.ReactNode;
   delay?: number;
   className?: string;
+  as?: "div" | "li";
 };
 
 export default function Reveal({
   children,
   delay = 0,
   className = "",
+  as = "div",
 }: RevealProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const nodeRef = useRef<HTMLElement | null>(null);
+  const setRef = (node: HTMLElement | null) => {
+    nodeRef.current = node;
+  };
 
   useEffect(() => {
-    const node = ref.current;
+    const node = nodeRef.current;
     if (!node) return;
 
     const dropTransition = () => {
@@ -43,14 +48,16 @@ export default function Reveal({
     };
   }, []);
 
+  const Tag = as;
+
   return (
-    <div
-      ref={ref}
+    <Tag
+      ref={setRef}
       data-reveal
       style={{ transitionDelay: `${delay}ms` }}
       className={className}
     >
       {children}
-    </div>
+    </Tag>
   );
 }

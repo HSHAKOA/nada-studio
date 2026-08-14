@@ -11,7 +11,7 @@ export default function Trust() {
         </Reveal>
         <Reveal delay={80}>
           <h2 className="max-w-3xl text-[clamp(28px,3.6vw,44px)]">
-            Feito por quem entende de negócio de verdade. Não só de código.
+            A gente entende de negócio antes de entender de código.
           </h2>
         </Reveal>
 

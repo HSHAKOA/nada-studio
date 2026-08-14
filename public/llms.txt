@@ -1,0 +1,25 @@
+# NADA Studio
+
+> Estúdio de sites, automação e aplicações sob medida pra pequenos negócios e profissionais autônomos. Atendimento presencial em Jundiaí e região, remoto pro Brasil inteiro.
+
+## Serviços
+
+- Sites: criação de sites rápidos, feitos pra converter visitante em cliente.
+- Automação: automação de atendimento, agendamento, cobrança e tarefas repetitivas com n8n.
+- Aplicações sob medida: sistemas pequenos e simples pra um problema específico do negócio.
+
+## Como funciona
+
+A gente conversa sobre o que trava o seu dia, constrói do zero sob medida, entrega no ar e continua cuidando depois: ajustes, automações rodando e suporte direto no WhatsApp.
+
+## Contato
+
+- WhatsApp: https://wa.me/5511932159328
+- Instagram: https://www.instagram.com/nada.studio.br/
+- Site: https://www.nadastudio.com.br
+
+## Páginas
+
+- [Site](https://www.nadastudio.com.br): página principal, serviços, portfólio e perguntas frequentes.
+- [Termos de Uso](https://www.nadastudio.com.br/termos-de-uso)
+- [Política de Privacidade](https://www.nadastudio.com.br/politica-de-privacidade)

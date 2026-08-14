@@ -1,10 +1,10 @@
 import Reveal from "@/components/Reveal";
 import SectionMarker from "@/components/SectionMarker";
 import {
-  WHATSAPP_LINK,
   forYouPersonal,
   forYouPro,
   sectionMarkers,
+  buildWhatsAppLink,
 } from "@/data/content";
 
 export default function ForYouToo() {
@@ -16,7 +16,7 @@ export default function ForYouToo() {
         </Reveal>
         <Reveal delay={80}>
           <h2 className="max-w-2xl text-[clamp(32px,4.2vw,52px)]">
-            Não é só pra empresa. É pra você também.
+            Seu negócio ou o seu dia. A gente resolve os dois.
           </h2>
         </Reveal>
         <Reveal delay={160}>
@@ -58,7 +58,7 @@ export default function ForYouToo() {
         </Reveal>
         <Reveal delay={260}>
           <a
-            href={WHATSAPP_LINK}
+            href={buildWhatsAppLink("Oi! Quero uma solução pra minha rotina pessoal.")}
             className="mt-6 inline-flex items-center gap-2 text-lg font-medium underline decoration-black/30 underline-offset-4 hover:decoration-black"
           >
             Me conta o que você precisa →
