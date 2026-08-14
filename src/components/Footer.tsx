@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Marquee from "@/components/Marquee";
 import { SiInstagram, SiWhatsapp } from "react-icons/si";
 import {
@@ -48,13 +49,13 @@ export default function Footer() {
           <p className="eyebrow mb-5">Navegação</p>
           <nav className="flex flex-col gap-3">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className="text-sm text-white/70 hover:text-white"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
@@ -63,13 +64,13 @@ export default function Footer() {
           <p className="eyebrow mb-5">Serviços</p>
           <nav className="flex flex-col gap-3">
             {services.map((service) => (
-              <a
+              <Link
                 key={service.number}
-                href="#o-que-fazemos"
+                href="/#o-que-fazemos"
                 className="text-sm text-white/70 hover:text-white"
               >
                 {service.title}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
@@ -88,9 +89,9 @@ export default function Footer() {
             >
               Instagram
             </a>
-            <a href="#comecar" className="hover:text-white">
+            <Link href="/#top" className="hover:text-white">
               Fale com a gente
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -109,12 +110,12 @@ export default function Footer() {
       <div className="wrap mt-10 flex flex-col gap-4 text-xs text-white/40 md:flex-row md:items-center md:justify-between">
         <span>© 2026 NADA Studio. Todos os direitos reservados.</span>
         <div className="flex gap-4">
-          <a href="/termos-de-uso" className="hover:text-white/70">
+          <Link href="/termos-de-uso" className="hover:text-white/70">
             Termos de Uso
-          </a>
-          <a href="/politica-de-privacidade" className="hover:text-white/70">
+          </Link>
+          <Link href="/politica-de-privacidade" className="hover:text-white/70">
             Política de Privacidade
-          </a>
+          </Link>
         </div>
         <span>Feito pela NADA Studio. Do nada nasce tudo.</span>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { navLinks, WHATSAPP_LINK } from "@/data/content";
 import NadaWordmark from "./NadaWordmark";
 
@@ -30,19 +31,19 @@ export default function Navbar() {
         }`}
       >
       <div className="wrap flex items-center justify-between py-4">
-        <a href="#top" aria-label="NADA Studio — início">
+        <Link href="/" aria-label="NADA Studio — início">
           <NadaWordmark className="w-[120px]" />
-        </a>
+        </Link>
 
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               className="text-sm font-medium text-black/70 hover:text-black transition-colors"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -83,14 +84,14 @@ export default function Navbar() {
       >
         <nav className="flex h-full flex-col items-center justify-center gap-8">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
               className="text-2xl font-medium"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
           <a
             href={WHATSAPP_LINK}

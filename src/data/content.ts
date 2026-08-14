@@ -1,13 +1,33 @@
-export const WHATSAPP_LINK =
-  "https://wa.me/5511932159328?text=Oi!%20Quero%20saber%20mais%20sobre%20a%20NADA.";
+import type { IconeServico } from "@/components/icons/ServiceIcons";
+
+export const HERO_HEADLINE_FIXA = "Menos tarefa manual.";
+
+export type HeroVariacao = { antes: string; metal: string; depois: string };
+
+export const HERO_VARIACOES: HeroVariacao[] = [
+  { antes: "Mais tempo pro seu ", metal: "negócio", depois: "." },
+  { antes: "Mais tempo pra ", metal: "vender", depois: "." },
+  { antes: "Mais tempo pro que ", metal: "importa", depois: "." },
+  { antes: "Menos ", metal: "caderno", depois: ". Menos planilha." },
+  { antes: "O sistema trabalha ", metal: "sozinho", depois: "." },
+  { antes: "Você só ", metal: "usa", depois: "." },
+  { antes: "Mais tempo pra ", metal: "crescer", depois: "." },
+];
+
+export const WHATSAPP_NUMBER = "5511932159328";
+
+export function buildWhatsAppLink(mensagem: string) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
+}
+
+export const WHATSAPP_LINK = buildWhatsAppLink("Oi! Quero saber mais sobre a NADA.");
 export const INSTAGRAM_LINK = "https://www.instagram.com/nada.studio.br/";
 
 export const navLinks = [
-  { label: "Serviços", href: "#o-que-fazemos" },
-  { label: "Como funciona", href: "#como-funciona" },
-  { label: "Portfólio", href: "#portfolio" },
-  { label: "Pra você", href: "#pra-voce" },
-  { label: "Contato", href: "#comecar" },
+  { label: "Sobre", href: "/sobre" },
+  { label: "Equipe", href: "/equipe" },
+  { label: "Como funciona", href: "/como-funciona" },
+  { label: "FAQ", href: "/faq" },
 ];
 
 export const services = [
@@ -28,6 +48,67 @@ export const services = [
     title: "Aplicações sob medida",
     headline: "Ferramenta com a sua cara",
     body: "Uma solução pequena e simples, feita pro seu problema específico. Um sistema de pedido, um controle, um cálculo. Nada de mais, nada de menos.",
+  },
+];
+
+export type ServicoPainel = {
+  id: string;
+  num: string;
+  titulo: string;
+  descricao: string;
+  icone: IconeServico;
+  image?: string;
+  alt?: string;
+};
+
+export const SERVICOS: ServicoPainel[] = [
+  {
+    id: "site",
+    num: "01",
+    titulo: "Site que trabalha por você",
+    descricao:
+      "Seu negócio achável, com cara de sério, e o cliente chegando sem você correr atrás.",
+    icone: "site",
+  },
+  {
+    id: "manual",
+    num: "02",
+    titulo: "Chega de fazer na mão",
+    descricao:
+      "O que você repete toda semana passa a acontecer sozinho, sem você no meio.",
+    icone: "manual",
+  },
+  {
+    id: "pagina",
+    num: "03",
+    titulo: "Página feita pra vender",
+    descricao:
+      "Uma página só, com um objetivo só: transformar quem clicou em quem comprou.",
+    icone: "pagina",
+  },
+  {
+    id: "anuncio",
+    num: "04",
+    titulo: "Anúncio que traz cliente",
+    descricao:
+      "Seu dinheiro aparecendo pra quem já está procurando o que você vende. Sem torrar verba.",
+    icone: "anuncio",
+  },
+  {
+    id: "integracao",
+    num: "05",
+    titulo: "Tudo conversando entre si",
+    descricao:
+      "WhatsApp, agenda, pedido e planilha parando de ser ilhas separadas.",
+    icone: "integracao",
+  },
+  {
+    id: "sobMedida",
+    num: "06",
+    titulo: "Ferramenta com a sua cara",
+    descricao:
+      "Quando nada pronto serve, a gente constrói do jeito que o seu processo pede.",
+    icone: "sobMedida",
   },
 ];
 
@@ -159,18 +240,26 @@ export const faqItems = [
   },
 ];
 
+// Numeração por página (cada rota reinicia em 001).
 export const sectionMarkers = {
+  // home
+  beforeAfter: "001",
+  whatWeDo: "002",
+  pricing: "003",
+  cta: "004",
+  // /sobre
+  whyNada: "001",
+  forYou: "002",
+  portfolio: "003",
+  // /equipe
+  founders: "001",
+  // /como-funciona
   problem: "001",
-  ecosystem: "002",
-  whatWeDo: "003",
-  howItWorks: "004",
-  membership: "005",
-  costOfNotDoing: "006",
-  portfolio: "007",
-  forYou: "008",
-  founders: "009",
-  whyNada: "010",
-  trust: "011",
-  faq: "012",
-  cta: "013",
+  howItWorks: "002",
+  membership: "003",
+  ecosystem: "004",
+  costOfNotDoing: "005",
+  // /faq
+  faq: "001",
+  trust: "002",
 };
