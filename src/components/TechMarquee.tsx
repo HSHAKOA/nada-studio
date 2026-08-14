@@ -8,9 +8,9 @@ import {
 } from "react-icons/si";
 import { OpenAIIcon } from "@/components/icons/OpenAIIcon";
 
-type Tech = { nome: string; Icone: ComponentType<{ className?: string }> };
+export type Tech = { nome: string; Icone: ComponentType<{ className?: string }> };
 
-const TECHS: Tech[] = [
+export const TECHS: Tech[] = [
   { nome: "OpenAI", Icone: OpenAIIcon },
   { nome: "Anthropic", Icone: SiAnthropic },
   { nome: "Google", Icone: SiGoogle },

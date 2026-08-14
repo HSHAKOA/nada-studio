@@ -260,6 +260,7 @@ export const sectionMarkers = {
   whyNada: "001",
   forYou: "002",
   portfolio: "003",
+  tools: "004",
   // /equipe
   founders: "001",
   // /como-funciona
