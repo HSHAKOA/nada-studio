@@ -6,7 +6,7 @@ import {
   SiN8N,
   SiPix,
 } from "react-icons/si";
-import { Sparkles } from "lucide-react";
+import { OpenAIIcon } from "@/components/icons/OpenAIIcon";
 
 type IconProps = {
   className?: string;
@@ -22,6 +22,6 @@ export const ecosystemIcons: Record<
   mail: SiGmail,
   instagram: SiInstagram,
   n8n: SiN8N,
-  spark: Sparkles,
+  openai: OpenAIIcon,
   pix: SiPix,
 };

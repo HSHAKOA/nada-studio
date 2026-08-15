@@ -15,7 +15,7 @@ export const HERO_VARIACOES: HeroVariacao[] = [
 ];
 
 const WHATSAPP_NUMBER = "5511932159328";
-const WHATSAPP_DEFAULT_MESSAGE = "Oi! Quero saber mais sobre a NADA.";
+const WHATSAPP_DEFAULT_MESSAGE = "Oi! Quero saber mais sobre a NADA Studio.";
 
 export function buildWhatsAppLink(mensagem: string = WHATSAPP_DEFAULT_MESSAGE) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
@@ -26,6 +26,7 @@ export const INSTAGRAM_LINK = "https://www.instagram.com/nada.studio.br/";
 
 export const navLinks = [
   { label: "Sobre", href: "/sobre" },
+  { label: "Portfólio", href: "/portfolio" },
   { label: "Equipe", href: "/equipe" },
   { label: "Como funciona", href: "/como-funciona" },
   { label: "FAQ", href: "/faq" },
@@ -54,7 +55,7 @@ export const ANTES_DEPOIS = {
     manchete: "O gasto entra sozinho.",
     linhas: [
       "Abre o app e vê onde está o dinheiro, sem precisar montar nada.",
-      "Estourou o limite de uma categoria, avisa antes — não depois.",
+      "Estourou o limite de uma categoria, avisa antes, não depois.",
     ],
     metrica: "10 minutos",
     metricaUnidade: "por mês",
@@ -74,15 +75,15 @@ export const services = [
   },
   {
     number: "02",
-    title: "Automação",
+    title: "Tarefa repetitiva",
     headline: "Chega de fazer na mão",
-    body: "Aquela tarefa repetitiva que come seu dia? A gente automatiza. Mensagem, planilha, agendamento, cobrança. Tudo no piloto automático. Você ganha o tempo de volta.",
+    body: "Aquela tarefa que come seu dia sai das suas costas. Mensagem, planilha, agendamento, cobrança: passa a acontecer sem você no meio. Você ganha o tempo de volta.",
   },
   {
     number: "03",
-    title: "Aplicações sob medida",
+    title: "Ferramenta sob medida",
     headline: "Ferramenta com a sua cara",
-    body: "Uma solução pequena e simples, feita pro seu problema específico. Um sistema de pedido, um controle, um cálculo. Nada de mais, nada de menos.",
+    body: "Uma coisa pequena e simples, feita pro seu problema específico. Um sistema de pedido, um controle, um cálculo. Nada de mais, nada de menos.",
   },
 ];
 
@@ -115,7 +116,7 @@ export const SERVICOS: ServicoPainel[] = [
       "O que você repete toda semana passa a acontecer sozinho, sem você no meio.",
     icone: "manual",
     image: "/servicos/02-manual.webp",
-    alt: "Objeto tridimensional brilhante em preto e branco representando automação de tarefa manual",
+    alt: "Objeto tridimensional brilhante em preto e branco representando uma tarefa manual que saiu das costas do dono",
   },
   {
     id: "pagina",
@@ -185,13 +186,13 @@ export const steps = [
 export const membershipItems = [
   "Site no ar, rápido e sempre atualizado",
   "Ajustes e melhorias sempre que precisar",
-  "Automações rodando sem parar, 24h",
+  "O repetitivo rodando sem parar, 24h",
   "Suporte direto no WhatsApp, com quem construiu",
 ];
 
 export const forYouPro = {
   title: "Profissionais",
-  body: "Professor, nutricionista, personal, médico. Automatize a papelada da rotina e use IA a seu favor no atendimento, no conteúdo e na organização.",
+  body: "Professor, nutricionista, personal, médico. A papelada da rotina sai das suas costas: confirmar consulta, cobrar, lembrar quem faltou. Você fica com o atendimento.",
 };
 
 export const forYouPersonal = {
@@ -201,36 +202,36 @@ export const forYouPersonal = {
   items: [
     "Controle pessoal e de rotina",
     "Controle financeiro",
-    "Automação de e-mail e mensagens",
+    "E-mail e mensagem que se respondem sozinhos",
   ],
 };
 
 export const ecosystemIntro = {
   header: "Tudo que seu negócio usa. Conectado num lugar só.",
-  sub: "A gente liga as ferramentas que você já usa (WhatsApp, Google, e-mail, automação) pra tudo funcionar junto, sozinho.",
+  sub: "A gente liga as ferramentas que você já usa (WhatsApp, Gmail, Google Agenda, Pix) pra tudo funcionar junto, sozinho.",
 };
 
 export const ecosystemNodes = [
   { id: "whatsapp", label: "WhatsApp", short: "Atendimento", ring: 0, icon: "whatsapp" },
   { id: "gmail", label: "Gmail", short: "E-mail", ring: 0, icon: "mail" },
   { id: "agenda", label: "Google Agenda", short: "Agendamento", ring: 0, icon: "calendar" },
-  { id: "instagram", label: "Instagram", short: "Presença", ring: 1, icon: "instagram" },
-  { id: "n8n", label: "n8n", short: "Automação", ring: 1, icon: "n8n" },
-  { id: "ia", label: "IA", short: "Inteligência", ring: 2, icon: "spark" },
+  { id: "instagram", label: "Instagram", short: "Seu perfil", ring: 1, icon: "instagram" },
+  { id: "n8n", label: "n8n", short: "Sem você no meio", ring: 1, icon: "n8n" },
+  { id: "openai", label: "OpenAI", short: "Resposta pronta", ring: 2, icon: "openai" },
   { id: "pix", label: "Pix", short: "Cobrança", ring: 2, icon: "pix" },
 ] as const;
 
 export const costOfNotDoing = {
   header: "“É caro?” O caro é continuar perdendo tempo.",
-  text: "Faz a conta. Quantas horas por semana você (ou sua equipe) gasta no repetitivo? Multiplica por um mês. Por um ano. Esse tempo já tem um custo. Só que ele é invisível, sai fatiado, todo dia. A gente transforma esse custo escondido numa solução que se paga em tempo livre e cliente bem atendido.",
+  text: "Faz a conta. Quantas horas por semana você (ou sua equipe) gasta no repetitivo? Multiplica por um mês. Por um ano. Esse tempo já tem um custo. Só que ele é invisível, sai fatiado, todo dia. A gente devolve esse tempo em forma de sábado livre e cliente bem atendido.",
   destaque: "Não fazer nada também custa. Só que você paga em hora perdida.",
   microCta: "Descobrir quanto você perde →",
 };
 
 export const portfolioIntro = {
   header: "A gente começou construindo pra nós mesmos.",
-  sub: "Antes de vender, a gente fez. Cada projeto abaixo nasceu de um problema real que a gente resolveu com código, automação e IA. É a nossa prova de que funciona.",
-  fecho: "O próximo caso de sucesso pode ser o seu.",
+  sub: "Antes de vender, a gente fez. Cada projeto abaixo nasceu de um problema que era nosso. É a nossa prova de que funciona.",
+  fecho: "Os três a gente usa todo dia.",
 };
 
 export const portfolioProjects = [
@@ -253,8 +254,8 @@ export const portfolioProjects = [
 
 export const foundersIntro = {
   header: "Tem gente por trás do código.",
-  text: "A NADA é tocada por dois sócios de Jundiaí que gostam de resolver problema de gente. O atendimento é presencial na região e remoto pro Brasil inteiro. A gente atende de perto, fala a sua língua e não some depois de entregar. Aqui você fala direto com quem constrói.",
-  fecho: "Quando você contrata a NADA, você sabe com quem tá falando.",
+  text: "A NADA Studio é tocada por dois sócios de Jundiaí que gostam de resolver problema de gente. O atendimento é presencial na região e remoto pro Brasil inteiro. A gente atende de perto e não some depois de entregar. Aqui você fala direto com quem constrói.",
+  fecho: "Quando você contrata a NADA Studio, você sabe com quem tá falando.",
 };
 
 export const founders: { name: string; role: string; photo?: string }[] = [
@@ -265,7 +266,7 @@ export const founders: { name: string; role: string; photo?: string }[] = [
 export const trustBadges = [
   "Preço fechado antes de começar",
   "100% sob medida",
-  "Suporte de gente de verdade",
+  "Fala direto com o sócio",
 ];
 
 export const faqItems = [
@@ -275,23 +276,23 @@ export const faqItems = [
   },
   {
     q: "Quanto custa?",
-    a: "Cada projeto é sob medida, então o valor sai depois que a gente entende o que você precisa. A estrutura é sempre a mesma: um valor pra montar e uma mensalidade pra cuidar. O que muda o preço é o tamanho: quantas páginas, quantas automações, quantas ferramentas conectar. Na primeira conversa você já sai com o número na mão. Ela é de graça e sem compromisso.",
+    a: "Cada projeto é sob medida, então o valor sai depois que a gente entende o que você precisa. A estrutura é sempre a mesma: um valor pra montar e uma mensalidade pra cuidar. O que muda o preço é o tamanho: quantas páginas, quantas tarefas saem das suas costas, quantas ferramentas conectar. Na primeira conversa você já sai com o número na mão. Ela é de graça e sem compromisso.",
   },
   {
     q: "Tem fidelidade?",
-    a: "Sem contrato de 12 meses. Você avisa com 30 dias e leva tudo que é seu: site, domínio e automações.",
+    a: "Sem contrato de 12 meses. Você avisa com 30 dias e leva tudo que é seu: site, domínio e tudo que a gente montou.",
   },
   {
     q: "E se eu já tenho site?",
-    a: "A gente melhora, automatiza ou refaz. Você escolhe.",
+    a: "A gente melhora, tira o trabalho manual de perto ou refaz. Você escolhe.",
   },
   {
     q: "Vocês atendem meu tipo de negócio?",
-    a: "Comércio local, profissionais e pessoas comuns. Se tem tarefa repetitiva, tem solução.",
+    a: "Comércio local, profissionais e pessoas comuns. Se tem tarefa repetitiva, dá pra resolver.",
   },
   {
     q: "Quanto tempo demora?",
-    a: "Site fica pronto em 2 a 3 semanas. Automação depende do tamanho e a gente fala o prazo já na primeira conversa.",
+    a: "Site fica pronto em 2 a 3 semanas. O resto depende do tamanho e a gente fala o prazo já na primeira conversa.",
   },
 ];
 

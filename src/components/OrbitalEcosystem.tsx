@@ -183,7 +183,7 @@ export default function OrbitalEcosystem() {
               <g
                 tabIndex={0}
                 role="button"
-                aria-label={`${node.label} — ${node.short}`}
+                aria-label={`${node.label}, ${node.short}`}
                 className="orbit-node"
                 style={{
                   transitionDelay: visible ? `${i * 70}ms` : "0ms",

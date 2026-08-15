@@ -15,15 +15,18 @@ export default function Footer() {
       <Marquee />
       <div className="wrap mt-14 grid gap-12 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
         <div>
-          <span
-            className="text-3xl"
-            style={{ fontFamily: "var(--font-hand)" }}
-          >
-            NADA
+          {/* Mesma trava da navbar: a marca nunca aparece como "NADA" solto. */}
+          <span className="inline-flex flex-col leading-none">
+            <span className="text-3xl" style={{ fontFamily: "var(--font-hand)" }}>
+              NADA
+            </span>
+            <span className="mt-1 text-[10px] uppercase tracking-[0.35em] text-white/60">
+              Studio
+            </span>
           </span>
           <p className="mt-3 max-w-[32ch] text-white/60">
-            Do nada nasce tudo. Sites, automação e aplicações sob medida pra
-            quem quer devolver tempo pro que importa.
+            Do nada nasce tudo. Sites, tarefa repetitiva e ferramenta sob
+            medida pra quem quer o tempo de volta.
           </p>
           <div className="mt-6 flex items-center gap-4">
             <a

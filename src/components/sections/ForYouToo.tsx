@@ -21,8 +21,8 @@ export default function ForYouToo() {
         </Reveal>
         <Reveal delay={160}>
           <p className="prose-measure mt-6 text-[18px] text-black/70">
-            Profissional ou não, se você quer usar IA no seu dia a dia, a
-            gente monta a solução com você.
+            Profissional ou não, se tem coisa que você repete todo dia, a
+            gente monta junto com você.
           </p>
         </Reveal>
 
@@ -58,7 +58,7 @@ export default function ForYouToo() {
         </Reveal>
         <Reveal delay={260}>
           <a
-            href={buildWhatsAppLink("Oi! Quero uma solução pra minha rotina pessoal.")}
+            href={buildWhatsAppLink("Oi! Quero resolver uma coisa da minha rotina.")}
             className="mt-6 inline-flex items-center gap-2 text-lg font-medium underline decoration-black/30 underline-offset-4 hover:decoration-black"
           >
             Me conta o que você precisa →

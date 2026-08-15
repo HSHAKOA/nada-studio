@@ -31,7 +31,7 @@ export default function Navbar() {
         }`}
       >
       <div className="wrap flex items-center justify-between py-4">
-        <Link href="/" aria-label="NADA Studio — início">
+        <Link href="/" aria-label="NADA Studio, início">
           <NadaWordmark className="w-[120px]" />
         </Link>
 

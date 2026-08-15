@@ -83,8 +83,8 @@ export default function Hero() {
           </span>
         </h1>
         <p className="prose-measure mt-6 text-[18px] text-black/70">
-          A gente cria seu site, automatiza o repetitivo e cuida de tudo por
-          você. Você foca no que importa: vender.
+          A gente cria seu site, tira o repetitivo das suas costas e cuida de
+          tudo por você. Você foca no que importa: vender.
         </p>
         <div className="mt-10 flex flex-wrap gap-4">
           <a

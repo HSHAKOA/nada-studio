@@ -7,7 +7,7 @@ export default function Founders() {
     <section id="quem-e-a-nada" className="section bg-[#fafafa]">
       <div className="wrap">
         <Reveal>
-          <SectionMarker label="Quem é a NADA" number={sectionMarkers.founders} />
+          <SectionMarker label="Quem é a NADA Studio" number={sectionMarkers.founders} />
         </Reveal>
         <Reveal delay={80}>
           <h2 className="max-w-2xl text-[clamp(32px,4.2vw,52px)]">

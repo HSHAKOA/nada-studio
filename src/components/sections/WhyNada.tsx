@@ -7,7 +7,7 @@ export default function WhyNada() {
     <section id="por-que-nada" className="section bg-[#fafafa]">
       <div className="wrap">
         <Reveal>
-          <SectionMarker label="Por que NADA" number={sectionMarkers.whyNada} />
+          <SectionMarker label="Por que NADA Studio" number={sectionMarkers.whyNada} />
         </Reveal>
         <Reveal delay={80}>
           <h2 className="max-w-2xl text-[clamp(32px,4.2vw,52px)]">
@@ -16,11 +16,10 @@ export default function WhyNada() {
         </Reveal>
         <Reveal delay={160}>
           <p className="prose-measure mt-6 text-[18px] text-black/70">
-            Porque toda grande ideia começa do zero. De uma folha em branco,
-            de um &ldquo;e se...&rdquo;. A gente pega esse nada (o seu
-            problema, o seu tempo perdido, a sua ideia solta) e transforma em
-            algo que funciona. Sem complicação. Sem promessa vazia. Só
-            solução que entrega.
+            Tudo começa do zero. De uma folha em branco, de um
+            &ldquo;e se...&rdquo;. A gente pega esse nada (o seu problema, o
+            seu tempo perdido, a sua ideia solta) e faz virar coisa que
+            funciona. Sem enrolação.
           </p>
         </Reveal>
         <Reveal delay={240}>

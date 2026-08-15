@@ -68,6 +68,6 @@ export const SOB_MEDIDA = {
 };
 
 export const MANUTENCAO =
-  "Depois de pronto, mantemos tudo rodando por R$ 100/mês — hospedagem, ajustes e suporte no WhatsApp. Opcional, sem fidelidade.";
+  "Depois de pronto, mantemos tudo rodando por R$ 100/mês: hospedagem, ajustes e suporte no WhatsApp. Opcional, sem fidelidade.";
 
 export const SELO_DESTAQUE = "mais pedido";
