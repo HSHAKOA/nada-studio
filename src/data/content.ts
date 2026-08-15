@@ -31,6 +31,40 @@ export const navLinks = [
   { label: "FAQ", href: "/faq" },
 ];
 
+export const ANTES_DEPOIS = {
+  marcador: "Antes / depois",
+  num: "002",
+  titulo: "O primeiro problema que a gente resolveu foi o nosso.",
+
+  antes: {
+    label: "Antes",
+    manchete: "Planilha aberta todo fim de semana.",
+    linhas: [
+      "Duas horas todo sábado lançando gasto na mão, um por um.",
+      "Fatura de um lado, extrato do outro, tentando bater o que sobrou.",
+      "Descobria que tinha estourado o mês quando já era tarde.",
+    ],
+    metrica: "8 horas",
+    metricaUnidade: "por mês",
+    metricaLegenda: "só pra saber onde o dinheiro tinha ido",
+  },
+
+  depois: {
+    label: "Depois",
+    manchete: "O gasto entra sozinho.",
+    linhas: [
+      "Abre o app e vê onde está o dinheiro, sem precisar montar nada.",
+      "Estourou o limite de uma categoria, avisa antes — não depois.",
+    ],
+    metrica: "10 minutos",
+    metricaUnidade: "por mês",
+    metricaLegenda: "o resto do tempo voltou pra vida",
+  },
+
+  fecho: "De 8 horas para 10 minutos por mês.",
+  credito: "Projeto interno da NADA Studio · No Azul",
+};
+
 export const services = [
   {
     number: "01",
