@@ -46,13 +46,13 @@ export const metadata: Metadata = {
     siteName: "NADA Studio",
     title: "NADA Studio · Do nada nasce tudo",
     description:
-      "A gente cria seu site, automatiza o repetitivo e cuida de tudo por você. Você foca no que importa: vender.",
+      "A gente cria seu site, tira o repetitivo das suas costas e cuida de tudo por você. Você foca no que importa: vender.",
   },
   twitter: {
     card: "summary_large_image",
     title: "NADA Studio · Do nada nasce tudo",
     description:
-      "A gente cria seu site, automatiza o repetitivo e cuida de tudo por você. Você foca no que importa: vender.",
+      "A gente cria seu site, tira o repetitivo das suas costas e cuida de tudo por você. Você foca no que importa: vender.",
   },
   robots: {
     index: true,
@@ -105,11 +105,14 @@ export default function RootLayout({
         />
         {/* Evita o flash da página real antes da intro cobrir a tela:
             decide antes da primeira pintura se quem já viu a intro pula
-            a cobertura preta abaixo (ver #intro-cover em globals.css). */}
+            a cobertura preta abaixo (ver #intro-cover em globals.css).
+            Só a home monta o IntroOverlay, que é quem tira a cobertura —
+            em qualquer outra rota ela tem que nascer já pulada, senão a
+            página fica preta e travada pra quem entra direto pelo Google. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{if(sessionStorage.getItem('nada-intro-seen')||window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('intro-skip')}}catch(e){}",
+              "try{if(location.pathname!=='/'||sessionStorage.getItem('nada-intro-seen')||window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('intro-skip')}}catch(e){}",
           }}
         />
       </head>
