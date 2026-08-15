@@ -3,7 +3,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhyNada from "@/components/sections/WhyNada";
 import ForYouToo from "@/components/sections/ForYouToo";
-import Portfolio from "@/components/sections/Portfolio";
 import ToolsWeBuildWith from "@/components/sections/ToolsWeBuildWith";
 
 export const metadata: Metadata = {
@@ -22,7 +21,6 @@ export default function Sobre() {
       <main className="pt-24">
         <WhyNada />
         <ForYouToo />
-        <Portfolio />
         <ToolsWeBuildWith />
       </main>
       <Footer />
