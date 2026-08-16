@@ -4,27 +4,43 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { PROJETOS, SELO_TIPO, type Projeto } from "@/data/portfolio";
 
 export default function Portfolio3DGallery() {
-  const [rotation, setRotation] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Projeto | null>(null);
-  const [isAutoRotate, setIsAutoRotate] = useState(true);
-  const [radius, setRadius] = useState(540);
+  
+  // Mobile Carousel State
+  const [mobileIndex, setMobileIndex] = useState(0);
+  const touchStartXRef = useRef(0);
+  const touchEndXRef = useRef(0);
 
+  // Desktop 3D Gallery State & Refs
+  const [isAutoRotate, setIsAutoRotate] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
+  const [radius, setRadius] = useState(480);
+  
+  const rotationRef = useRef(0);
   const startXRef = useRef(0);
   const startRotationRef = useRef(0);
+  const isDraggingRef = useRef(false);
+  const isAutoRotateRef = useRef(true);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const animationFrameRef = useRef<number | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const lastInteractionRef = useRef(Date.now());
 
-  // Adapt cylindrical radius to window width
+  // Keep refs in sync with state
+  useEffect(() => {
+    isAutoRotateRef.current = isAutoRotate;
+  }, [isAutoRotate]);
+
+  useEffect(() => {
+    isDraggingRef.current = isDragging;
+  }, [isDragging]);
+
+  // Handle radius on resize for desktop
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setRadius(320);
-      } else if (window.innerWidth < 1024) {
-        setRadius(440);
+      if (window.innerWidth >= 1024) {
+        setRadius(480);
       } else {
-        setRadius(540);
+        setRadius(380);
       }
     };
     handleResize();
@@ -32,71 +48,119 @@ export default function Portfolio3DGallery() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Smooth continuous auto-rotate when not interacting
+  const anglePerItem = 360 / PROJETOS.length;
+
+  // Direct DOM update for 60fps/120fps buttery smooth 3D rotation without React re-renders
+  const update3DTransforms = useCallback((currentRotation: number) => {
+    if (!trackRef.current) return;
+    trackRef.current.style.transform = `rotateY(${currentRotation}deg)`;
+
+    const totalRotation = currentRotation % 360;
+    PROJETOS.forEach((_, i) => {
+      const cardEl = cardRefs.current[i];
+      if (!cardEl) return;
+      const itemAngle = i * anglePerItem;
+      const relativeAngle = (itemAngle + totalRotation + 360) % 360;
+      const normalizedAngle = Math.abs(relativeAngle > 180 ? 360 - relativeAngle : relativeAngle);
+      const isFacingFront = normalizedAngle < 55;
+      const opacity = Math.max(0.25, 1 - normalizedAngle / 150);
+
+      cardEl.style.opacity = `${opacity}`;
+      cardEl.style.pointerEvents = isFacingFront ? "auto" : "none";
+    });
+  }, [anglePerItem]);
+
+  // Desktop Animation loop with direct DOM transform
   useEffect(() => {
-    const autoSpin = () => {
-      if (isAutoRotate && !isDragging && !selectedProject) {
-        setRotation((prev) => prev + 0.08);
+    let lastTime = performance.now();
+
+    const loop = (time: number) => {
+      const delta = Math.min((time - lastTime) / 1000, 0.1);
+      lastTime = time;
+
+      if (isAutoRotateRef.current && !isDraggingRef.current && !selectedProject) {
+        rotationRef.current += 12 * delta; // Smooth 12 deg/sec
+        update3DTransforms(rotationRef.current);
       }
-      animationFrameRef.current = requestAnimationFrame(autoSpin);
+      animationFrameRef.current = requestAnimationFrame(loop);
     };
 
-    animationFrameRef.current = requestAnimationFrame(autoSpin);
+    animationFrameRef.current = requestAnimationFrame(loop);
     return () => {
       if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
     };
-  }, [isAutoRotate, isDragging, selectedProject]);
+  }, [selectedProject, update3DTransforms]);
 
-  // Drag handlers (Mouse & Touch)
+  // Desktop Pointer / Drag handlers
   const handlePointerDown = (e: React.PointerEvent) => {
-    if ((e.target as HTMLElement).closest("button") || (e.target as HTMLElement).closest("a")) {
-      return;
-    }
+    if ((e.target as HTMLElement).closest("button") || (e.target as HTMLElement).closest("a")) return;
     setIsDragging(true);
+    isDraggingRef.current = true;
     startXRef.current = e.clientX;
-    startRotationRef.current = rotation;
-    lastInteractionRef.current = Date.now();
+    startRotationRef.current = rotationRef.current;
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (!isDragging) return;
+    if (!isDraggingRef.current) return;
     const deltaX = e.clientX - startXRef.current;
-    const sensitivity = window.innerWidth < 640 ? 0.35 : 0.25;
-    setRotation(startRotationRef.current + deltaX * sensitivity);
-    lastInteractionRef.current = Date.now();
+    rotationRef.current = startRotationRef.current + deltaX * 0.3;
+    update3DTransforms(rotationRef.current);
   };
 
   const handlePointerUp = () => {
     setIsDragging(false);
+    isDraggingRef.current = false;
   };
 
-  const rotateTo = useCallback((step: number) => {
-    const anglePerItem = 360 / PROJETOS.length;
-    setRotation((prev) => prev + step * anglePerItem);
-    lastInteractionRef.current = Date.now();
-  }, []);
+  const rotateToStep = (step: number) => {
+    rotationRef.current += step * anglePerItem;
+    update3DTransforms(rotationRef.current);
+  };
 
-  const anglePerItem = 360 / PROJETOS.length;
+  // Mobile Touch Swipe Handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartXRef.current = e.targetTouches[0].clientX;
+    touchEndXRef.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndXRef.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const diff = touchStartXRef.current - touchEndXRef.current;
+    if (diff > 45) {
+      // Swiped Left -> Next
+      setMobileIndex((prev) => (prev + 1) % PROJETOS.length);
+    } else if (diff < -45) {
+      // Swiped Right -> Prev
+      setMobileIndex((prev) => (prev - 1 + PROJETOS.length) % PROJETOS.length);
+    }
+  };
 
   return (
-    <div className="relative my-10 w-full select-none overflow-hidden rounded-[28px] border border-black/10 bg-black/[0.015] py-12 text-black shadow-xs">
+    <div className="relative my-8 w-full select-none overflow-hidden rounded-[28px] border border-black/10 bg-[#fafafa] p-5 text-black shadow-xs sm:my-10 sm:p-10">
       {/* Top Header & Controls */}
-      <div className="relative z-20 flex flex-col items-center justify-between gap-4 px-6 sm:flex-row sm:px-10">
+      <div className="relative z-20 flex flex-col items-center justify-between gap-4 sm:flex-row">
         <div>
           <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/60">
-            ● Vitrine Interativa 3D
+            ● Vitrine de Projetos
           </span>
           <p className="mt-1 text-xs text-black/50">
-            Arraste para girar ou clique no projeto para ver os detalhes
+            {/* Desktop text */}
+            <span className="hidden md:inline">Arraste para girar a vitrine 3D ou clique para ver detalhes</span>
+            {/* Mobile text */}
+            <span className="md:hidden">Deslize para o lado para navegar entre os projetos</span>
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        {/* Controls - Visible on desktop */}
+        <div className="hidden items-center gap-2 md:flex">
           <button
             type="button"
-            onClick={() => rotateTo(1)}
+            onClick={() => rotateToStep(1)}
             aria-label="Girar projeto para esquerda"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-black/15 bg-white text-base text-black transition-all hover:bg-black/5 active:scale-95 shadow-xs"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-black/15 bg-white text-base text-black transition-all hover:bg-black/5 active:scale-95 shadow-xs"
           >
             ←
           </button>
@@ -113,70 +177,170 @@ export default function Portfolio3DGallery() {
           </button>
           <button
             type="button"
-            onClick={() => rotateTo(-1)}
+            onClick={() => rotateToStep(-1)}
             aria-label="Girar projeto para direita"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-black/15 bg-white text-base text-black transition-all hover:bg-black/5 active:scale-95 shadow-xs"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-black/15 bg-white text-base text-black transition-all hover:bg-black/5 active:scale-95 shadow-xs"
           >
             →
           </button>
         </div>
       </div>
 
-      {/* 3D Circular Viewport */}
+      {/* MOBILE VIEW: Ultra-smooth native swipe cards (Zero flicker / Zero lag) */}
+      <div className="mt-6 block md:hidden">
+        <div
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          className="relative overflow-hidden rounded-2xl touch-pan-y"
+        >
+          <div
+            className="flex transition-transform duration-300 ease-out"
+            style={{ transform: `translateX(-${mobileIndex * 100}%)` }}
+          >
+            {PROJETOS.map((projeto) => (
+              <div key={projeto.id} className="min-w-full px-1">
+                <div
+                  onClick={() => setSelectedProject(projeto)}
+                  className="flex flex-col justify-between overflow-hidden rounded-2xl border border-black/10 bg-white shadow-md active:scale-[0.99] transition-transform"
+                >
+                  {/* Image */}
+                  <div className="relative h-52 w-full overflow-hidden bg-black/5">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={projeto.imagem}
+                      alt={projeto.nome}
+                      className="h-full w-full object-cover"
+                      style={{ objectPosition: projeto.imagemPos || "center center" }}
+                    />
+                    <div className="absolute left-3 top-3 flex items-center gap-2">
+                      <span className="rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-black shadow-xs">
+                        {SELO_TIPO[projeto.tipo]}
+                      </span>
+                      <span className="rounded-full bg-black/70 px-2 py-0.5 text-[10px] font-mono font-medium text-white">
+                        #{projeto.num}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Info */}
+                  <div className="p-5">
+                    <h3 className="text-xl font-bold tracking-tight text-black">{projeto.nome}</h3>
+                    <p className="mt-1 text-xs text-black/60 leading-relaxed">{projeto.subtitulo}</p>
+
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {projeto.tags.slice(0, 3).map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-md bg-black/[0.05] px-2 py-0.5 text-[10px] font-medium text-black/70"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="mt-4 flex items-center justify-between border-t border-black/10 pt-3 text-xs font-semibold text-black">
+                      <span>Toque para ver detalhes completos</span>
+                      <span>→</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile Carousel Indicators & Controls */}
+        <div className="mt-4 flex items-center justify-between px-2">
+          <div className="flex gap-1.5">
+            {PROJETOS.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setMobileIndex(idx)}
+                aria-label={`Ir para projeto ${idx + 1}`}
+                className={`h-2 rounded-full transition-all ${
+                  mobileIndex === idx ? "w-6 bg-black" : "w-2 bg-black/20"
+                }`}
+              />
+            ))}
+          </div>
+
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setMobileIndex((prev) => (prev - 1 + PROJETOS.length) % PROJETOS.length)}
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-black/15 bg-white text-xs text-black shadow-xs active:bg-black/5"
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              onClick={() => setMobileIndex((prev) => (prev + 1) % PROJETOS.length)}
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-black/15 bg-white text-xs text-black shadow-xs active:bg-black/5"
+            >
+              →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* DESKTOP VIEW: Hardware-Accelerated 3D Cylinder Gallery */}
       <div
-        ref={containerRef}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
-        className="relative flex h-[480px] w-full cursor-grab items-center justify-center active:cursor-grabbing sm:h-[530px]"
-        style={{ perspective: "1800px" }}
+        className="relative hidden h-[500px] w-full cursor-grab items-center justify-center active:cursor-grabbing md:flex"
+        style={{
+          perspective: "1600px",
+          touchAction: "pan-y",
+        }}
       >
         <div
+          ref={trackRef}
           className="relative h-full w-full"
           style={{
-            transform: `rotateY(${rotation}deg)`,
             transformStyle: "preserve-3d",
-            transition: isDragging ? "none" : "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
+            willChange: "transform",
           }}
         >
           {PROJETOS.map((projeto, i) => {
             const itemAngle = i * anglePerItem;
-            const totalRotation = rotation % 360;
-            const relativeAngle = (itemAngle + totalRotation + 360) % 360;
-            const normalizedAngle = Math.abs(relativeAngle > 180 ? 360 - relativeAngle : relativeAngle);
-            const isFacingFront = normalizedAngle < 45;
-            const opacity = Math.max(0.2, 1 - normalizedAngle / 160);
 
             return (
               <div
                 key={projeto.id}
+                ref={(el) => {
+                  cardRefs.current[i] = el;
+                }}
                 role="group"
                 aria-label={projeto.nome}
-                className="absolute w-[260px] sm:w-[310px] h-[360px] sm:h-[410px]"
+                className="absolute w-[300px] lg:w-[320px] h-[400px] lg:h-[420px]"
                 style={{
                   transform: `rotateY(${itemAngle}deg) translateZ(${radius}px)`,
                   left: "50%",
                   top: "50%",
-                  marginLeft: "-130px",
-                  marginTop: "-180px",
-                  opacity: opacity,
-                  pointerEvents: isFacingFront ? "auto" : "none",
-                  transition: "opacity 0.25s ease-out",
+                  marginLeft: "-150px",
+                  marginTop: "-200px",
+                  willChange: "transform, opacity",
+                  backfaceVisibility: "hidden",
+                  WebkitBackfaceVisibility: "hidden",
+                  transition: "opacity 0.2s ease-out",
                 }}
               >
                 <div
                   onClick={() => setSelectedProject(projeto)}
-                  className="group relative flex h-full w-full flex-col justify-between cursor-pointer overflow-hidden rounded-2xl border border-black/10 bg-white shadow-xl transition-all duration-300 hover:border-black/30 hover:shadow-2xl"
+                  className="group relative flex h-full w-full flex-col justify-between cursor-pointer overflow-hidden rounded-2xl border border-black/10 bg-white shadow-xl transition-all duration-300 hover:border-black/30 hover:shadow-2xl hover:-translate-y-1"
                 >
                   {/* Top Image Box */}
-                  <div className="relative h-44 sm:h-52 w-full overflow-hidden bg-black/5">
+                  <div className="relative h-48 lg:h-52 w-full overflow-hidden bg-black/5">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={projeto.imagem}
                       alt={projeto.nome}
                       loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       style={{ objectPosition: projeto.imagemPos || "center center" }}
                     />
                     {/* Top Badge */}
@@ -227,7 +391,7 @@ export default function Portfolio3DGallery() {
         </div>
       </div>
 
-      {/* Project Detail Modal / Drawer (Tema Branco Clean) */}
+      {/* Project Detail Modal / Drawer */}
       {selectedProject && (
         <div
           role="dialog"
@@ -256,8 +420,8 @@ export default function Portfolio3DGallery() {
               <span className="text-xs text-black/50">PROJETO #{selectedProject.num}</span>
             </div>
 
-            <h2 className="mt-4 text-3xl font-bold tracking-tight">{selectedProject.nome}</h2>
-            <p className="text-base text-black/60">{selectedProject.subtitulo}</p>
+            <h2 className="mt-4 text-2xl sm:text-3xl font-bold tracking-tight">{selectedProject.nome}</h2>
+            <p className="text-sm sm:text-base text-black/60">{selectedProject.subtitulo}</p>
 
             {/* Tags */}
             <div className="mt-4 flex flex-wrap gap-2">
