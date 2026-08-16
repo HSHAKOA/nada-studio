@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
 import SectionMarker from "@/components/SectionMarker";
 import PortfolioList from "@/components/sections/PortfolioList";
+import Portfolio3DGallery from "@/components/sections/Portfolio3DGallery";
 import CTA from "@/components/sections/CTA";
 import { PORTFOLIO_HEADER } from "@/data/portfolio";
 
@@ -39,7 +40,17 @@ export default function PortfolioPage() {
               </p>
             </Reveal>
 
-            <PortfolioList />
+            {/* Vitrine 3D Interativa */}
+            <Portfolio3DGallery />
+
+            {/* Lista Completa e Acessível */}
+            <div className="mt-20">
+              <h2 className="text-2xl font-bold tracking-tight">Todos os projetos em detalhes</h2>
+              <p className="mt-1 text-sm text-black/60">
+                Clique em qualquer projeto abaixo para ler o desafio e a solução técnica completa.
+              </p>
+              <PortfolioList />
+            </div>
           </div>
         </section>
         <CTA />

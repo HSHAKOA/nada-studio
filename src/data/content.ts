@@ -271,28 +271,44 @@ export const trustBadges = [
 
 export const faqItems = [
   {
-    q: "Preciso entender de tecnologia?",
-    a: "Não. Esse é o nosso trabalho. Você conta o problema, a gente resolve e te ensina o simples.",
+    q: "Preciso entender de tecnologia para contratar?",
+    a: "Não. Esse é exatamente o nosso trabalho. Você conta a sua rotina e o que consome seu tempo, a gente desenha, programa e entrega tudo pronto funcionando na prática.",
   },
   {
-    q: "Quanto custa?",
-    a: "Cada projeto é sob medida, então o valor sai depois que a gente entende o que você precisa. A estrutura é sempre a mesma: um valor pra montar e uma mensalidade pra cuidar. O que muda o preço é o tamanho: quantas páginas, quantas tarefas saem das suas costas, quantas ferramentas conectar. Na primeira conversa você já sai com o número na mão. Ela é de graça e sem compromisso.",
+    q: "Quanto custa criar um site ou automação?",
+    a: "Cada projeto é planejado sob medida para a realidade e as necessidades do seu negócio. Definimos o escopo e o valor fechado antes de começar, sem surpresas nem cobranças ocultas.",
   },
   {
-    q: "Tem fidelidade?",
-    a: "Sem contrato de 12 meses. Você avisa com 30 dias e leva tudo que é seu: site, domínio e tudo que a gente montou.",
+    q: "Qual é o prazo de entrega do projeto?",
+    a: "Landing pages e automações pontuais são entregues em 3 a 7 dias úteis. Sites completos e ecossistemas sob medida levam entre 2 e 3 semanas. Você acompanha cada etapa da construção.",
   },
   {
-    q: "E se eu já tenho site?",
-    a: "A gente melhora, tira o trabalho manual de perto ou refaz. Você escolhe.",
+    q: "O site já vem otimizado para aparecer no Google (SEO)?",
+    a: "Sim. Todos os nossos sites são desenvolvidos em Next.js com arquitetura de alta performance, meta tags estruturadas, OpenGraph, sitemap.xml, robots.txt e dados estruturados Schema.org para indexação rápida no Google.",
   },
   {
-    q: "Vocês atendem meu tipo de negócio?",
-    a: "Comércio local, profissionais e pessoas comuns. Se tem tarefa repetitiva, dá pra resolver.",
+    q: "Como funciona a automação de WhatsApp e atendimento?",
+    a: "A automação funciona através de mensagens disparadas pelo nosso próprio número e servidor. Nós não instalamos bot no seu número pessoal de WhatsApp. O sistema qualifica clientes, envia lembretes, responde dúvidas frequentes, agenda horários na sua Google Agenda e gera links de cobrança Pix automaticamente, deixando o seu número livre e sem risco.",
   },
   {
-    q: "Quanto tempo demora?",
-    a: "Site fica pronto em 2 a 3 semanas. O resto depende do tamanho e a gente fala o prazo já na primeira conversa.",
+    q: "Quais ferramentas vocês conseguem integrar?",
+    a: "Integramos qualquer ferramenta que possua API aberta: WhatsApp, n8n, OpenAI (ChatGPT), Google Agenda, Gmail, Supabase, gateways de pagamento (Pix, Stripe, Mercado Pago), CRMs, planilhas e sistemas de gestão. Não temos limitações técnicas de integração.",
+  },
+  {
+    q: "E se eu já tiver um site ou domínio registrado?",
+    a: "Nós aproveitamos seu domínio existente, modernizamos o design, otimizamos a velocidade e plugamos as automações necessárias sem tirar seu negócio do ar.",
+  },
+  {
+    q: "Como funciona o suporte e manutenção depois de pronto?",
+    a: "Oferecemos planos de suporte contínuo para manter seu site e suas automações sempre seguros, atualizados, com hospedagem de alta velocidade e suporte direto no WhatsApp com quem construiu o projeto.",
+  },
+  {
+    q: "Tem contrato de fidelidade ou multa de cancelamento?",
+    a: "Não temos contratos de fidelidade de 12 meses. O cliente fica porque o serviço funciona. Você tem total liberdade e o código/domínio é 100% seu.",
+  },
+  {
+    q: "Vocês atendem presencialmente ou apenas online?",
+    a: "Temos base em Jundiaí e região para atendimento presencial e atendemos clientes remotamente em todo o Brasil.",
   },
 ];
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { PROJETOS, SELO_TIPO, type Projeto } from "@/data/portfolio";
@@ -10,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 const MOBILE_BREAKPOINT = 768;
 
 function reduzido() {
+  if (typeof window === "undefined") return false;
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
@@ -32,9 +33,8 @@ export default function PortfolioList() {
   const itemRefs = useRef<Record<string, HTMLLIElement | null>>({});
   const painelRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  // Entrada das linhas no scroll. Só uma vez, e nunca com reduced-motion —
-  // aí as linhas já nascem visíveis, sem opacity:0 escondendo o conteúdo.
-  useLayoutEffect(() => {
+  // Entrada das linhas no scroll.
+  useEffect(() => {
     if (reduzido()) return;
 
     const ctx = gsap.context(() => {
@@ -55,8 +55,8 @@ export default function PortfolioList() {
     return () => ctx.revert();
   }, []);
 
-  // Expand/collapse + o peso da linha ativa. Roda a cada troca de item aberto.
-  useLayoutEffect(() => {
+  // Expand/collapse + o peso da linha ativa.
+  useEffect(() => {
     const semAnimacao = reduzido();
 
     const ctx = gsap.context(() => {
@@ -176,37 +176,59 @@ export default function PortfolioList() {
               aria-hidden={!estaAberto}
               style={{ height: 0, overflow: "hidden" }}
             >
-              <div className="flex flex-col gap-6 pb-10 pl-12 pr-0 md:max-w-3xl">
-                <Bloco rotulo="O problema" texto={projeto.problema} />
-                <Bloco rotulo="O que a gente fez" texto={projeto.solucao} />
-                {projeto.resultado ? (
-                  <Bloco rotulo="O que mudou" texto={projeto.resultado} />
-                ) : null}
-
-                {projeto.tecnica ? (
-                  <p data-bloco className="text-sm text-black/60">
-                    {projeto.tecnica}
-                  </p>
-                ) : null}
-
-                {projeto.link && projeto.linkLabel ? (
-                  <a
-                    data-bloco
-                    href={projeto.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    tabIndex={estaAberto ? 0 : -1}
-                    className="group/link block w-full text-center text-[15px] font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black md:w-auto md:text-left"
-                  >
-                    <span className="relative inline-block py-2">
-                      {projeto.linkLabel} →
+              <div className="grid gap-8 pb-10 pl-4 sm:pl-12 md:grid-cols-12">
+                {/* Imagem do Projeto */}
+                <div data-bloco className="md:col-span-4">
+                  <div className="overflow-hidden rounded-2xl border border-black/10 shadow-md">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={projeto.imagem}
+                      alt={projeto.nome}
+                      className="h-44 sm:h-52 w-full object-cover"
+                      style={{ objectPosition: projeto.imagemPos || "center center" }}
+                    />
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {projeto.tags.map((tag) => (
                       <span
-                        aria-hidden
-                        className="absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-black transition-transform duration-[400ms] ease-out group-hover/link:scale-x-100"
-                      />
-                    </span>
-                  </a>
-                ) : null}
+                        key={tag}
+                        className="rounded-full border border-black/10 bg-black/[0.03] px-2.5 py-0.5 text-[11px] font-medium text-black/70"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Textos e Detalhes */}
+                <div className="flex flex-col gap-5 md:col-span-8">
+                  <Bloco rotulo="O problema" texto={projeto.problema} />
+                  <Bloco rotulo="O que a gente fez" texto={projeto.solucao} />
+                  {projeto.resultado ? (
+                    <Bloco rotulo="O que mudou" texto={projeto.resultado} />
+                  ) : null}
+
+                  {projeto.tecnica ? (
+                    <p data-bloco className="text-sm text-black/60 italic">
+                      Especificação: {projeto.tecnica}
+                    </p>
+                  ) : null}
+
+                  {projeto.link && projeto.linkLabel ? (
+                    <div data-bloco className="pt-2">
+                      <a
+                        href={projeto.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        tabIndex={estaAberto ? 0 : -1}
+                        className="btn btn-primary inline-flex items-center gap-2"
+                      >
+                        <span>{projeto.linkLabel}</span>
+                        <span>→</span>
+                      </a>
+                    </div>
+                  ) : null}
+                </div>
               </div>
             </div>
           </li>

@@ -24,7 +24,7 @@ export default function TermosDeUso() {
 
           <p className="mt-8 text-black/70">
             Bem-vindo ao site da NADA Studio. Estes Termos de Uso regulam o
-            acesso e a utilização do site nadaestudio.com.br e de suas
+            acesso e a utilização do site nadastudio.com.br e de suas
             páginas. Ao navegar por este site, você declara que leu, entendeu
             e concorda com as condições abaixo. Se você não concordar com
             qualquer ponto, pedimos que não utilize o site.

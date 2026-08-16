@@ -1,7 +1,6 @@
-export type Porte = {
+export type Pacote = {
   id: string;
   nome: string;
-  precoBase: number;
   prazo: string;
   promessa: string;
   destaque?: boolean;
@@ -10,64 +9,61 @@ export type Porte = {
   whatsappMsg: string;
 };
 
-export const PORTES: Porte[] = [
+export const PACOTES: Pacote[] = [
   {
-    id: "pequeno",
-    nome: "Pequeno",
-    precoBase: 100,
-    prazo: "2 a 5 dias",
-    promessa: "Uma coisa só, resolvida rápido.",
+    id: "landing-page",
+    nome: "Landing Page",
+    prazo: "3 a 7 dias úteis",
+    promessa: "Página única pensada para converter visitantes em clientes pagantes.",
     inclui: [
-      "Página única",
-      "Ajuste no site que você já tem",
-      "Uma tarefa repetitiva saindo das suas costas",
-      "Formulário ou orçamento automático",
+      "Design sob medida e ultra-rápido no celular",
+      "Otimizada para tráfego pago e alta conversão",
+      "Botão de WhatsApp e formulário com aviso instantâneo",
+      "Configuração de domínio, SSL e tags de rastreamento",
     ],
-    cta: "Quero começar por aqui",
-    whatsappMsg: "Oi! Quero saber sobre um projeto pequeno.",
+    cta: "Pedir proposta de Landing Page",
+    whatsappMsg: "Oi! Quero uma proposta para criação de Landing Page.",
   },
   {
-    id: "medio",
-    nome: "Médio",
-    precoBase: 500,
-    prazo: "1 a 3 semanas",
-    promessa: "Seu negócio inteiro no ar.",
+    id: "site-completo",
+    nome: "Site & Automação",
+    prazo: "2 a 3 semanas",
+    promessa: "Seu negócio estruturado na internet com atendimento no automático.",
     destaque: true,
     inclui: [
-      "Site completo sob medida",
-      "Página feita pra vender",
-      "Atendimento respondendo sozinho",
-      "Agenda e pedido sem você no meio",
+      "Site multipáginas sob medida (Next.js)",
+      "Atendimento automático e triagem de leads no WhatsApp",
+      "Agendamento sincronizado com Google Agenda",
+      "SEO técnico completo para aparecer nas buscas do Google",
     ],
-    cta: "Quero o médio",
-    whatsappMsg: "Oi! Quero saber sobre um projeto médio.",
+    cta: "Pedir proposta para Site Completo",
+    whatsappMsg: "Oi! Quero uma proposta para Site Institucional com Automação.",
   },
   {
-    id: "grande",
-    nome: "Grande",
-    precoBase: 2500,
-    prazo: "prazo a combinar",
-    promessa: "Sistema feito pro seu processo.",
+    id: "sistema-sob-medida",
+    nome: "Sistema Sob Medida",
+    prazo: "Escopo sob medida",
+    promessa: "Aplicação web ou ferramenta feita exatamente para o seu fluxo operacional.",
     inclui: [
-      "Ferramenta sob medida",
-      "Loja online",
-      "Tudo que você usa conversando entre si",
-      "Acompanhamento e ajuste contínuo",
+      "Aplicação web ou painel de gestão exclusivo",
+      "Fluxos inteligentes com IA (OpenAI), n8n e integrações",
+      "Banco de dados seguro e autenticação de usuários",
+      "Acompanhamento e suporte técnico contínuo",
     ],
-    cta: "Quero conversar sobre isso",
-    whatsappMsg: "Oi! Quero saber sobre um projeto grande.",
+    cta: "Conversar sobre Sistema",
+    whatsappMsg: "Oi! Quero entender sobre o desenvolvimento de um Sistema sob medida.",
   },
 ];
 
 export const SOB_MEDIDA = {
-  titulo: "Não achou o seu?",
+  titulo: "Precisa de uma automação pontual ou projeto misto?",
   texto:
-    "Conta o que você precisa. Se der pra fazer, a gente faz. Orçamento em 1 minuto.",
-  cta: "Pedir orçamento",
-  whatsappMsg: "Oi! Preciso de algo diferente, posso explicar?",
+    "Conta pra gente qual tarefa repetitiva está travando seu dia a dia. Analisamos sua rotina e desenhamos a solução ideal sem enrolação.",
+  cta: "Pedir diagnóstico gratuito",
+  whatsappMsg: "Oi! Preciso de uma solução personalizada, posso explicar minha rotina?",
 };
 
 export const MANUTENCAO =
-  "Depois de pronto, mantemos tudo rodando por R$ 100/mês: hospedagem, ajustes e suporte no WhatsApp. Opcional, sem fidelidade.";
+  "Depois de pronto, cuidamos de tudo: hospedagem de alta performance, certificado SSL, ajustes contínuos e suporte direto no WhatsApp. Opcional e sem contrato de fidelidade.";
 
 export const SELO_DESTAQUE = "mais pedido";

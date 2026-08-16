@@ -31,8 +31,12 @@ export default function Navbar() {
         }`}
       >
       <div className="wrap flex items-center justify-between py-4">
-        <Link href="/" aria-label="NADA Studio, início">
-          <NadaWordmark className="w-[120px]" />
+        <Link
+          href="/"
+          aria-label="NADA Studio, início"
+          className="group relative transition-transform duration-300 hover:scale-[1.03] active:scale-[0.97]"
+        >
+          <NadaWordmark className="w-[120px] transition-all duration-300 group-hover:drop-shadow-[0_2px_12px_rgba(0,0,0,0.2)]" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">

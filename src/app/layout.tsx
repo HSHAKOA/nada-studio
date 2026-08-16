@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Archivo, Inter, Caveat } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
+import { faqItems } from "@/data/content";
 
 const archivo = Archivo({
   variable: "--font-display",
@@ -18,12 +21,7 @@ const inter = Inter({
 const caveat = Caveat({
   variable: "--font-hand",
   subsets: ["latin"],
-  // Só 600: todo uso do font-hand herda peso 400/500, então o 700 baixava sem
-  // nunca ser escolhido.
   weight: ["600"],
-  // Só aparece em dois rótulos decorativos abaixo da dobra (label central do
-  // ecossistema e o "NADA" manuscrito do footer). Sem preload pra não
-  // disputar banda com as fontes que realmente formam o LCP.
   preload: false,
 });
 
@@ -87,6 +85,19 @@ const organizationJsonLd = {
   ],
 };
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.a,
+    },
+  })),
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -103,24 +114,18 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
-        {/* Evita o flash da página real antes da intro cobrir a tela:
-            decide antes da primeira pintura se quem já viu a intro pula
-            a cobertura preta abaixo (ver #intro-cover em globals.css).
-            Só a home monta o IntroOverlay, que é quem tira a cobertura —
-            em qualquer outra rota ela tem que nascer já pulada, senão a
-            página fica preta e travada pra quem entra direto pelo Google. */}
         <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "try{if(location.pathname!=='/'||sessionStorage.getItem('nada-intro-seen')||window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('intro-skip')}}catch(e){}",
-          }}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
       </head>
       <body>
         <SmoothScroll />
-        <div id="intro-cover" />
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
 }
+

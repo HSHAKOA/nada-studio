@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "@/components/Reveal";
@@ -56,60 +56,75 @@ function PainelEstado({
   return (
     <article
       ref={painelRef}
-      className={`flex h-full flex-col p-8 md:p-10 lg:p-12 ${
-        invertido ? "bg-black text-white" : "border border-black bg-white text-black"
+      className={`group relative flex h-full flex-col rounded-[24px] p-8 md:p-10 lg:p-12 transition-all duration-300 ${
+        invertido
+          ? "border border-black/80 bg-black text-white shadow-xl shadow-black/10 hover:border-black"
+          : "border border-black/15 bg-black/[0.015] text-black hover:border-black/30"
       }`}
     >
-      <p
-        className={`text-[11px] font-medium uppercase tracking-[0.22em] ${
-          invertido ? "text-white/60" : "text-black/60"
-        }`}
-      >
-        {dados.label}
-      </p>
+      {/* Badge de status do Painel */}
+      <div className="flex items-center justify-between">
+        <span
+          className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${
+            invertido
+              ? "bg-white/15 text-white backdrop-blur-xs"
+              : "bg-red-500/10 text-red-700"
+          }`}
+        >
+          <span
+            className={`h-1.5 w-1.5 rounded-full ${
+              invertido ? "bg-emerald-400 animate-pulse" : "bg-red-500"
+            }`}
+          />
+          {dados.label}
+        </span>
+      </div>
 
-      <h3 className="mt-5 text-[clamp(22px,2.6vw,30px)] font-bold leading-[1.15] tracking-tight">
+      <h3 className="mt-6 text-[clamp(22px,2.6vw,30px)] font-bold leading-[1.15] tracking-tight">
         {dados.manchete}
       </h3>
 
       <ul
-        className={`mt-6 space-y-2.5 text-[15px] leading-relaxed md:text-base ${
-          invertido ? "text-white/70" : "text-black/60"
+        className={`mt-6 space-y-3 text-[15px] leading-relaxed md:text-base ${
+          invertido ? "text-white/75" : "text-black/65"
         }`}
       >
         {dados.linhas.map((linha) => (
-          <li key={linha}>{linha}</li>
+          <li key={linha} className="flex items-start gap-2.5">
+            <span
+              className={`mt-1 text-xs font-bold ${
+                invertido ? "text-emerald-400" : "text-red-500/80"
+              }`}
+            >
+              {invertido ? "✓" : "✕"}
+            </span>
+            <span>{linha}</span>
+          </li>
         ))}
       </ul>
 
-      {/* mt-auto encosta a métrica na base: os painéis têm número diferente de
-          linhas, e é o 8 contra o 10 que precisa ficar alinhado, não o texto. */}
+      {/* Métrica de impacto com badge de destaque */}
       <div
         className={`mt-auto border-t pt-8 ${
-          invertido ? "border-white/25" : "border-black/15"
+          invertido ? "border-white/20" : "border-black/15"
         }`}
       >
         <p>
-          {/* O leitor de tela recebe o valor final de uma vez. O número visível
-              conta durante 1,2s, então fica fora da árvore de acessibilidade
-              pra não ser reanunciado a cada frame. */}
           <span className="sr-only">
             {dados.metrica} {dados.metricaUnidade}
           </span>
-          {/* 6.4vw é o teto que faz "10 minutos" caber numa linha só na coluna
-              de ~250px do breakpoint md, onde o painel é mais estreito. */}
           <span
             aria-hidden="true"
-            className="block text-[clamp(44px,6.4vw,88px)] font-black leading-[0.92] tracking-[-0.04em]"
+            className={`block text-[clamp(44px,6.4vw,88px)] font-black leading-[0.92] tracking-[-0.04em] ${
+              invertido ? "text-white" : "text-black/80"
+            }`}
           >
             <span ref={numeroRef}>{valor}</span> {palavra}
           </span>
-          {/* A unidade fica embaixo nos dois painéis: ao lado, "10 minutos"
-              empurraria o "por mês" pra outra linha e desalinharia os dois. */}
           <span
             aria-hidden="true"
-            className={`mt-2 block text-sm md:text-base ${
-              invertido ? "text-white/60" : "text-black/60"
+            className={`mt-2 block text-sm font-medium md:text-base ${
+              invertido ? "text-emerald-400" : "text-black/50"
             }`}
           >
             {dados.metricaUnidade}
@@ -117,7 +132,7 @@ function PainelEstado({
         </p>
         <p
           className={`mt-3 text-[13px] md:text-sm ${
-            invertido ? "text-white/60" : "text-black/60"
+            invertido ? "text-white/60" : "text-black/50"
           }`}
         >
           {dados.metricaLegenda}
@@ -135,10 +150,8 @@ export default function BeforeAfter() {
   const numAntesRef = useRef<HTMLSpanElement>(null);
   const numDepoisRef = useRef<HTMLSpanElement>(null);
 
-  useLayoutEffect(() => {
-    // Sem animação nenhuma com reduced-motion: os painéis já nascem visíveis e
-    // os números já estão no valor final no HTML.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const ctx = gsap.context(() => {
       const paineis = [antesRef.current, depoisRef.current].filter(

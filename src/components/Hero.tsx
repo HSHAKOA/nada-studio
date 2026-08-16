@@ -9,9 +9,6 @@ const SAIDA_S = 0.32;
 
 type Token = { texto: string; metal: boolean };
 
-// A palavra metálica é sempre o primeiro token de (metal + depois): junta os
-// dois, quebra por espaço, e o pedaço inicial carrega a pontuação colada
-// (ex.: "negócio.") sem precisar de lógica separada pra pontuação.
 function tokenizar(antes: string, metal: string, depois: string): Token[] {
   const antesWords = antes.trim().split(/\s+/).filter(Boolean);
   const restWords = (metal + depois).trim().split(/\s+/).filter(Boolean);
@@ -25,6 +22,7 @@ function tokenizar(antes: string, metal: string, depois: string): Token[] {
 export default function Hero() {
   const [index, setIndex] = useState(0);
   const linhaRef = useRef<HTMLSpanElement>(null);
+
   const tokens = tokenizar(
     HERO_VARIACOES[index].antes,
     HERO_VARIACOES[index].metal,
@@ -32,25 +30,40 @@ export default function Hero() {
   );
 
   useEffect(() => {
-    const reduzido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduzido) return; // trava na variação atual, sem shine, sem troca
+    const reduzido = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const ctx = gsap.context(() => {
-      const palavras = linhaRef.current!.querySelectorAll<HTMLSpanElement>("[data-word]");
-      const cicloS = CICLO_MS / 1000;
+      const palavras = linhaRef.current?.querySelectorAll<HTMLSpanElement>("[data-word]");
+      if (!palavras || palavras.length === 0) return;
 
+      const cicloS = CICLO_MS / 1000;
       const tl = gsap.timeline();
-      tl.fromTo(
-        palavras,
-        { opacity: 0, y: "0.18em", filter: "blur(6px)" },
-        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power2.out", stagger: 0.055 }
-      )
-        .to(
+
+      if (reduzido) {
+        tl.fromTo(
           palavras,
-          { opacity: 0, y: "-0.14em", filter: "blur(6px)", duration: SAIDA_S, ease: "power2.in" },
-          cicloS - SAIDA_S
+          { opacity: 0 },
+          { opacity: 1, duration: 0.3, stagger: 0.02 }
         )
-        .call(() => setIndex((i) => (i + 1) % HERO_VARIACOES.length));
+          .to(
+            palavras,
+            { opacity: 0, duration: 0.3 },
+            cicloS - 0.3
+          )
+          .call(() => setIndex((i) => (i + 1) % HERO_VARIACOES.length));
+      } else {
+        tl.fromTo(
+          palavras,
+          { opacity: 0, y: "0.18em", filter: "blur(6px)" },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power2.out", stagger: 0.055 }
+        )
+          .to(
+            palavras,
+            { opacity: 0, y: "-0.14em", filter: "blur(6px)", duration: SAIDA_S, ease: "power2.in" },
+            cicloS - SAIDA_S
+          )
+          .call(() => setIndex((i) => (i + 1) % HERO_VARIACOES.length));
+      }
     }, linhaRef);
 
     return () => ctx.revert();
@@ -59,15 +72,13 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[100svh] items-center overflow-hidden pt-24"
+      className="relative flex min-h-[100svh] items-center overflow-hidden pt-28 pb-16"
     >
       <div className="wrap relative z-10">
-        <p className="eyebrow mb-6">DO NADA NASCE TUDO</p>
         <h1
-          className="text-[clamp(40px,6vw,72px)]"
-          style={{ fontWeight: 900, letterSpacing: "-0.035em", lineHeight: 1.02 }}
+          className="text-[clamp(42px,6.5vw,78px)] font-black leading-[1.02] tracking-[-0.035em]"
         >
-          {HERO_HEADLINE_FIXA}
+          <span>{HERO_HEADLINE_FIXA}</span>
           <br />
           <span
             ref={linhaRef}
@@ -82,16 +93,18 @@ export default function Hero() {
             ))}
           </span>
         </h1>
-        <p className="prose-measure mt-6 text-[18px] text-black/70">
+
+        <p className="prose-measure mt-6 text-[18px] md:text-[20px] leading-relaxed text-black/70">
           A gente cria seu site, tira o repetitivo das suas costas e cuida de
-          tudo por você. Você foca no que importa: vender.
+          tudo por você. Você foca no que importa: <strong>vender</strong>.
         </p>
-        <div className="mt-10 flex flex-wrap gap-4">
+
+        <div className="mt-10 flex flex-wrap items-center gap-4">
           <a
             href={buildWhatsAppLink("Oi! Vi o site e quero começar do nada.")}
             className="btn btn-primary"
           >
-            Começar do nada
+            Começar do nada →
           </a>
           <a href="/como-funciona" className="btn btn-secondary">
             Ver como funciona
