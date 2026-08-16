@@ -4,15 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import NadaWordmark from "./NadaWordmark";
 
-function getSkipIntro() {
-  if (typeof window === "undefined") return true;
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  return reduced || Boolean(sessionStorage.getItem("nada-intro-seen"));
-}
-
-// Burst curto de partículas brancas saindo do centro. Vive só os ~0.4s do bang,
-// então é escrito aqui mesmo em vez de reaproveitar o canvas do hero, que é
-// preto-no-branco e dirigido por scroll.
 function tocarBang(canvas: HTMLCanvasElement, aoTerminar: () => void) {
   const ctx = canvas.getContext("2d");
   if (!ctx) return aoTerminar();
@@ -26,20 +17,20 @@ function tocarBang(canvas: HTMLCanvasElement, aoTerminar: () => void) {
 
   const cx = W / 2;
   const cy = H / 2;
-  const n = window.innerWidth < 640 ? 260 : 520;
+  const n = window.innerWidth < 640 ? 200 : 450;
   const P = Array.from({ length: n }, () => {
     const a = Math.random() * Math.PI * 2;
-    const v = 2 + Math.pow(Math.random(), 0.5) * 13;
+    const v = 2 + Math.pow(Math.random(), 0.5) * 12;
     return {
       x: cx,
       y: cy,
       vx: Math.cos(a) * v,
       vy: Math.sin(a) * v,
-      r: 0.6 + Math.random() * 1.6,
+      r: 0.6 + Math.random() * 1.5,
     };
   });
 
-  const DURACAO = 620;
+  const DURACAO = 580;
   const inicio = performance.now();
   let raf = 0;
 
@@ -74,30 +65,35 @@ export default function IntroOverlay() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const marcaRef = useRef<HTMLDivElement>(null);
 
-  const [skip] = useState(getSkipIntro);
-  const [done, setDone] = useState(skip);
+  const [done, setDone] = useState(false);
 
   useEffect(() => {
-    if (skip) return;
+    // Check if user prefers reduced motion
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      setDone(true);
+      return;
+    }
 
-    sessionStorage.setItem("nada-intro-seen", "1");
     document.body.style.overflow = "hidden";
 
-    const overlay = overlayRef.current!;
-    const marca = marcaRef.current!;
+    const overlay = overlayRef.current;
+    const marca = marcaRef.current;
+    if (!overlay || !marca) return;
+
     const letras = marca.querySelectorAll<SVGPathElement>("[data-letra]");
-    const studio = marca.querySelector<SVGPathElement>("[data-studio]")!;
+    const studio = marca.querySelector<SVGPathElement>("[data-studio]");
 
     const ctx = gsap.context(() => {
-      // Estado inicial: só contorno, nada preenchido, sobre o preto.
+      // Initial states
       gsap.set(letras, {
-        stroke: "#fff",
+        stroke: "#ffffff",
         strokeWidth: 5,
         fill: "transparent",
         strokeDasharray: 1,
         strokeDashoffset: 1,
       });
-      gsap.set(studio, { fill: "#fff", opacity: 0 });
+      if (studio) gsap.set(studio, { fill: "#ffffff", opacity: 0 });
       gsap.set(marca, { opacity: 0 });
 
       const tl = gsap.timeline({
@@ -107,52 +103,57 @@ export default function IntroOverlay() {
         },
       });
 
-      // 1. Vazio: um ponto pulsando.
+      // 1. Dot pulsing in empty dark void
       tl.fromTo(
         pontoRef.current,
-        { scale: 0.6, opacity: 0.5 },
-        { scale: 1.25, opacity: 1, duration: 0.4, ease: "sine.inOut" }
+        { scale: 0.7, opacity: 0.6 },
+        { scale: 1.2, opacity: 1, duration: 0.35, ease: "sine.inOut" }
       )
-        // 2. O bang: o ponto some junto com o burst do canvas.
+        // 2. Bang burst
         .to(pontoRef.current, {
           scale: 3,
           opacity: 0,
-          duration: 0.22,
+          duration: 0.2,
           ease: "power2.out",
-          onStart: () => tocarBang(canvasRef.current!, () => {}),
+          onStart: () => {
+            if (canvasRef.current) {
+              tocarBang(canvasRef.current, () => {});
+            }
+          },
         })
-        // 3. As letras se desenham, uma depois da outra.
+        // 3. Letters draw
         .set(marca, { opacity: 1 })
         .to(letras, {
           strokeDashoffset: 0,
-          duration: 0.85,
+          duration: 0.8,
           ease: "power1.inOut",
-          stagger: 0.18,
+          stagger: 0.16,
         })
-        // 4. Consolida: o contorno vira preenchimento e o STUDIO entra.
-        .to(letras, { fill: "#fff", duration: 0.35, ease: "power2.out" }, "-=0.1")
-        .to(letras, { strokeWidth: 0, duration: 0.35 }, "<")
-        .to(studio, { opacity: 1, duration: 0.4, ease: "power2.out" }, "<0.1")
-        // 5. Inversão P&B: fundo vira branco e a marca vira preta.
-        .to(overlay, { backgroundColor: "#fff", duration: 0.5, ease: "power2.inOut" }, "+=0.2")
-        .to(letras, { fill: "#000", duration: 0.5, ease: "power2.inOut" }, "<")
-        .to(studio, { fill: "#000", duration: 0.5, ease: "power2.inOut" }, "<")
-        // Fecha revelando a página. O deslocamento pra navbar entra no Bloco 2.
-        .to(overlay, { autoAlpha: 0, duration: 0.45, ease: "power2.in" }, "+=0.25");
+        // 4. Fill in white
+        .to(letras, { fill: "#ffffff", duration: 0.3, ease: "power2.out" }, "-=0.1")
+        .to(letras, { strokeWidth: 0, duration: 0.3 }, "<")
+        .to(studio, { opacity: 1, duration: 0.35, ease: "power2.out" }, "<0.1")
+        // 5. Inversion to clean white background
+        .to(overlay, { backgroundColor: "#ffffff", duration: 0.45, ease: "power2.inOut" }, "+=0.15")
+        .to(letras, { fill: "#000000", duration: 0.45, ease: "power2.inOut" }, "<")
+        .to(studio, { fill: "#000000", duration: 0.45, ease: "power2.inOut" }, "<")
+        // 6. Smooth reveal of the site
+        .to(overlay, { autoAlpha: 0, duration: 0.4, ease: "power2.in" }, "+=0.2");
     }, overlayRef);
 
     return () => {
       ctx.revert();
       document.body.style.overflow = "";
     };
-  }, [skip]);
+  }, []);
 
   if (done) return null;
 
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black transition-colors"
+      style={{ willChange: "background-color, opacity" }}
     >
       <canvas
         ref={canvasRef}
@@ -164,7 +165,7 @@ export default function IntroOverlay() {
         className="absolute h-2 w-2 rounded-full bg-white"
         aria-hidden
       />
-      <div ref={marcaRef} className="relative w-[min(62vw,560px)]">
+      <div ref={marcaRef} className="relative w-[min(62vw,560px)] opacity-0">
         <NadaWordmark className="w-full" />
       </div>
 
@@ -174,7 +175,7 @@ export default function IntroOverlay() {
           document.body.style.overflow = "";
           setDone(true);
         }}
-        className="absolute bottom-8 right-8 text-xs uppercase tracking-[0.2em] text-white/50 transition-colors hover:text-white"
+        className="absolute bottom-8 right-8 z-10 rounded-full border border-white/20 bg-black/40 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white/70 backdrop-blur-xs transition-colors hover:border-white/40 hover:bg-black/60 hover:text-white"
       >
         Pular
       </button>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import IntroOverlayLoader from "@/components/IntroOverlayLoader";
+import IntroOverlay from "@/components/IntroOverlay";
 import BeforeAfter from "@/components/sections/BeforeAfter";
 import WhatWeDo from "@/components/sections/WhatWeDo";
 import PortfolioTeaser from "@/components/sections/PortfolioTeaser";
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <IntroOverlayLoader />
+      <IntroOverlay />
       <Navbar />
       <main>
         <Hero />
