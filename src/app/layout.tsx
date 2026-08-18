@@ -103,22 +103,9 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
-        {/* Evita o flash da página real antes da intro cobrir a tela:
-            decide antes da primeira pintura se quem já viu a intro pula
-            a cobertura preta abaixo (ver #intro-cover em globals.css).
-            Só a home monta o IntroOverlay, que é quem tira a cobertura —
-            em qualquer outra rota ela tem que nascer já pulada, senão a
-            página fica preta e travada pra quem entra direto pelo Google. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "try{if(location.pathname!=='/'||sessionStorage.getItem('nada-intro-seen')||window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('intro-skip')}}catch(e){}",
-          }}
-        />
       </head>
       <body>
         <SmoothScroll />
-        <div id="intro-cover" />
         {children}
       </body>
     </html>

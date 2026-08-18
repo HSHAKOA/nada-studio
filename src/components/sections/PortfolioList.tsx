@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { PROJETOS, SELO_TIPO, type Projeto } from "@/data/portfolio";
@@ -10,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 const MOBILE_BREAKPOINT = 768;
 
 function reduzido() {
+  if (typeof window === "undefined") return false;
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
@@ -31,10 +32,10 @@ export default function PortfolioList() {
   const listaRef = useRef<HTMLUListElement>(null);
   const itemRefs = useRef<Record<string, HTMLLIElement | null>>({});
   const painelRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const isFirstRender = useRef(true);
 
-  // Entrada das linhas no scroll. Só uma vez, e nunca com reduced-motion —
-  // aí as linhas já nascem visíveis, sem opacity:0 escondendo o conteúdo.
-  useLayoutEffect(() => {
+  // Entrada das linhas no scroll. Só uma vez, e nunca com reduced-motion
+  useEffect(() => {
     if (reduzido()) return;
 
     const ctx = gsap.context(() => {
@@ -52,11 +53,24 @@ export default function PortfolioList() {
       );
     }, listaRef);
 
-    return () => ctx.revert();
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      ctx.revert();
+    };
   }, []);
 
   // Expand/collapse + o peso da linha ativa. Roda a cada troca de item aberto.
-  useLayoutEffect(() => {
+  useEffect(() => {
+    // No mount inicial, a animação de entrada cuida da visibilidade das linhas
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     const semAnimacao = reduzido();
 
     const ctx = gsap.context(() => {
@@ -104,7 +118,7 @@ export default function PortfolioList() {
     setAberto(abrindo ? projeto.id : null);
 
     // No mobile o item aberto pode ficar fora da tela: leva ele pro topo.
-    if (!abrindo || window.innerWidth >= MOBILE_BREAKPOINT) return;
+    if (!abrindo || typeof window === "undefined" || window.innerWidth >= MOBILE_BREAKPOINT) return;
     const item = itemRefs.current[projeto.id];
     if (!item) return;
     window.requestAnimationFrame(() => {

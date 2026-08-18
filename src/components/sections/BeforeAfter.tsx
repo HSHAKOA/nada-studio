@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "@/components/Reveal";
@@ -135,10 +135,10 @@ export default function BeforeAfter() {
   const numAntesRef = useRef<HTMLSpanElement>(null);
   const numDepoisRef = useRef<HTMLSpanElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     // Sem animação nenhuma com reduced-motion: os painéis já nascem visíveis e
     // os números já estão no valor final no HTML.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (typeof window === "undefined" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const ctx = gsap.context(() => {
       const paineis = [antesRef.current, depoisRef.current].filter(

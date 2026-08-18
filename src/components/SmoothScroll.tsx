@@ -1,12 +1,18 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function SmoothScroll() {
+  const pathname = usePathname();
+  const lenisRef = useRef<Lenis | null>(null);
+
   useEffect(() => {
-    // O navegador restaura a posição do scroll ao recarregar. Numa página só,
-    // que ainda abre com a intro, isso fazia o site aparecer no rodapé.
     history.scrollRestoration = "manual";
     if (!location.hash) window.scrollTo(0, 0);
 
@@ -16,20 +22,21 @@ export default function SmoothScroll() {
       duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      // toque fica nativo — sem scroll-jack no mobile
       syncTouch: false,
-      // O `anchors: true` do Lenis não dá preventDefault no link, então o pulo
-      // nativo chega primeiro e corta a animação. Tratamos âncora na mão.
       anchors: false,
     });
 
-    let id = requestAnimationFrame(function raf(time: number) {
-      lenis.raf(time);
-      id = requestAnimationFrame(raf);
-    });
+    lenisRef.current = lenis;
 
-    // O scroll-behavior nativo é cancelado pelo Lenis (ele reassume a posição),
-    // então os links de âncora precisam passar pelo próprio Lenis.
+    // Sincroniza o Lenis com o ScrollTrigger do GSAP
+    lenis.on("scroll", ScrollTrigger.update);
+
+    const updateLenis = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+    gsap.ticker.add(updateLenis);
+    gsap.ticker.lagSmoothing(0);
+
     function onClick(e: MouseEvent) {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
         return;
@@ -56,10 +63,29 @@ export default function SmoothScroll() {
 
     return () => {
       document.removeEventListener("click", onClick);
-      cancelAnimationFrame(id);
+      gsap.ticker.remove(updateLenis);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
+
+  // Toda troca de rota reseta o scroll pro topo imediatamente e destrava o overflow
+  useEffect(() => {
+    document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
+
+    if (!location.hash) {
+      window.scrollTo(0, 0);
+      lenisRef.current?.scrollTo(0, { immediate: true });
+    }
+
+    // Dá um tick para o DOM da nova rota assentar e recalcula gatilhos do ScrollTrigger
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 50);
+
+    return () => clearTimeout(timer);
+  }, [pathname]);
 
   return null;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import NadaWordmark from "./NadaWordmark";
 
@@ -77,18 +77,14 @@ export default function IntroOverlay() {
   const [skip] = useState(getSkipIntro);
   const [done, setDone] = useState(skip);
 
-  // O <div id="intro-cover"> em layout.tsx cobre a página até este
-  // componente (client-only, ssr:false) montar. Assim que ele monta, seja
-  // pra pular ou pra tocar a intro, a cobertura estática não faz mais
-  // falta: a própria intro (ou a página real, se pulada) já está no ar.
-  useLayoutEffect(() => {
-    document.getElementById("intro-cover")?.remove();
-  }, []);
-
   useEffect(() => {
     if (skip) return;
 
-    sessionStorage.setItem("nada-intro-seen", "1");
+    try {
+      sessionStorage.setItem("nada-intro-seen", "1");
+    } catch {
+      // Ignora erro caso o ambiente de navegação bloqueie sessionStorage
+    }
     document.body.style.overflow = "hidden";
 
     const overlay = overlayRef.current!;
