@@ -2,6 +2,8 @@ import { buildWhatsAppLink } from "@/data/content";
 
 export type TipoProjeto = "cliente" | "produto" | "interno";
 
+// Cada projeto é contado em quatro blocos: antes, problema, depois, resultado.
+// Cena concreta em cada um, nunca resumo abstrato.
 export type Projeto = {
   id: string;
   num: string;
@@ -11,9 +13,10 @@ export type Projeto = {
   tags: string[];
   imagem: string;
   imagemPos?: string;
+  antes: string;
   problema: string;
-  solucao: string;
-  resultado?: string;
+  depois: string;
+  resultado: string;
   tecnica?: string;
   link?: string;
   linkLabel?: string;
@@ -30,17 +33,19 @@ export const PROJETOS: Projeto[] = [
     id: "thayana",
     num: "01",
     nome: "Thayana de Oliveira",
-    subtitulo: "Site & Triagem para Psicologia",
+    subtitulo: "Site e triagem para psicóloga",
     tipo: "cliente",
-    tags: ["Next.js", "WhatsApp API", "Triagem de Leads", "SEO"],
+    tags: ["Next.js", "WhatsApp API", "Triagem de paciente", "SEO"],
     imagem: "/portfolio/thayana.webp",
     imagemPos: "center 10%",
+    antes:
+      "Paciente nova chegava por indicação e caía direto no WhatsApp, sem ela saber nada sobre a pessoa.",
     problema:
-      "Paciente nova chegava por indicação e caía direto no WhatsApp, sem contexto nenhum. Ela abria a conversa sem saber quem era a pessoa nem o que estava buscando, gastando a primeira meia hora perguntando o básico.",
-    solucao:
-      "Um site institucional com design acolhedor e um formulário curto antes da conversa. A pessoa responde no tempo dela e só segue pro WhatsApp se quiser continuar. A psicóloga é avisada na hora com o perfil completo do paciente.",
+      "Gastava a primeira meia hora perguntando o básico no WhatsApp.",
+    depois:
+      "O próprio site colhe a informação antes da conversa: um formulário curto, respondido no tempo da pessoa, e o WhatsApp só depois. Quando alguém responde, a Thayana é avisada na hora.",
     resultado:
-      "Abre as conversas já sabendo exatamente o que o paciente busca, economizando horas de triagem.",
+      "Ela abre o WhatsApp já sabendo com quem fala e o que a pessoa procura.",
     link: "https://thayanadeoliveira.com.br",
     linkLabel: "Ver site no ar",
   },
@@ -48,15 +53,17 @@ export const PROJETOS: Projeto[] = [
     id: "vitrine",
     num: "02",
     nome: "VITRINE 01",
-    subtitulo: "E-commerce & Catálogo Esportivo",
+    subtitulo: "Catálogo e loja de artigo esportivo",
     tipo: "produto",
-    tags: ["E-commerce", "Personalizador 3D", "WhatsApp Checkout", "Next.js"],
+    tags: ["Loja online", "Personalizador 3D", "Pedido no WhatsApp", "Next.js"],
     imagem: "/portfolio/vitrine-01.jpg",
+    antes: "Loja de artigo esportivo vendendo por marketplace.",
     problema:
-      "Lojas de artigo esportivo vendem por marketplaces, pagam até 20% de comissão por venda e perdem o contato direto com o cliente.",
-    solucao:
-      "Plataforma de catálogo própria com personalizador de uniforme (nome e número ao vivo) e pedido fechado direto no WhatsApp do vendedor.",
-    resultado: "Venda direta sem intermediários com margem 100% retida na loja.",
+      "Comissão em toda venda, e o cliente ficava sendo do marketplace, não da loja.",
+    depois:
+      "Catálogo próprio, com o cliente montando a camisa com nome e número e vendo como fica antes de comprar. O pedido fecha direto no WhatsApp do vendedor.",
+    resultado:
+      "A venda acontece no canal da loja, e o contato do cliente fica com ela.",
     link: buildWhatsAppLink("Oi! Quero ver a demonstração da VITRINE 01."),
     linkLabel: "Solicitar demonstração",
   },
@@ -64,61 +71,63 @@ export const PROJETOS: Projeto[] = [
     id: "hub",
     num: "03",
     nome: "Hub NADA Studio",
-    subtitulo: "Sistema Interno de Gestão & CRM",
+    subtitulo: "Sistema interno de gestão",
     tipo: "interno",
-    tags: ["Next.js", "Supabase", "n8n", "Propostas Automáticas"],
+    tags: ["Next.js", "Supabase", "n8n", "Proposta em PDF"],
     imagem: "/portfolio/hub.jpg",
-    problema:
-      "Controle de leads em planilhas dispersas, follow-ups esquecidos e propostas comerciais refeitas do zero toda semana.",
-    solucao:
-      "Painel unificado com funil de vendas, acompanhamento de projetos em tempo real e geração automática de propostas comerciais em PDF.",
-    resultado: "Processo comercial 100% centralizado e tempo de resposta ao cliente reduzido para minutos.",
+    antes: "Cliente em planilha espalhada, follow-up esquecido.",
+    problema: "Proposta refeita do zero toda semana.",
+    depois:
+      "Um painel só, com o funil, o acompanhamento dos projetos e a proposta saindo pronta em PDF.",
+    resultado:
+      "A operação inteira num lugar só, e nada mais depende de alguém lembrar.",
   },
   {
     id: "barcode",
     num: "04",
     nome: "Leitor & Controle de Estoque",
-    subtitulo: "Automação Operacional",
+    subtitulo: "Controle de estoque",
     tipo: "interno",
-    tags: ["Python", "Automação de Estoque", "Hardware / Scanner", "Postgres"],
+    tags: ["Python", "Controle de estoque", "Scanner", "Postgres"],
     imagem:
       "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=900&auto=format&fit=crop&q=80",
-    problema:
-      "Entrada e saída de matéria-prima anotada na mão em prancheta. Papel se perdia, contagem no fim do mês nunca batia.",
-    solucao:
-      "Um bip no scanner registra a peça instantaneamente. Estoque atualizado no banco em tempo real sem ninguém precisar digitar nada.",
-    resultado: "Zero divergência no balanço e conferência 10x mais rápida.",
-    tecnica: "Desenvolvido em Python com integração a banco relacional.",
+    antes: "Entrada e saída de matéria-prima anotada na mão, na prancheta.",
+    problema: "Papel se perdia e a contagem do fim do mês nunca batia.",
+    depois: "Um bip no scanner registra a peça.",
+    resultado: "Estoque atualizado na hora, sem ninguém digitar nada.",
+    tecnica: "Desenvolvido em Python, ligado direto no banco.",
   },
   {
     id: "transcricao",
     num: "05",
     nome: "Transcrição & Resumo de Reuniões",
-    subtitulo: "Inteligência Artificial & Whisper",
+    subtitulo: "Áudio de reunião virando texto",
     tipo: "interno",
-    tags: ["IA / OpenAI Whisper", "n8n", "Busca Semântica", "Automação"],
+    tags: ["OpenAI Whisper", "n8n", "Busca por palavra", "Resumo de reunião"],
     imagem:
       "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=900&auto=format&fit=crop&q=80",
+    antes: "Reunião ficava gravada em áudio e ninguém revia.",
     problema:
-      "Reuniões de alinhamento ficavam gravadas em áudios gigantes que ninguém tinha tempo de ouvir novamente. Decisões importantes se perdiam no histórico.",
-    solucao:
-      "Pipeline automatizado: assim que a gravação termina, a IA transcreve, gera um resumo executivo com os combinados e envia no canal da equipe.",
-    resultado: "Atas de reunião instantâneas e buscáveis por qualquer palavra-chave.",
+      "A informação existia, mas achar dava mais trabalho que perguntar de novo.",
+    depois:
+      "Quando a gravação termina, o áudio vira texto organizado e um resumo com os combinados cai no canal da equipe.",
+    resultado: "Abre e acha, buscando por qualquer palavra.",
   },
   {
     id: "noazul",
     num: "06",
     nome: "No Azul",
-    subtitulo: "Gestão Financeira Automatizada",
+    subtitulo: "Controle financeiro",
     tipo: "interno",
-    tags: ["n8n", "Open Finance", "Alertas WhatsApp", "Dashboard"],
+    tags: ["n8n", "Open Finance", "Aviso no WhatsApp", "Painel"],
     imagem:
       "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=900&auto=format&fit=crop&q=80",
-    problema:
-      "Duas horas todo sábado batendo fatura com extrato, lançando despesas na mão em planilhas que ficavam desatualizadas.",
-    solucao:
-      "Fluxo de integração automática: cada gasto é categorizado e consolidado sozinho. O sistema gera alertas no WhatsApp antes de estourar orçamentos.",
-    resultado: "8 horas por mês de trabalho manual viraram apenas 10 minutos.",
+    antes:
+      "Duas horas todo sábado batendo fatura com extrato, lançando gasto na mão.",
+    problema: "Descobria que tinha estourado o mês quando já era tarde.",
+    depois:
+      "O gasto entra e se categoriza sozinho, e um aviso chega no WhatsApp antes de estourar.",
+    resultado: "8 horas por mês viraram 10 minutos.",
   },
 ];
 
@@ -127,5 +136,5 @@ export const PORTFOLIO_HEADER = {
   num: "001",
   titulo: "O que a gente já construiu.",
   subtitulo:
-    "Trabalhos sob medida para clientes, produtos próprios e ferramentas que construímos para resolver problemas reais.",
+    "Trabalho de cliente, produto próprio e ferramenta que a gente fez porque precisava.",
 };

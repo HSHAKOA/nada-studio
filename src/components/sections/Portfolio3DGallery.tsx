@@ -450,7 +450,16 @@ export default function Portfolio3DGallery() {
             <div className="mt-6 space-y-5">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wider text-black/50">
-                  O Problema
+                  Antes
+                </p>
+                <p className="mt-1 text-sm leading-relaxed text-black/80">
+                  {selectedProject.antes}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-black/50">
+                  O problema
                 </p>
                 <p className="mt-1 text-sm leading-relaxed text-black/80">
                   {selectedProject.problema}
@@ -459,23 +468,21 @@ export default function Portfolio3DGallery() {
 
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wider text-black/50">
-                  O que a NADA Studio construiu
+                  Depois
                 </p>
                 <p className="mt-1 text-sm leading-relaxed text-black/80">
-                  {selectedProject.solucao}
+                  {selectedProject.depois}
                 </p>
               </div>
 
-              {selectedProject.resultado && (
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-black/50">
-                    Resultado & Impacto
-                  </p>
-                  <p className="mt-1 text-sm font-semibold leading-relaxed text-black">
-                    {selectedProject.resultado}
-                  </p>
-                </div>
-              )}
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-black/50">
+                  O resultado
+                </p>
+                <p className="mt-1 text-sm font-semibold leading-relaxed text-black">
+                  {selectedProject.resultado}
+                </p>
+              </div>
 
               {selectedProject.tecnica && (
                 <p className="text-xs text-black/50 italic">

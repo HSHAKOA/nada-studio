@@ -202,11 +202,10 @@ export default function PortfolioList() {
 
                 {/* Textos e Detalhes */}
                 <div className="flex flex-col gap-5 md:col-span-8">
+                  <Bloco rotulo="Antes" texto={projeto.antes} />
                   <Bloco rotulo="O problema" texto={projeto.problema} />
-                  <Bloco rotulo="O que a gente fez" texto={projeto.solucao} />
-                  {projeto.resultado ? (
-                    <Bloco rotulo="O que mudou" texto={projeto.resultado} />
-                  ) : null}
+                  <Bloco rotulo="Depois" texto={projeto.depois} />
+                  <Bloco rotulo="O resultado" texto={projeto.resultado} />
 
                   {projeto.tecnica ? (
                     <p data-bloco className="text-sm text-black/60 italic">

@@ -2,7 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { buildWhatsAppLink, HERO_HEADLINE_FIXA, HERO_VARIACOES } from "@/data/content";
+import {
+  buildWhatsAppLink,
+  HERO_CTA,
+  HERO_CTA_MSG,
+  HERO_HEADLINE_FIXA,
+  HERO_SUB,
+  HERO_VARIACOES,
+} from "@/data/content";
 
 const CICLO_MS = 3400;
 const SAIDA_S = 0.32;
@@ -95,16 +102,12 @@ export default function Hero() {
         </h1>
 
         <p className="prose-measure mt-6 text-[18px] md:text-[20px] leading-relaxed text-black/70">
-          A gente cria seu site, tira o repetitivo das suas costas e cuida de
-          tudo por você. Você foca no que importa: <strong>vender</strong>.
+          {HERO_SUB}
         </p>
 
         <div className="mt-10 flex flex-wrap items-center gap-4">
-          <a
-            href={buildWhatsAppLink("Oi! Vi o site e quero começar do nada.")}
-            className="btn btn-primary"
-          >
-            Começar do nada →
+          <a href={buildWhatsAppLink(HERO_CTA_MSG)} className="btn btn-primary">
+            {HERO_CTA} →
           </a>
           <a href="/como-funciona" className="btn btn-secondary">
             Ver como funciona

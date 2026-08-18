@@ -84,7 +84,7 @@ export default function PortfolioTeaser() {
                     </p>
 
                     <p className="mt-3 text-xs leading-relaxed text-black/70 line-clamp-2">
-                      {projeto.solucao}
+                      {projeto.depois}
                     </p>
                   </div>
 
