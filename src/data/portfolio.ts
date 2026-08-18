@@ -2,15 +2,18 @@ import { buildWhatsAppLink } from "@/data/content";
 
 export type TipoProjeto = "cliente" | "produto" | "interno";
 
+// Cada projeto é contado em quatro blocos: antes, problema, depois, resultado.
+// Cena concreta em cada um, nunca resumo abstrato.
 export type Projeto = {
   id: string;
   num: string;
   nome: string;
   subtitulo: string;
   tipo: TipoProjeto;
+  antes: string;
   problema: string;
-  solucao: string;
-  resultado?: string;
+  depois: string;
+  resultado: string;
   tecnica?: string;
   link?: string;
   linkLabel?: string;
@@ -30,12 +33,14 @@ export const PROJETOS: Projeto[] = [
     nome: "Thayana de Oliveira",
     subtitulo: "Psicóloga",
     tipo: "cliente",
+    antes:
+      "Paciente nova chegava por indicação e caía direto no WhatsApp, sem ela saber nada sobre a pessoa.",
     problema:
-      "Paciente nova chegava por indicação e caía direto no WhatsApp, sem contexto nenhum. Ela abria a conversa sem saber quem era a pessoa nem o que a pessoa estava buscando, e gastava a primeira meia hora perguntando o básico.",
-    solucao:
-      "Um site que explica o trabalho dela, com um formulário curto antes da conversa. A pessoa responde no tempo dela e só segue pro WhatsApp se quiser continuar. Quando responde, a Thayana é avisada na hora e as respostas ficam guardadas.",
+      "Gastava a primeira meia hora perguntando o básico no WhatsApp.",
+    depois:
+      "O próprio site colhe a informação antes da conversa: um formulário curto, respondido no tempo da pessoa, e o WhatsApp só depois. Quando alguém responde, a Thayana é avisada na hora e as respostas ficam guardadas.",
     resultado:
-      "Ela abre a conversa já sabendo com quem está falando e o que a pessoa procura.",
+      "Ela abre o WhatsApp já sabendo com quem fala e o que a pessoa procura.",
     link: "https://thayanadeoliveira.com.br",
     linkLabel: "Ver o site",
   },
@@ -45,10 +50,13 @@ export const PROJETOS: Projeto[] = [
     nome: "VITRINE 01",
     subtitulo: "Esporte",
     tipo: "produto",
+    antes: "Loja de artigo esportivo vendendo por marketplace.",
     problema:
-      "Loja de artigo esportivo vende por marketplace, paga comissão em toda venda e o cliente fica sendo do marketplace.",
-    solucao:
+      "Comissão em toda venda, e o cliente ficava sendo do marketplace, não da loja.",
+    depois:
       "Loja própria, com catálogo e pedido caindo direto no WhatsApp. O cliente monta a camisa com nome e número e vê como fica antes de comprar.",
+    resultado:
+      "A venda acontece no canal da loja, e o contato do cliente fica com ela.",
     // TODO: confirmar se existe demo hospedada. Enquanto não existe, o botão cai
     // no WhatsApp em vez de apontar pra um link quebrado.
     link: buildWhatsAppLink("Oi! Quero ver a VITRINE 01."),
@@ -60,10 +68,10 @@ export const PROJETOS: Projeto[] = [
     nome: "Leitor de código de barras",
     subtitulo: "Controle de estoque",
     tipo: "interno",
-    problema:
-      "Entrada e saída de matéria-prima anotada na mão. Papel se perdia, contagem não batia.",
-    solucao:
-      "Um bip registra a peça. Estoque atualizado na hora, sem ninguém digitar nada.",
+    antes: "Entrada e saída de matéria-prima anotada na mão.",
+    problema: "Papel se perdia, contagem não batia.",
+    depois: "Um bip registra a peça.",
+    resultado: "Estoque atualizado na hora, sem ninguém digitar nada.",
     tecnica: "Feito em Python.",
   },
   {
@@ -72,10 +80,11 @@ export const PROJETOS: Projeto[] = [
     nome: "Transcrição de reunião",
     subtitulo: "Ferramenta interna",
     tipo: "interno",
+    antes: "Reunião ficava gravada em áudio e ninguém revia.",
     problema:
-      "Reunião ficava gravada em áudio e ninguém revia. A informação existia, mas achar dava mais trabalho que perguntar de novo.",
-    solucao:
-      "O áudio vira texto organizado, leve e buscável. Abre e acha, sem depender de arquivo pesado.",
+      "A informação existia, mas achar dava mais trabalho que perguntar de novo.",
+    depois: "O áudio vira texto organizado, leve e buscável.",
+    resultado: "Abre e acha, sem depender de arquivo pesado.",
   },
   {
     id: "noazul",
@@ -83,9 +92,11 @@ export const PROJETOS: Projeto[] = [
     nome: "No Azul",
     subtitulo: "Controle financeiro",
     tipo: "interno",
-    problema:
+    antes:
       "Duas horas todo sábado batendo fatura com extrato, lançando gasto na mão.",
-    solucao:
+    problema:
+      "Descobria que tinha estourado o mês quando já era tarde.",
+    depois:
       "O gasto entra sozinho. Abre e vê onde o dinheiro está, e avisa antes de estourar.",
     resultado: "8 horas por mês viraram 10 minutos.",
   },
@@ -95,9 +106,12 @@ export const PROJETOS: Projeto[] = [
     nome: "Hub NADA Studio",
     subtitulo: "Sistema interno",
     tipo: "interno",
-    problema:
-      "Cliente em planilha, follow-up esquecido, proposta refeita do zero toda vez.",
-    solucao: "Um painel só, com o funil, os relatórios e a proposta saindo pronta.",
+    antes: "Cliente em planilha, follow-up esquecido.",
+    problema: "Proposta refeita do zero toda vez.",
+    depois:
+      "Um painel só, com o funil, os relatórios e a proposta saindo pronta.",
+    resultado:
+      "A operação inteira num lugar só, e nada mais depende de alguém lembrar.",
   },
 ];
 

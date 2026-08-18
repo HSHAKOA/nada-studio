@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import IntroOverlayLoader from "@/components/IntroOverlayLoader";
+import Symptoms from "@/components/sections/Symptoms";
 import BeforeAfter from "@/components/sections/BeforeAfter";
 import WhatWeDo from "@/components/sections/WhatWeDo";
 import PortfolioTeaser from "@/components/sections/PortfolioTeaser";
@@ -22,6 +23,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <Symptoms />
         <BeforeAfter />
         <WhatWeDo />
         <PortfolioTeaser />

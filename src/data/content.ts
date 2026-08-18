@@ -1,18 +1,24 @@
 import type { IconeServico } from "@/components/icons/ServiceIcons";
 
-export const HERO_HEADLINE_FIXA = "Menos tarefa manual.";
+// Frase-mãe da marca, atravessa a copy inteira:
+// "Seu negócio não deveria precisar de você pra funcionar."
+export const HERO_HEADLINE_FIXA = "Se o seu negócio para quando você para,";
 
 export type HeroVariacao = { antes: string; metal: string; depois: string };
 
 export const HERO_VARIACOES: HeroVariacao[] = [
-  { antes: "Mais tempo pro seu ", metal: "negócio", depois: "." },
-  { antes: "Mais tempo pra ", metal: "vender", depois: "." },
-  { antes: "Mais tempo pro que ", metal: "importa", depois: "." },
-  { antes: "Menos ", metal: "caderno", depois: ". Menos planilha." },
-  { antes: "O sistema trabalha ", metal: "sozinho", depois: "." },
-  { antes: "Você só ", metal: "usa", depois: "." },
-  { antes: "Mais tempo pra ", metal: "crescer", depois: "." },
+  { antes: "tem alguma coisa ", metal: "errada", depois: "." },
+  { antes: "você não tem negócio, tem ", metal: "emprego", depois: "." },
+  { antes: "o problema não é ", metal: "esforço", depois: "." },
+  { antes: "falta o que trabalha por ", metal: "você", depois: "." },
 ];
+
+export const HERO_SUB =
+  "A gente tira das suas costas o que te prende na operação. Site, atendimento e o repetitivo rodando sem você no meio.";
+
+// A pessoa declara a própria dor ao clicar.
+export const HERO_CTA = "Quero parar de fazer isso na mão";
+export const HERO_CTA_MSG = "Oi! Quero parar de fazer isso na mão.";
 
 const WHATSAPP_NUMBER = "5511932159328";
 const WHATSAPP_DEFAULT_MESSAGE = "Oi! Quero saber mais sobre a NADA Studio.";
@@ -31,6 +37,27 @@ export const navLinks = [
   { label: "Como funciona", href: "/como-funciona" },
   { label: "FAQ", href: "/faq" },
 ];
+
+// Lista de sintomas: a pessoa se reconhece sozinha antes da gente vender nada.
+// Nunca escrever "Você precisa de NADA se…" — a marca é sempre NADA Studio.
+export const ISSO_E_COM_A_GENTE = {
+  marcador: "Isso é com a gente",
+  num: "001",
+  titulo: "Isso é com a gente se…",
+  itens: [
+    "Você responde a mesma pergunta todo dia.",
+    "Alguém copia informação de um lugar pro outro.",
+    "Você controla tudo por planilha.",
+    "O cliente espera alguém responder.",
+    "Você precisa cobrar pra tarefa simples sair.",
+    "Uma semana fora e a empresa trava.",
+  ],
+  fecho:
+    "Se dois ou mais bateram, tem coisa aí que já devia estar rodando sozinha.",
+  cta: "Quero descobrir o quê",
+  ctaMsg:
+    "Oi! Bateram dois ou mais da lista. Quero descobrir o que já devia estar rodando sozinho.",
+};
 
 export const ANTES_DEPOIS = {
   marcador: "Antes / depois",
@@ -97,13 +124,14 @@ export type ServicoPainel = {
   alt?: string;
 };
 
+// Pergunta na frente, resposta curta atrás: o card só confirma uma dor que a
+// pessoa já reconhece antes de dizer o que a gente faz.
 export const SERVICOS: ServicoPainel[] = [
   {
     id: "site",
     num: "01",
-    titulo: "Site que trabalha por você",
-    descricao:
-      "Seu negócio achável, com cara de sério, e o cliente chegando sem você correr atrás.",
+    titulo: "Seu negócio ainda depende de você pra aparecer?",
+    descricao: "Site sob medida. Achável, com cara de sério.",
     icone: "site",
     image: "/servicos/01-site.webp",
     alt: "Objeto tridimensional brilhante em preto e branco representando um site",
@@ -111,9 +139,8 @@ export const SERVICOS: ServicoPainel[] = [
   {
     id: "manual",
     num: "02",
-    titulo: "Chega de fazer na mão",
-    descricao:
-      "O que você repete toda semana passa a acontecer sozinho, sem você no meio.",
+    titulo: "…pra responder cada cliente?",
+    descricao: "Atendimento que responde sozinho, 24h.",
     icone: "manual",
     image: "/servicos/02-manual.webp",
     alt: "Objeto tridimensional brilhante em preto e branco representando uma tarefa manual que saiu das costas do dono",
@@ -121,9 +148,8 @@ export const SERVICOS: ServicoPainel[] = [
   {
     id: "pagina",
     num: "03",
-    titulo: "Página feita pra vender",
-    descricao:
-      "Uma página só, com um objetivo só: transformar quem clicou em quem comprou.",
+    titulo: "…pra mandar orçamento?",
+    descricao: "Página feita pra vender, com o orçamento saindo pronto.",
     icone: "pagina",
     image: "/servicos/03-pagina.webp",
     alt: "Objeto tridimensional brilhante em preto e branco representando uma página de vendas",
@@ -131,9 +157,9 @@ export const SERVICOS: ServicoPainel[] = [
   {
     id: "anuncio",
     num: "04",
-    titulo: "Anúncio que traz cliente",
+    titulo: "…pra trazer gente nova?",
     descricao:
-      "Seu dinheiro aparecendo pra quem já está procurando o que você vende. Sem torrar verba.",
+      "Anúncio que aparece pra quem já procura o que você vende.",
     icone: "anuncio",
     image: "/servicos/04-anuncio.webp",
     alt: "Objeto tridimensional brilhante em preto e branco representando um anúncio",
@@ -141,9 +167,8 @@ export const SERVICOS: ServicoPainel[] = [
   {
     id: "integracao",
     num: "05",
-    titulo: "Tudo conversando entre si",
-    descricao:
-      "WhatsApp, agenda, pedido e planilha parando de ser ilhas separadas.",
+    titulo: "…pra copiar dado de um lugar pro outro?",
+    descricao: "WhatsApp, agenda, pedido e planilha conversando entre si.",
     icone: "integracao",
     image: "/servicos/05-integracao.webp",
     alt: "Objeto tridimensional brilhante em preto e branco representando integração entre sistemas",
@@ -151,9 +176,8 @@ export const SERVICOS: ServicoPainel[] = [
   {
     id: "sobMedida",
     num: "06",
-    titulo: "Ferramenta com a sua cara",
-    descricao:
-      "Quando nada pronto serve, a gente constrói do jeito que o seu processo pede.",
+    titulo: "…pra tudo?",
+    descricao: "Ferramenta sob medida pro seu processo.",
     icone: "sobMedida",
     image: "/servicos/06-sob-medida.webp",
     alt: "Objeto tridimensional brilhante em preto e branco representando uma ferramenta sob medida",
@@ -266,8 +290,14 @@ export const founders: { name: string; role: string; photo?: string }[] = [
 export const trustBadges = [
   "Preço fechado antes de começar",
   "100% sob medida",
-  "Fala direto com o sócio",
 ];
+
+// A linha "Fala direto com o sócio" virou argumento, não mais um selo discreto.
+export const SEM_VENDEDOR = {
+  titulo: "Sem vendedor no meio.",
+  texto:
+    "Você fala direto com quem vai pensar e construir a solução. Não tem pacote pronto pra te empurrar.",
+};
 
 export const faqItems = [
   {
