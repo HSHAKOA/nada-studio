@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 
+export const dynamic = "force-static";
+
 const siteUrl = "https://www.nadastudio.com.br";
 
 export default function sitemap(): MetadataRoute.Sitemap {

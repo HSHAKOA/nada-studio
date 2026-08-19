@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "deploy": "next build && wrangler pages deploy out --project-name nada-studio --branch master"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

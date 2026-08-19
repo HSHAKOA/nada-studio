@@ -1,0 +1,2 @@
+# Redirect vercel domain or custom rules if any
+https://nada-studio.vercel.app/* https://www.nadastudio.com.br/:splat 301!
