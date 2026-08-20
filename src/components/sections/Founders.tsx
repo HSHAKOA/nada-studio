@@ -23,7 +23,7 @@ export default function Founders() {
         <div className="mt-14 flex flex-wrap gap-6">
           {founders.map((founder, i) => (
             <Reveal key={founder.name} delay={200 + i * 80}>
-              <div className="card flex items-center gap-4">
+              <div className="card flex items-start gap-4">
                 {founder.photo ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -42,6 +42,13 @@ export default function Founders() {
                 <div>
                   <p className="text-lg font-medium">{founder.name}</p>
                   <p className="text-sm text-black/60">{founder.role}</p>
+                  <ul className="mt-2 space-y-1">
+                    {founder.skills.map((skill) => (
+                      <li key={skill} className="text-sm text-black/60">
+                        {skill}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </Reveal>

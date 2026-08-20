@@ -282,9 +282,29 @@ export const foundersIntro = {
   fecho: "Quando você contrata a NADA Studio, você sabe com quem tá falando.",
 };
 
-export const founders: { name: string; role: string; photo?: string }[] = [
-  { name: "João Passos", role: "Fundador", photo: "/Joao_IMG.jpeg" },
-  { name: "Eric Crispim", role: "Fundador", photo: "/Eric_IMG.jpeg" },
+export const founders: { name: string; role: string; photo?: string; skills: string[] }[] = [
+  {
+    name: "João Passos",
+    role: "Fundador",
+    photo: "/Joao_IMG.jpeg",
+    skills: [
+      "Fullstack — dev completo, back e front",
+      "Arquitetura e dados",
+      "CAD/CAM",
+      "Analista de Processos",
+    ],
+  },
+  {
+    name: "Eric Crispim",
+    role: "Fundador",
+    photo: "/Eric_IMG.jpeg",
+    skills: [
+      "Fullstack — dev completo, back e front",
+      "Sistemas que tiram trabalho manual do caminho: n8n, Python",
+      "Infraestrutura interna — Cloudflare",
+      "Implantação de sistemas e suporte técnico (SAP/CRM)",
+    ],
+  },
 ];
 
 export const trustBadges = [
