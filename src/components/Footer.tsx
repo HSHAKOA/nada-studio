@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Marquee from "@/components/Marquee";
-import { SiInstagram, SiWhatsapp } from "react-icons/si";
+import { SiGooglemaps, SiInstagram, SiWhatsapp } from "react-icons/si";
 import {
+  GOOGLE_REVIEW_LINK,
   INSTAGRAM_LINK,
   WHATSAPP_LINK,
   navLinks,
@@ -44,6 +45,15 @@ export default function Footer() {
               className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white"
             >
               <SiInstagram size={17} aria-hidden="true" />
+            </a>
+            <a
+              href={GOOGLE_REVIEW_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Avalie a gente no Google"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white"
+            >
+              <SiGooglemaps size={17} aria-hidden="true" />
             </a>
           </div>
         </div>

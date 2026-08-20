@@ -29,6 +29,7 @@ export function buildWhatsAppLink(mensagem: string = WHATSAPP_DEFAULT_MESSAGE) {
 
 export const WHATSAPP_LINK = buildWhatsAppLink();
 export const INSTAGRAM_LINK = "https://www.instagram.com/nada.studio.br/";
+export const GOOGLE_REVIEW_LINK = "https://maps.app.goo.gl/wyPhb2ahTweBx9yDA";
 
 export const navLinks = [
   { label: "Sobre", href: "/sobre" },
