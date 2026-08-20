@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "@/components/Reveal";
 import SectionMarker from "@/components/SectionMarker";
-import { ANTES_DEPOIS } from "@/data/content";
+import { ANTES_DEPOIS, sectionMarkers } from "@/data/content";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -203,7 +203,7 @@ export default function BeforeAfter() {
     <section ref={sectionRef} id="antes-depois" className="section">
       <div className="wrap">
         <Reveal>
-          <SectionMarker label={ANTES_DEPOIS.marcador} number={ANTES_DEPOIS.num} />
+          <SectionMarker label={ANTES_DEPOIS.marcador} number={sectionMarkers.beforeAfter} />
         </Reveal>
         <Reveal delay={80}>
           <h2 className="max-w-3xl text-[clamp(32px,4.2vw,52px)]">
