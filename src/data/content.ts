@@ -289,10 +289,10 @@ export const founders: { name: string; role: string; photo?: string; skills: str
     role: "Fundador",
     photo: "/Joao_IMG.jpeg",
     skills: [
-      "Fullstack — dev completo, back e front",
-      "Arquitetura e dados",
+      "Desenvolvimento de produtos e sistemas",
+      "Processos e arquitetura",
       "CAD/CAM",
-      "Analista de Processos",
+      "Análise de processos",
     ],
   },
   {
@@ -300,10 +300,9 @@ export const founders: { name: string; role: string; photo?: string; skills: str
     role: "Fundador",
     photo: "/Eric_IMG.jpeg",
     skills: [
-      "Fullstack — dev completo, back e front",
-      "Sistemas que tiram trabalho manual do caminho: n8n, Python",
-      "Infraestrutura interna — Cloudflare",
-      "Implantação de sistemas e suporte técnico (SAP/CRM)",
+      "Desenvolvimento de produtos e sistemas",
+      "Infraestrutura e integrações",
+      "Sistemas internos e suporte técnico",
     ],
   },
 ];
