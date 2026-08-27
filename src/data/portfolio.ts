@@ -50,8 +50,28 @@ export const PROJETOS: Projeto[] = [
     linkLabel: "Ver site no ar",
   },
   {
-    id: "vitrine",
+    id: "mileide",
     num: "02",
+    nome: "Mileide Rodrigues",
+    subtitulo: "Site e anúncio para psicanalista",
+    tipo: "cliente",
+    tags: ["Next.js", "Meta Ads", "Anúncio pro WhatsApp", "SEO"],
+    imagem: "/portfolio/mileide.jpg",
+    imagemPos: "center 25%",
+    antes:
+      "Psicanalista em Anicuns, interior de Goiás, com paciente novo chegando só por indicação e pelo Instagram.",
+    problema:
+      "Ela atende online pro Brasil inteiro, mas só enchia a agenda com quem morava perto.",
+    depois:
+      "Um site que explica o trabalho dela, e anúncio no Meta levando quem clica pra esse site. Cada botão da página abre o WhatsApp dela, sem formulário e sem etapa no meio.",
+    resultado:
+      "O anúncio cai direto no WhatsApp: a pessoa chega já tendo lido sobre o trabalho e sabendo o que procura.",
+    link: "https://mileidepsi.com.br",
+    linkLabel: "Ver site no ar",
+  },
+  {
+    id: "vitrine",
+    num: "03",
     nome: "VITRINE 01",
     subtitulo: "Catálogo e loja de artigo esportivo",
     tipo: "produto",
@@ -69,7 +89,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     id: "hub",
-    num: "03",
+    num: "04",
     nome: "Hub NADA Studio",
     subtitulo: "Sistema interno de gestão",
     tipo: "interno",
@@ -84,7 +104,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     id: "barcode",
-    num: "04",
+    num: "05",
     nome: "Leitor & Controle de Estoque",
     subtitulo: "Controle de estoque",
     tipo: "interno",
@@ -99,7 +119,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     id: "transcricao",
-    num: "05",
+    num: "06",
     nome: "Transcrição & Resumo de Reuniões",
     subtitulo: "Áudio de reunião virando texto",
     tipo: "interno",
@@ -115,7 +135,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     id: "noazul",
-    num: "06",
+    num: "07",
     nome: "No Azul",
     subtitulo: "Controle financeiro",
     tipo: "interno",
