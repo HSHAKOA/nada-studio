@@ -1,5 +1,3 @@
-import { buildWhatsAppLink } from "@/data/content";
-
 export type TipoProjeto = "cliente" | "produto" | "interno";
 
 // Cada projeto é contado em quatro blocos: antes, problema, depois, resultado.
@@ -70,26 +68,8 @@ export const PROJETOS: Projeto[] = [
     linkLabel: "Ver site no ar",
   },
   {
-    id: "vitrine",
-    num: "03",
-    nome: "VITRINE 01",
-    subtitulo: "Catálogo e loja de artigo esportivo",
-    tipo: "produto",
-    tags: ["Loja online", "Personalizador 3D", "Pedido no WhatsApp", "Next.js"],
-    imagem: "/portfolio/vitrine-01.jpg",
-    antes: "Loja de artigo esportivo vendendo por marketplace.",
-    problema:
-      "Comissão em toda venda, e o cliente ficava sendo do marketplace, não da loja.",
-    depois:
-      "Catálogo próprio, com o cliente montando a camisa com nome e número e vendo como fica antes de comprar. O pedido fecha direto no WhatsApp do vendedor.",
-    resultado:
-      "A venda acontece no canal da loja, e o contato do cliente fica com ela.",
-    link: buildWhatsAppLink("Oi! Quero ver a demonstração da VITRINE 01."),
-    linkLabel: "Solicitar demonstração",
-  },
-  {
     id: "hub",
-    num: "04",
+    num: "03",
     nome: "Hub NADA Studio",
     subtitulo: "Sistema interno de gestão",
     tipo: "interno",
@@ -104,7 +84,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     id: "barcode",
-    num: "05",
+    num: "04",
     nome: "Leitor & Controle de Estoque",
     subtitulo: "Controle de estoque",
     tipo: "interno",
@@ -119,7 +99,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     id: "transcricao",
-    num: "06",
+    num: "05",
     nome: "Transcrição & Resumo de Reuniões",
     subtitulo: "Áudio de reunião virando texto",
     tipo: "interno",
@@ -135,7 +115,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     id: "noazul",
-    num: "07",
+    num: "06",
     nome: "No Azul",
     subtitulo: "Controle financeiro",
     tipo: "interno",

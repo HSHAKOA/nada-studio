@@ -123,10 +123,6 @@ export default function Footer() {
       <div className="wrap mt-10 flex flex-col gap-4 text-xs text-white/50 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-wrap items-center gap-3">
           <span>© 2026 NADA Studio. Todos os direitos reservados.</span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-2.5 py-1 text-[11px] text-white/80 transition-colors hover:border-white/30 hover:bg-white/10 hover:text-white">
-            <span>Criado por</span>
-            <strong className="font-semibold text-white">NADA Studio</strong>
-          </span>
         </div>
         <div className="flex gap-4">
           <Link href="/termos-de-uso" className="hover:text-white/70">
