@@ -43,6 +43,6 @@ next-env.d.ts
 # windows folder metadata
 desktop.ini
 
-# claude code local state
+# local coding-agent state
 .claude/
 *.skill
