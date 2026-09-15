@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NADA Studio
 
-## Getting Started
+Site institucional da NADA Studio, empresa de tecnologia de Jundiaí-SP que desenvolve sites, automações e aplicações sob medida para pequenos negócios e profissionais autônomos.
 
-First, run the development server:
+[Visitar o site](https://www.nadastudio.com.br)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Objetivo
+
+Apresentar os serviços da NADA Studio de forma clara, conduzir potenciais clientes até o contato e demonstrar como tecnologia pode reduzir tarefas manuais e organizar operações.
+
+## Funcionalidades
+
+- Página institucional responsiva
+- Apresentação de serviços e planos
+- Seções de problema, transformação e portfólio
+- Chamadas para ação e contato
+- Navegação com rolagem suave
+- Animações e transições de interface
+- Metadados para SEO e compartilhamento social
+- Dados estruturados para organização, serviços e perguntas frequentes
+- Google Analytics, Vercel Analytics e Speed Insights
+
+## Tecnologias
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- GSAP
+- Lenis
+- Lucide React
+- Vercel Analytics e Speed Insights
+
+## Arquitetura
+
+A aplicação utiliza o App Router do Next.js. A página principal é composta por seções independentes em `src/components`, enquanto os textos e perguntas frequentes ficam centralizados em `src/data`. Os metadados, dados estruturados e integrações de análise são configurados no layout raiz.
+
+```text
+src/
+├── app/          # rotas, layout, metadados e estilos globais
+├── components/   # navegação, seções e componentes visuais
+└── data/         # conteúdo estruturado do site
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Como executar localmente
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Requisitos:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js compatível com Next.js 16
+- npm
 
-## Learn More
+```bash
+git clone https://github.com/HSHAKOA/nada-studio.git
+cd nada-studio
+npm install
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Abra [http://localhost:3000](http://localhost:3000).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Verificações de qualidade
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run lint
+npm run build
+```
 
-## Deploy on Vercel
+O repositório ainda não possui uma suíte automatizada de testes. Lint e build devem ser executados antes de publicar alterações.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Publicação
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+O projeto possui script de build e publicação para Cloudflare Pages:
+
+```bash
+npm run deploy
+```
+
+A publicação depende de autenticação e configuração válidas do Wrangler. Não armazene tokens ou credenciais no repositório.
+
+## Status
+
+Site institucional ativo e em evolução. O repositório público documenta a implementação do site; projetos de clientes e sistemas internos não são expostos aqui.
+
+## NADA Studio
+
+A NADA Studio cria soluções digitais com foco em uso real: sites, automações e aplicações que ajudam pequenos negócios a reduzir trabalho repetitivo e organizar sua operação.
