@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import NadaWordmark from "./NadaWordmark";
+import { travarScroll } from "@/lib/scrollLock";
 
 function tocarBang(canvas: HTMLCanvasElement, aoTerminar: () => void) {
   const ctx = canvas.getContext("2d");
@@ -66,14 +67,16 @@ export default function IntroOverlay() {
   const marcaRef = useRef<HTMLDivElement>(null);
 
   const [done, setDone] = useState(false);
+  const destravarRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
+    const destravar = travarScroll();
+    destravarRef.current = destravar;
 
     const overlay = overlayRef.current;
     const marca = marcaRef.current;
     const ponto = pontoRef.current;
-    if (!overlay || !marca || !ponto) return;
+    if (!overlay || !marca || !ponto) return destravar;
 
     const letras = marca.querySelectorAll<SVGPathElement>("[data-letra]");
     const studio = marca.querySelector<SVGPathElement>("[data-studio]");
@@ -98,7 +101,7 @@ export default function IntroOverlay() {
 
       const tl = gsap.timeline({
         onComplete: () => {
-          document.body.style.overflow = "";
+          destravar();
           setDone(true);
         },
       });
@@ -142,7 +145,7 @@ export default function IntroOverlay() {
 
     return () => {
       ctx.revert();
-      document.body.style.overflow = "";
+      destravar();
     };
   }, []);
 
@@ -170,7 +173,7 @@ export default function IntroOverlay() {
       <button
         type="button"
         onClick={() => {
-          document.body.style.overflow = "";
+          destravarRef.current?.();
           setDone(true);
         }}
         className="absolute bottom-8 right-8 z-10 rounded-full border border-white/20 bg-black/40 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white/70 backdrop-blur-xs transition-colors hover:border-white/40 hover:bg-black/60 hover:text-white"

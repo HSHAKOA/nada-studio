@@ -10,10 +10,19 @@ export default function GaleriaProjeto({ projeto }: { projeto: Projeto }) {
         Por dentro
       </p>
       {projeto.galeria.map((item) => (
-        <figure key={item.src}>
+        // Print em pé (celular) na largura toda vira uma torre: limita a largura.
+        <figure key={item.src} className={item.altura > item.largura ? "mx-auto max-w-[320px]" : undefined}>
           <div className="overflow-hidden rounded-2xl border border-black/10 bg-black/5 shadow-xs">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={item.src} alt={item.legenda} loading="lazy" className="w-full h-auto" />
+            <img
+              src={item.src}
+              alt={item.legenda}
+              width={item.largura}
+              height={item.altura}
+              loading="lazy"
+              decoding="async"
+              className="w-full h-auto"
+            />
           </div>
           <figcaption className="mt-2 text-xs text-black/60">{item.legenda}</figcaption>
         </figure>

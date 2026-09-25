@@ -21,6 +21,9 @@
 
   html {
     scroll-behavior: smooth;
+    /* Reserva o espaço da barra de rolagem: quando um overlay trava o scroll,
+       a barra some e sem isso o layout inteiro pula pro lado. */
+    scrollbar-gutter: stable;
   }
 
   /* Lenis: o scroll nativo suave briga com o wheel suave do Lenis.

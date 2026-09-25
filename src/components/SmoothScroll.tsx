@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
+import { registrarLenis } from "@/lib/scrollLock";
 
 export default function SmoothScroll() {
   useEffect(() => {
@@ -22,6 +23,7 @@ export default function SmoothScroll() {
       // nativo chega primeiro e corta a animação. Tratamos âncora na mão.
       anchors: false,
     });
+    registrarLenis(lenis);
 
     let id = requestAnimationFrame(function raf(time: number) {
       lenis.raf(time);
@@ -57,6 +59,7 @@ export default function SmoothScroll() {
     return () => {
       document.removeEventListener("click", onClick);
       cancelAnimationFrame(id);
+      registrarLenis(null);
       lenis.destroy();
     };
   }, []);

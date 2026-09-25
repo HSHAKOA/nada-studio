@@ -18,7 +18,7 @@ export type Projeto = {
   tecnica?: string;
   link?: string;
   linkLabel?: string;
-  galeria?: { src: string; legenda: string }[];
+  galeria?: { src: string; largura: number; altura: number; legenda: string }[];
 };
 
 export const SELO_TIPO: Record<TipoProjeto, string> = {
@@ -76,7 +76,7 @@ export const PROJETOS: Projeto[] = [
     tipo: "cliente",
     tags: ["Catálogo digital", "Banner impresso", "NFC + QR Code", "Pedido no WhatsApp"],
     imagem: "/portfolio/gcstyle-banner.webp",
-    imagemPos: "center 35%",
+    imagemPos: "center 55%",
     antes:
       "Barbearia que vende perfume árabe no balcão, com espaço pra só alguns provadores.",
     problema:
@@ -88,12 +88,12 @@ export const PROJETOS: Projeto[] = [
     link: "https://catalogo-perfumes.pages.dev",
     linkLabel: "Ver catálogo no ar",
     galeria: [
-      { src: "/portfolio/gcstyle-banners.webp", legenda: "Os dois banners do balcão, linha masculina e linha feminina." },
-      { src: "/portfolio/gcstyle-nfc.webp", legenda: "Aproximou o celular ou apontou a câmera, abriu o catálogo." },
-      { src: "/portfolio/gcstyle.webp", legenda: "O catálogo: o balcão é só uma amostra." },
-      { src: "/portfolio/gcstyle-catalogo.webp", legenda: "Busca por marca, grife de inspiração ou família olfativa." },
-      { src: "/portfolio/gcstyle-vip.webp", legenda: "Grupo VIP no WhatsApp pra avisar de lote novo." },
-      { src: "/portfolio/gcstyle-mobile.webp", legenda: "Feito pra abrir no celular, na cadeira do corte." },
+      { src: "/portfolio/gcstyle-banners.webp", largura: 1624, altura: 1000, legenda: "Os dois banners do balcão, linha masculina e linha feminina." },
+      { src: "/portfolio/gcstyle-nfc.webp", largura: 1200, altura: 330, legenda: "Aproximou o celular ou apontou a câmera, abriu o catálogo." },
+      { src: "/portfolio/gcstyle.webp", largura: 1440, altura: 900, legenda: "O catálogo: o balcão é só uma amostra." },
+      { src: "/portfolio/gcstyle-catalogo.webp", largura: 1240, altura: 840, legenda: "Busca por marca, grife de inspiração ou família olfativa." },
+      { src: "/portfolio/gcstyle-vip.webp", largura: 1240, altura: 370, legenda: "Grupo VIP no WhatsApp pra avisar de lote novo." },
+      { src: "/portfolio/gcstyle-mobile.webp", largura: 600, altura: 1298, legenda: "Feito pra abrir no celular, na cadeira do corte." },
     ],
   },
   {
@@ -131,8 +131,8 @@ export const PROJETOS: Projeto[] = [
     tecnica:
       "Cinco workflows em n8n em produção, triagem com regras determinísticas e chamadas de LLM.",
     galeria: [
-      { src: "/portfolio/torre-inicio.webp", legenda: "Início: o que chegou, o que tem mais aderência e o que está em processo." },
-      { src: "/portfolio/torre-dossie.webp", legenda: "Dossiê: currículo reescrito pra vaga, pronto pra conferir e enviar." },
+      { src: "/portfolio/torre-inicio.webp", largura: 1600, altura: 785, legenda: "Início: o que chegou, o que tem mais aderência e o que está em processo." },
+      { src: "/portfolio/torre-dossie.webp", largura: 744, altura: 813, legenda: "Dossiê: currículo reescrito pra vaga, pronto pra conferir e enviar." },
     ],
   },
   {

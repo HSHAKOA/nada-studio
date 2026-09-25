@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { navLinks, WHATSAPP_LINK } from "@/data/content";
 import NadaWordmark from "./NadaWordmark";
+import { travarScroll } from "@/lib/scrollLock";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -17,10 +18,8 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    if (!open) return;
+    return travarScroll();
   }, [open]);
 
   return (

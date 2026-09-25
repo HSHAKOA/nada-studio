@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { PROJETOS, SELO_TIPO, type Projeto } from "@/data/portfolio";
 import GaleriaProjeto from "./GaleriaProjeto";
+import { travarScroll } from "@/lib/scrollLock";
 
 export default function Portfolio3DGallery() {
   const [selectedProject, setSelectedProject] = useState<Projeto | null>(null);
@@ -25,6 +26,10 @@ export default function Portfolio3DGallery() {
   const trackRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const animationFrameRef = useRef<number | null>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const isVisibleRef = useRef(false);
+  const dragDistanceRef = useRef(0);
+  const modalPanelRef = useRef<HTMLDivElement>(null);
 
   // Keep refs in sync with state
   useEffect(() => {
@@ -66,10 +71,47 @@ export default function Portfolio3DGallery() {
       const isFacingFront = normalizedAngle < 55;
       const opacity = Math.max(0.25, 1 - normalizedAngle / 150);
 
-      cardEl.style.opacity = `${opacity}`;
-      cardEl.style.pointerEvents = isFacingFront ? "auto" : "none";
+      cardEl.style.opacity = opacity.toFixed(3);
+      const pointerEvents = isFacingFront ? "auto" : "none";
+      if (cardEl.style.pointerEvents !== pointerEvents) cardEl.style.pointerEvents = pointerEvents;
     });
   }, [anglePerItem]);
+
+  // Posiciona os cards já no primeiro frame, mesmo com o giro pausado.
+  useEffect(() => {
+    update3DTransforms(rotationRef.current);
+  }, [update3DTransforms]);
+
+  // Só gira enquanto a vitrine está na tela. Fora dela (ou no mobile, onde o
+  // palco 3D fica com display:none) o loop não mexe em nada e não pesa no scroll.
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+      },
+      { rootMargin: "100px" }
+    );
+    observer.observe(stage);
+    return () => observer.disconnect();
+  }, []);
+
+  // Modal aberto: trava a página por trás, fecha no Esc e leva o foco pro painel
+  // (no painel e não no X, que ganharia anel de foco ao abrir pelo toque).
+  useEffect(() => {
+    if (!selectedProject) return;
+    const destravar = travarScroll();
+    modalPanelRef.current?.focus({ preventScroll: true });
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedProject(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      destravar();
+    };
+  }, [selectedProject]);
 
   // Desktop Animation loop with direct DOM transform
   useEffect(() => {
@@ -79,7 +121,13 @@ export default function Portfolio3DGallery() {
       const delta = Math.min((time - lastTime) / 1000, 0.1);
       lastTime = time;
 
-      if (isAutoRotateRef.current && !isDraggingRef.current && !selectedProject) {
+      if (
+        isAutoRotateRef.current &&
+        !isDraggingRef.current &&
+        !selectedProject &&
+        isVisibleRef.current &&
+        !document.hidden
+      ) {
         rotationRef.current += 12 * delta; // Smooth 12 deg/sec
         update3DTransforms(rotationRef.current);
       }
@@ -97,6 +145,7 @@ export default function Portfolio3DGallery() {
     if ((e.target as HTMLElement).closest("button") || (e.target as HTMLElement).closest("a")) return;
     setIsDragging(true);
     isDraggingRef.current = true;
+    dragDistanceRef.current = 0;
     startXRef.current = e.clientX;
     startRotationRef.current = rotationRef.current;
   };
@@ -104,13 +153,21 @@ export default function Portfolio3DGallery() {
   const handlePointerMove = (e: React.PointerEvent) => {
     if (!isDraggingRef.current) return;
     const deltaX = e.clientX - startXRef.current;
+    dragDistanceRef.current = Math.max(dragDistanceRef.current, Math.abs(deltaX));
     rotationRef.current = startRotationRef.current + deltaX * 0.3;
     update3DTransforms(rotationRef.current);
   };
 
   const handlePointerUp = () => {
+    if (!isDraggingRef.current) return;
     setIsDragging(false);
     isDraggingRef.current = false;
+  };
+
+  // Soltar o arrasto em cima de um card dispara click: só abre se foi toque, não giro.
+  const openFromStage = (projeto: Projeto) => {
+    if (dragDistanceRef.current > 6) return;
+    setSelectedProject(projeto);
   };
 
   const rotateToStep = (step: number) => {
@@ -292,6 +349,8 @@ export default function Portfolio3DGallery() {
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
+        onPointerLeave={handlePointerUp}
+        ref={stageRef}
         className="relative hidden h-[500px] w-full cursor-grab items-center justify-center active:cursor-grabbing md:flex"
         style={{
           perspective: "1600px",
@@ -324,15 +383,13 @@ export default function Portfolio3DGallery() {
                   top: "50%",
                   marginLeft: "-150px",
                   marginTop: "-200px",
-                  willChange: "transform, opacity",
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
-                  transition: "opacity 0.2s ease-out",
                 }}
               >
                 <div
-                  onClick={() => setSelectedProject(projeto)}
-                  className="group relative flex h-full w-full flex-col justify-between cursor-pointer overflow-hidden rounded-2xl border border-black/10 bg-white shadow-xl transition-all duration-300 hover:border-black/30 hover:shadow-2xl hover:-translate-y-1"
+                  onClick={() => openFromStage(projeto)}
+                  className="group relative flex h-full w-full flex-col justify-between cursor-pointer overflow-hidden rounded-2xl border border-black/10 bg-white shadow-xl transition-[transform,box-shadow,border-color] duration-300 hover:border-black/30 hover:shadow-2xl hover:-translate-y-1"
                 >
                   {/* Top Image Box */}
                   <div className="relative h-48 lg:h-52 w-full overflow-hidden bg-black/5">
@@ -346,10 +403,10 @@ export default function Portfolio3DGallery() {
                     />
                     {/* Top Badge */}
                     <div className="absolute left-3 top-3 flex items-center gap-2">
-                      <span className="rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-black shadow-xs backdrop-blur-md">
+                      <span className="rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-black shadow-xs">
                         {SELO_TIPO[projeto.tipo]}
                       </span>
-                      <span className="rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-mono font-medium text-white backdrop-blur-md">
+                      <span className="rounded-full bg-black/70 px-2 py-0.5 text-[10px] font-mono font-medium text-white">
                         #{projeto.num}
                       </span>
                     </div>
@@ -397,17 +454,23 @@ export default function Portfolio3DGallery() {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
+          aria-label={selectedProject.nome}
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
           onClick={() => setSelectedProject(null)}
         >
           <div
+            ref={modalPanelRef}
+            tabIndex={-1}
             onClick={(e) => e.stopPropagation()}
-            className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-black/15 bg-white p-6 text-black shadow-2xl sm:p-8"
+            // A roda do mouse aqui dentro rola o modal, não a página (o Lenis ignora).
+            data-lenis-prevent
+            className="relative max-h-[90dvh] w-full max-w-2xl overflow-y-auto overscroll-contain rounded-3xl outline-none border border-black/15 bg-white p-6 text-black shadow-2xl sm:p-8"
           >
             {/* Close Button */}
             <button
               type="button"
               onClick={() => setSelectedProject(null)}
+              aria-label="Fechar"
               className="absolute right-6 top-6 flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-base text-black/70 hover:bg-black/10 hover:text-black"
             >
               ✕
