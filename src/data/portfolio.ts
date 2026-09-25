@@ -93,7 +93,7 @@ export const PROJETOS: Projeto[] = [
       { src: "/portfolio/gcstyle.webp", largura: 1440, altura: 900, legenda: "O catálogo: o balcão é só uma amostra." },
       { src: "/portfolio/gcstyle-catalogo.webp", largura: 1240, altura: 840, legenda: "Busca por marca, grife de inspiração ou família olfativa." },
       { src: "/portfolio/gcstyle-vip.webp", largura: 1240, altura: 370, legenda: "Grupo VIP no WhatsApp pra avisar de lote novo." },
-      { src: "/portfolio/gcstyle-mobile.webp", largura: 600, altura: 1298, legenda: "Feito pra abrir no celular, na cadeira do corte." },
+      { src: "/portfolio/gcstyle-celular.webp", largura: 600, altura: 1298, legenda: "Feito pra abrir no celular, na cadeira do corte." },
     ],
   },
   {
