@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { PROJETOS, SELO_TIPO, type Projeto } from "@/data/portfolio";
+import GaleriaProjeto from "./GaleriaProjeto";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -212,6 +213,8 @@ export default function PortfolioList() {
                       Especificação: {projeto.tecnica}
                     </p>
                   ) : null}
+
+                  <GaleriaProjeto projeto={projeto} />
 
                   {projeto.link && projeto.linkLabel ? (
                     <div data-bloco className="pt-2">

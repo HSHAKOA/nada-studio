@@ -18,6 +18,7 @@ export type Projeto = {
   tecnica?: string;
   link?: string;
   linkLabel?: string;
+  galeria?: { src: string; legenda: string }[];
 };
 
 export const SELO_TIPO: Record<TipoProjeto, string> = {
@@ -68,8 +69,36 @@ export const PROJETOS: Projeto[] = [
     linkLabel: "Ver site no ar",
   },
   {
-    id: "hub",
+    id: "gcstyle",
     num: "03",
+    nome: "Espaço GC Style",
+    subtitulo: "Catálogo digital e banner de balcão",
+    tipo: "cliente",
+    tags: ["Catálogo digital", "Banner impresso", "NFC + QR Code", "Pedido no WhatsApp"],
+    imagem: "/portfolio/gcstyle-banner.webp",
+    imagemPos: "center 35%",
+    antes:
+      "Barbearia que vende perfume árabe no balcão, com espaço pra só alguns provadores.",
+    problema:
+      "O cliente só conhecia o que estava na frente dele. O resto da linha nem chegava a ser visto.",
+    depois:
+      "A gente criou o banner do balcão e o catálogo digital. No banner, uma tag NFC e um QR code: o cliente aproxima o celular ou aponta a câmera e cai num catálogo com mais de 70 fragrâncias, busca por marca, pela grife que inspirou o perfume ou pela família olfativa, e um quiz que indica o perfume pelo gosto de quem responde. O pedido sai pronto no WhatsApp, pra retirar no próximo corte ou receber em casa.",
+    resultado:
+      "O balcão virou amostra: o cliente escolhe entre o catálogo inteiro, pelo celular, enquanto espera o corte.",
+    link: "https://catalogo-perfumes.pages.dev",
+    linkLabel: "Ver catálogo no ar",
+    galeria: [
+      { src: "/portfolio/gcstyle-banners.webp", legenda: "Os dois banners do balcão, linha masculina e linha feminina." },
+      { src: "/portfolio/gcstyle-nfc.webp", legenda: "Aproximou o celular ou apontou a câmera, abriu o catálogo." },
+      { src: "/portfolio/gcstyle.webp", legenda: "O catálogo: o balcão é só uma amostra." },
+      { src: "/portfolio/gcstyle-catalogo.webp", legenda: "Busca por marca, grife de inspiração ou família olfativa." },
+      { src: "/portfolio/gcstyle-vip.webp", legenda: "Grupo VIP no WhatsApp pra avisar de lote novo." },
+      { src: "/portfolio/gcstyle-mobile.webp", legenda: "Feito pra abrir no celular, na cadeira do corte." },
+    ],
+  },
+  {
+    id: "hub",
+    num: "04",
     nome: "Hub NADA Studio",
     subtitulo: "Sistema interno de gestão",
     tipo: "interno",
@@ -83,8 +112,32 @@ export const PROJETOS: Projeto[] = [
       "A operação inteira num lugar só, e nada mais depende de alguém lembrar.",
   },
   {
+    id: "torre",
+    num: "05",
+    nome: "Torre de Controle",
+    subtitulo: "Busca de vaga no automático",
+    tipo: "interno",
+    tags: ["n8n", "IA", "Triagem de vagas", "Currículo sob medida"],
+    imagem: "/portfolio/torre.webp",
+    imagemPos: "left top",
+    antes:
+      "Procurar vaga era abrir o LinkedIn todo dia, ler descrição por descrição e reescrever o currículo pra cada uma.",
+    problema:
+      "A vaga boa se perdia no meio de centenas que não tinham nada a ver.",
+    depois:
+      "As vagas chegam por e-mail e o n8n puxa tudo pro painel. Uma triagem em duas camadas, regra fixa primeiro e IA depois, dá nota de 0 a 100 pra cada uma. Pra vaga que vale, o painel monta um dossiê com o currículo reescrito pra ela, usando só o que já existe no currículo real.",
+    resultado:
+      "De 248 vagas que entraram, 85 passaram na triagem e já chegaram com o currículo pronto.",
+    tecnica:
+      "Cinco workflows em n8n em produção, triagem com regras determinísticas e chamadas de LLM.",
+    galeria: [
+      { src: "/portfolio/torre-inicio.webp", legenda: "Início: o que chegou, o que tem mais aderência e o que está em processo." },
+      { src: "/portfolio/torre-dossie.webp", legenda: "Dossiê: currículo reescrito pra vaga, pronto pra conferir e enviar." },
+    ],
+  },
+  {
     id: "barcode",
-    num: "04",
+    num: "06",
     nome: "Leitor & Controle de Estoque",
     subtitulo: "Controle de estoque",
     tipo: "interno",
@@ -99,7 +152,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     id: "transcricao",
-    num: "05",
+    num: "07",
     nome: "Transcrição & Resumo de Reuniões",
     subtitulo: "Áudio de reunião virando texto",
     tipo: "interno",
@@ -115,7 +168,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     id: "noazul",
-    num: "06",
+    num: "08",
     nome: "No Azul",
     subtitulo: "Controle financeiro",
     tipo: "interno",

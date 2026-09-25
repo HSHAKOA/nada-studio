@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { PROJETOS, SELO_TIPO, type Projeto } from "@/data/portfolio";
+import GaleriaProjeto from "./GaleriaProjeto";
 
 export default function Portfolio3DGallery() {
   const [selectedProject, setSelectedProject] = useState<Projeto | null>(null);
@@ -489,6 +490,8 @@ export default function Portfolio3DGallery() {
                   Especificação: {selectedProject.tecnica}
                 </p>
               )}
+
+              <GaleriaProjeto projeto={selectedProject} />
             </div>
 
             {/* Modal CTA */}
