@@ -97,26 +97,11 @@ export const PROJETOS: Projeto[] = [
     ],
   },
   {
-    id: "hub",
-    num: "04",
-    nome: "Hub NADA Studio",
-    subtitulo: "Sistema interno de gestão",
-    tipo: "interno",
-    tags: ["Next.js", "Supabase", "n8n", "Proposta em PDF"],
-    imagem: "/portfolio/hub.jpg",
-    antes: "Cliente em planilha espalhada, follow-up esquecido.",
-    problema: "Proposta refeita do zero toda semana.",
-    depois:
-      "Um painel só, com o funil, o acompanhamento dos projetos e a proposta saindo pronta em PDF.",
-    resultado:
-      "A operação inteira num lugar só, e nada mais depende de alguém lembrar.",
-  },
-  {
     id: "torre",
-    num: "05",
+    num: "04",
     nome: "Torre de Controle",
     subtitulo: "Busca de vaga no automático",
-    tipo: "interno",
+    tipo: "cliente",
     tags: ["n8n", "IA", "Triagem de vagas", "Currículo sob medida"],
     imagem: "/portfolio/torre.webp",
     imagemPos: "left top",
@@ -132,8 +117,23 @@ export const PROJETOS: Projeto[] = [
       "Cinco workflows em n8n em produção, triagem com regras determinísticas e chamadas de LLM.",
     galeria: [
       { src: "/portfolio/torre-inicio.webp", largura: 1600, altura: 785, legenda: "Início: o que chegou, o que tem mais aderência e o que está em processo." },
-      { src: "/portfolio/torre-dossie.webp", largura: 744, altura: 813, legenda: "Dossiê: currículo reescrito pra vaga, pronto pra conferir e enviar." },
+      { src: "/portfolio/torre-dossie-v2.webp", largura: 744, altura: 813, legenda: "Dossiê: currículo reescrito pra vaga, pronto pra conferir e enviar." },
     ],
+  },
+  {
+    id: "hub",
+    num: "05",
+    nome: "Hub NADA Studio",
+    subtitulo: "Sistema interno de gestão",
+    tipo: "interno",
+    tags: ["Next.js", "Supabase", "n8n", "Proposta em PDF"],
+    imagem: "/portfolio/hub.jpg",
+    antes: "Cliente em planilha espalhada, follow-up esquecido.",
+    problema: "Proposta refeita do zero toda semana.",
+    depois:
+      "Um painel só, com o funil, o acompanhamento dos projetos e a proposta saindo pronta em PDF.",
+    resultado:
+      "A operação inteira num lugar só, e nada mais depende de alguém lembrar.",
   },
   {
     id: "barcode",
