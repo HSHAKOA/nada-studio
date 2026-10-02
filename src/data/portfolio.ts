@@ -29,8 +29,28 @@ export const SELO_TIPO: Record<TipoProjeto, string> = {
 
 export const PROJETOS: Projeto[] = [
   {
-    id: "thayana",
+    id: "ana",
     num: "01",
+    nome: "Ana Marocci",
+    subtitulo: "Site para nutricionista",
+    tipo: "cliente",
+    tags: ["Next.js", "WhatsApp", "Animação de marca", "Google Forms"],
+    imagem: "/portfolio/ana-marocci.webp",
+    imagemPos: "center 25%",
+    antes:
+      "A Ana tinha um site com a apresentação profissional dela, e só isso.",
+    problema:
+      "Quem chegava via a profissional, mas não conhecia a Ana nem entendia como era trabalhar com ela. E o site não servia de destino pra anúncio.",
+    depois:
+      "Um site novo, com página pra quem ela é, pra como funciona o acompanhamento e pras dúvidas de quem ainda não decidiu. Abre com a marca dela em animação e vai direto na ideia que ela defende: emagrecimento sem abrir mão da vida real. O botão do WhatsApp está em todas as páginas, e o formulário fica como segundo caminho pra quem prefere começar escrevendo.",
+    resultado:
+      "O link da bio do Instagram agora leva a um site que mostra quem a Ana é e como ela trabalha, e que serve de destino pra anúncio no Google e no Meta quando ela quiser.",
+    link: "https://anamaroccinutri.com.br",
+    linkLabel: "Ver site no ar",
+  },
+  {
+    id: "thayana",
+    num: "02",
     nome: "Thayana de Oliveira",
     subtitulo: "Site e triagem para psicóloga",
     tipo: "cliente",
@@ -50,7 +70,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     id: "mileide",
-    num: "02",
+    num: "03",
     nome: "Mileide Rodrigues",
     subtitulo: "Site e anúncio para psicanalista",
     tipo: "cliente",
@@ -70,7 +90,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     id: "gcstyle",
-    num: "03",
+    num: "04",
     nome: "Espaço GC Style",
     subtitulo: "Catálogo digital e banner de balcão",
     tipo: "cliente",
@@ -98,7 +118,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     id: "torre",
-    num: "04",
+    num: "05",
     nome: "Torre de Controle",
     subtitulo: "Busca de vaga no automático",
     tipo: "cliente",
@@ -122,7 +142,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     id: "hub",
-    num: "05",
+    num: "06",
     nome: "Hub NADA Studio",
     subtitulo: "Sistema interno de gestão",
     tipo: "interno",
@@ -137,7 +157,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     id: "barcode",
-    num: "06",
+    num: "07",
     nome: "Leitor & Controle de Estoque",
     subtitulo: "Controle de estoque",
     tipo: "interno",
@@ -152,7 +172,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     id: "transcricao",
-    num: "07",
+    num: "08",
     nome: "Transcrição & Resumo de Reuniões",
     subtitulo: "Áudio de reunião virando texto",
     tipo: "interno",
@@ -168,7 +188,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     id: "noazul",
-    num: "08",
+    num: "09",
     nome: "No Azul",
     subtitulo: "Controle financeiro",
     tipo: "interno",
