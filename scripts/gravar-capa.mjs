@@ -1086,6 +1086,34 @@ ROTEIROS.banners = {
   montar: (pasta, f, m) => filmeEmPartes(pasta, m, [["mes", "mesFim"], ["ano", "anoFim"], ["deptos", "fim"]]),
 };
 
+// ── Programa de janela (não é página) ─────────────────────────────────────
+// O Imagens E-commerce é um programa de computador: o Chrome não grava. O
+// filme é montado com capturas reais da janela durante uma busca (vazio,
+// produto digitado, buscando, os resultados chegando e a lista pronta), que
+// ficam em brutos/imagens-ecommerce (fora do git). Em pé é o recorte da mesma
+// tela: a barra lateral e a primeira coluna de resultados. O caminho da pasta
+// de destino, que mostra o usuário do computador, está borrado.
+ROTEIROS["imagens-ecommerce"] = {
+  slug: "imagens-ecommerce",
+  semGravacao: true,
+  montar(pasta, f) {
+    const estado = (nome) => `brutos/imagens-ecommerce/${f}/${nome}.png`;
+    const pronto = estado("pronto");
+    return {
+      poster: pronto,
+      segmentos: [
+        { parado: pronto, dur: 0.9 },
+        { parado: estado("vazio"), dur: 1.0, entra: { tipo: "fade", dur: 0.4 } },
+        { parado: estado("digitado"), dur: 0.9, entra: { tipo: "fade", dur: 0.15 } },
+        { parado: estado("buscando"), dur: 1.2, entra: { tipo: "fade", dur: 0.2 } },
+        { parado: estado("parcial-1"), dur: 0.7, entra: { tipo: "fade", dur: 0.25 } },
+        { parado: estado("parcial-2"), dur: 0.8, entra: { tipo: "fade", dur: 0.25 } },
+        { parado: pronto, dur: 2.4, entra: { tipo: "fade", dur: 0.25 } },
+      ],
+    };
+  },
+};
+
 async function main() {
   const [nome, ...opcoes] = process.argv.slice(2);
   const nomes = nome === "todos" ? Object.keys(ROTEIROS) : [nome];
@@ -1103,19 +1131,20 @@ async function main() {
         // O roteiro pode trocar o enquadramento de um formato (tela do projeto que não cabe no padrão).
         const formato = { ...FORMATOS[f], ...roteiro.formatos?.[f] };
         const pasta = path.join(TRABALHO, projeto, f);
-        if (!soMontar) {
+        if (!soMontar && !roteiro.semGravacao) {
           const tomada = await novaTomada(chrome.porta, formato, pasta);
           const inicio = Date.now();
           await roteiro.gravar(tomada, f);
           await tomada.fechar();
           console.log(`${projeto} ${f}: ${tomada.n} quadros em ${Math.round((Date.now() - inicio) / 1000)} s`, tomada.marcas);
         }
-        if (opcoes.includes("--folha")) {
+        if (opcoes.includes("--folha") && !roteiro.semGravacao) {
           await folha(pasta, path.join(TRABALHO, `${projeto}-${f}.jpg`));
           console.log(`  folha: ${path.join(TRABALHO, `${projeto}-${f}.jpg`)}`);
           continue;
         }
-        const { marcas } = JSON.parse(fs.readFileSync(path.join(pasta, "marcas.json"), "utf8"));
+        // Roteiro só de imagens paradas (programa de janela) não tem quadros gravados nem marcas.
+        const { marcas } = roteiro.semGravacao ? { marcas: {} } : JSON.parse(fs.readFileSync(path.join(pasta, "marcas.json"), "utf8"));
         const { segmentos, poster } = await roteiro.montar(pasta, f, marcas);
         const sufixo = f === "larga" ? "-larga" : "";
         for (const [variante, tamanho] of Object.entries(formato.saidas)) {

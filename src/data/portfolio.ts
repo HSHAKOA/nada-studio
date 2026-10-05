@@ -450,6 +450,31 @@ export const PROJETOS: Projeto[] = [
     resultado: "8 horas por mês viraram 10 minutos.",
     metrica: { valor: "8 h → 10 min", legenda: "por mês, só pra saber onde o dinheiro foi" },
   },
+  {
+    // Programa de computador (janela), feito pelo Eric. A capa é montada com
+    // capturas reais de uma busca (ver scripts/gravar-capa.mjs). As fotos dos
+    // cartões são resultado da busca de imagens, de terceiros.
+    slug: "imagens-para-ecommerce",
+    num: "18",
+    nome: "Imagens E-commerce",
+    subtitulo: "Foto de produto com fundo branco, pronta pra loja virtual",
+    tipo: "interno",
+    entrega: "Programa",
+    chamada: "Digita o produto e a foto sai com fundo branco, no formato que a loja aceita.",
+    identifica: "também perco tempo procurando e ajustando foto de produto",
+    capa: filme("imagens-ecommerce"), // uma busca: produto digitado, os resultados chegando e a lista pronta
+    antes:
+      "Pra cadastrar produto numa loja virtual, a foto precisa estar em JPG ou PNG e, de preferência, com fundo branco.",
+    problema:
+      "A maioria das imagens que se acha na internet vem em WebP e com fundo. Pra cada produto era procurar, baixar, converter e recortar.",
+    depois:
+      "Você digita o nome do produto, banana ou picanha, e o programa busca as imagens com filtro de conteúdo adulto e mostra as opções lado a lado. Um clique baixa a escolhida já recortada, com fundo branco, na pasta que você definir. Dá pra passar uma lista de produtos e fazer tudo em lote.",
+    resultado: "A foto do produto sai pronta pra subir na loja, sem abrir editor de imagem.",
+    galeria: [
+      { src: "/portfolio/imagens-ecommerce-busca.webp", largura: 1280, altura: 800, legenda: "É só digitar o produto. A busca já sai com filtro de conteúdo adulto." },
+      { src: "/portfolio/imagens-ecommerce-resultados.webp", largura: 1280, altura: 800, legenda: "As opções lado a lado, cada uma com o botão que baixa a foto com fundo branco." },
+    ],
+  },
 ];
 
 // Home: três naturezas diferentes (site, sistema, físico-digital).
