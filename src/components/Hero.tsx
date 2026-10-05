@@ -1,7 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import Link from "next/link";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Ponto from "@/components/Ponto";
+import TituloRotativo from "@/components/TituloRotativo";
 import {
   buildWhatsAppLink,
   HERO_CTA,
@@ -10,109 +14,97 @@ import {
   HERO_SUB,
   HERO_VARIACOES,
 } from "@/data/content";
+import { DUR, EASE, MQ, movimentoLiberado } from "@/lib/motion";
 
-const CICLO_MS = 3400;
-const SAIDA_S = 0.32;
+gsap.registerPlugin(ScrollTrigger);
 
-type Token = { texto: string; metal: boolean };
-
-function tokenizar(antes: string, metal: string, depois: string): Token[] {
-  const antesWords = antes.trim().split(/\s+/).filter(Boolean);
-  const restWords = (metal + depois).trim().split(/\s+/).filter(Boolean);
-  return [
-    ...antesWords.map((texto) => ({ texto, metal: false })),
-    { texto: restWords[0], metal: true },
-    ...restWords.slice(1).map((texto) => ({ texto, metal: false })),
-  ];
-}
-
-export default function Hero() {
-  const [index, setIndex] = useState(0);
-  const linhaRef = useRef<HTMLSpanElement>(null);
-
-  const tokens = tokenizar(
-    HERO_VARIACOES[index].antes,
-    HERO_VARIACOES[index].metal,
-    HERO_VARIACOES[index].depois
-  );
+// Hero em repouso. O título (TituloRotativo) recebe a luz na chegada, dá uma
+// volta pelas quatro frases e para na última, com o cromo brilhando. No canto,
+// a linha do indicador com o ponto da marca pendurado (a origem); ao rolar, a
+// linha recolhe e o ponto cai pra fora da tela, rumo ao Antes/Depois (ver
+// src/lib/ponto.ts).
+// `local`: linha discreta na base (onde a gente atende).
+export default function Hero({ local }: { local: string }) {
+  const heroRef = useRef<HTMLElement>(null);
+  const fioRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const reduzido = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const hero = heroRef.current;
+    const fio = fioRef.current;
+    if (!hero || !fio || !movimentoLiberado()) return;
 
-    const ctx = gsap.context(() => {
-      const palavras = linhaRef.current?.querySelectorAll<HTMLSpanElement>("[data-word]");
-      if (!palavras || palavras.length === 0) return;
+    const linha = fio.querySelector<HTMLElement>(".hero-linha");
+    const ponto = fio.querySelector<HTMLElement>(".ponto");
+    const ctx = gsap.context(() => {});
+    const mm = gsap.matchMedia();
 
-      const cicloS = CICLO_MS / 1000;
-      const tl = gsap.timeline();
+    function iniciar() {
+      ctx.add(() => {
+        // A linha desce e o ponto aparece na ponta dela.
+        gsap.fromTo(linha, { scaleY: 0 }, { scaleY: 1, duration: DUR.entrada, delay: 0.6, ease: EASE });
+        gsap.fromTo(ponto, { scale: 0 }, { scale: 1, duration: 0.5, delay: 1.2, ease: EASE });
+      });
 
-      if (reduzido) {
-        tl.fromTo(
-          palavras,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.3, stagger: 0.02 }
-        )
-          .to(
-            palavras,
-            { opacity: 0, duration: 0.3 },
-            cicloS - 0.3
-          )
-          .call(() => setIndex((i) => (i + 1) % HERO_VARIACOES.length));
-      } else {
-        tl.fromTo(
-          palavras,
-          { opacity: 0, y: "0.18em", filter: "blur(6px)" },
-          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power2.out", stagger: 0.055 }
-        )
-          .to(
-            palavras,
-            { opacity: 0, y: "-0.14em", filter: "blur(6px)", duration: SAIDA_S, ease: "power2.in" },
-            cicloS - SAIDA_S
-          )
-          .call(() => setIndex((i) => (i + 1) % HERO_VARIACOES.length));
-      }
-    }, linhaRef);
+      // Queda: ao rolar, a linha recolhe e o ponto solta, acelerando pra fora
+      // da tela. Só com tela larga; no celular o ponto não viaja.
+      mm.add(MQ.tablet, () => {
+        gsap
+          .timeline({ scrollTrigger: { trigger: hero, start: "top top", end: "+=55%", scrub: 0.5 } })
+          .fromTo(linha, { scaleY: 1 }, { scaleY: 0, ease: "power2.in", duration: 0.45, immediateRender: false }, 0)
+          .fromTo(
+            ponto,
+            { y: 0, scale: 1 },
+            { y: () => innerHeight * 0.95, scale: 1.7, ease: "power2.in", duration: 1, immediateRender: false },
+            0
+          );
+      });
+      // Tela estreita com indicador: ele só some no primeiro movimento.
+      mm.add(MQ.mobile, () => {
+        const sumir = () => gsap.to(fio, { autoAlpha: 0, duration: 0.4 });
+        window.addEventListener("scroll", sumir, { once: true, passive: true });
+        return () => window.removeEventListener("scroll", sumir);
+      });
+    }
 
-    return () => ctx.revert();
-  }, [index]);
+    if (window.__nadaIntro) window.addEventListener("nada:intro", iniciar, { once: true });
+    else iniciar();
+
+    return () => {
+      window.removeEventListener("nada:intro", iniciar);
+      mm.revert();
+      ctx.revert();
+    };
+  }, []);
 
   return (
-    <section
-      id="top"
-      className="relative flex min-h-[100svh] items-center overflow-hidden pt-28 pb-16"
-    >
-      <div className="wrap relative z-10">
-        <h1
+    <section ref={heroRef} id="top" className="relative flex min-h-[100svh] flex-col pt-28 pb-8">
+      <div className="wrap relative z-10 flex flex-1 flex-col justify-center">
+        <TituloRotativo
+          fixa={HERO_HEADLINE_FIXA}
+          variacoes={HERO_VARIACOES}
           className="text-[clamp(42px,6.5vw,78px)] font-black leading-[1.02] tracking-[-0.035em]"
-        >
-          <span>{HERO_HEADLINE_FIXA}</span>
-          <br />
-          <span
-            ref={linhaRef}
-            aria-live="off"
-            className="inline-block min-h-[1.15em] align-top md:min-h-[1.1em]"
-          >
-            {tokens.map((token, i) => (
-              <span key={`${index}-${i}`} data-word className="inline-block">
-                <span className={token.metal ? "metal" : undefined}>{token.texto}</span>
-                {i < tokens.length - 1 ? " " : ""}
-              </span>
-            ))}
-          </span>
-        </h1>
+        />
 
-        <p className="prose-measure mt-6 text-[18px] md:text-[20px] leading-relaxed text-black/70">
+        <p className="prose-measure mt-6 text-[18px] leading-relaxed text-black/70 md:text-[20px]">
           {HERO_SUB}
         </p>
 
         <div className="mt-10 flex flex-wrap items-center gap-4">
           <a href={buildWhatsAppLink(HERO_CTA_MSG)} className="btn btn-primary">
-            {HERO_CTA} →
+            {HERO_CTA} <span className="seta" aria-hidden>→</span>
           </a>
-          <a href="/como-funciona" className="btn btn-secondary">
+          <Link href="/como-funciona" className="btn btn-secondary">
             Ver como funciona
-          </a>
+          </Link>
         </div>
+      </div>
+
+      <div className="wrap relative z-10 mt-12 flex items-end justify-between gap-6">
+        <p className="max-w-[60ch] text-[13px] text-black/55">{local}</p>
+        <span ref={fioRef} aria-hidden className="hero-fio hidden sm:block">
+          <span className="hero-linha" />
+          <Ponto papel="origem" className="hero-ponto" />
+        </span>
       </div>
     </section>
   );

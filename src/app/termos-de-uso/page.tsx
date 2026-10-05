@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
+import { metadadosDePagina } from "@/lib/metadados";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-export const metadata: Metadata = {
-  title: "Termos de Uso",
-  description:
+export const metadata: Metadata = metadadosDePagina({
+  titulo: "Termos de Uso",
+  descricao:
     "Termos de uso do site da NADA Studio: como funciona a navegação, os serviços oferecidos e as responsabilidades de cada parte.",
-  alternates: {
-    canonical: "/termos-de-uso",
-  },
-};
+  caminho: "/termos-de-uso",
+});
 
 export default function TermosDeUso() {
   return (

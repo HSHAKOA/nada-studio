@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
+import { metadadosDePagina } from "@/lib/metadados";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Reveal from "@/components/Reveal";
 import SectionMarker from "@/components/SectionMarker";
+import WhatsAppFixo from "@/components/WhatsAppFixo";
 import PortfolioList from "@/components/sections/PortfolioList";
-import Portfolio3DGallery from "@/components/sections/Portfolio3DGallery";
 import CTA from "@/components/sections/CTA";
+import { sectionMarkers } from "@/data/content";
 import { PORTFOLIO_HEADER } from "@/data/portfolio";
 
-export const metadata: Metadata = {
-  title: "Portfólio",
-  description: "O que a gente já construiu: sites, sistemas e ferramentas.",
-  alternates: {
-    canonical: "/portfolio",
-  },
-};
+export const metadata: Metadata = metadadosDePagina({
+  titulo: "Portfólio",
+  descricao:
+    "O que a gente já construiu: sites, sistemas e ferramentas. Em cada projeto, o problema e o que mudou.",
+  caminho: "/portfolio",
+});
 
+// A primeira capa do celular vai com prioridade direto no <img> (PortfolioList).
+// O preload() do react-dom que ficava aqui entrava no payload do prefetch de
+// /portfolio, e o celular baixava essa capa em toda página do site.
 export default function PortfolioPage() {
   return (
     <>
@@ -23,39 +26,19 @@ export default function PortfolioPage() {
       <main className="pt-24">
         <section id="portfolio" className="section">
           <div className="wrap">
-            <Reveal>
-              <SectionMarker
-                label={PORTFOLIO_HEADER.marcador}
-                number={PORTFOLIO_HEADER.num}
-              />
-            </Reveal>
-            <Reveal delay={80}>
-              <h1 className="max-w-3xl text-[clamp(32px,4.2vw,52px)]">
-                {PORTFOLIO_HEADER.titulo}
-              </h1>
-            </Reveal>
-            <Reveal delay={160}>
-              <p className="prose-measure mt-6 text-[18px] text-black/70">
-                {PORTFOLIO_HEADER.subtitulo}
-              </p>
-            </Reveal>
+            <SectionMarker label={PORTFOLIO_HEADER.marcador} number={sectionMarkers.portfolioTopo} />
+            <h1 data-entra="titulo" className="max-w-3xl text-[clamp(36px,5vw,64px)]">
+              {PORTFOLIO_HEADER.titulo}
+            </h1>
+            <p className="prose-measure mt-6 text-[18px] text-black/70">{PORTFOLIO_HEADER.subtitulo}</p>
 
-            {/* Vitrine 3D Interativa */}
-            <Portfolio3DGallery />
-
-            {/* Lista Completa e Acessível */}
-            <div className="mt-20">
-              <h2 className="text-2xl font-bold tracking-tight">Todos os projetos em detalhes</h2>
-              <p className="mt-1 text-sm text-black/60">
-                Clique em qualquer projeto abaixo para ler o desafio e a solução técnica completa.
-              </p>
-              <PortfolioList />
-            </div>
+            <PortfolioList />
           </div>
         </section>
-        <CTA />
+        <CTA numero={sectionMarkers.portfolioCta} titulo="Quer o seu aqui?" />
       </main>
       <Footer />
+      <WhatsAppFixo mensagem="Oi! Vi o portfólio da NADA Studio e quero algo assim." />
     </>
   );
 }

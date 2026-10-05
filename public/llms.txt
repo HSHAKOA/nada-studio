@@ -7,6 +7,8 @@
 - Sites: criação de sites rápidos, feitos pra converter visitante em cliente.
 - Automação: automação de atendimento, agendamento, cobrança e tarefas repetitivas com n8n.
 - Aplicações sob medida: sistemas pequenos e simples pra um problema específico do negócio.
+- Motion e vídeo: edição, motion design e produção visual pra mostrar o que o negócio faz.
+- IA para empresas: implementação e treinamento de IA dentro da empresa, com a equipe usando no próprio trabalho.
 
 ## Como funciona
 
@@ -21,5 +23,8 @@ A gente conversa sobre o que trava o seu dia, constrói do zero sob medida, entr
 ## Páginas
 
 - [Site](https://www.nadastudio.com.br): página principal, serviços, portfólio e perguntas frequentes.
+- [Portfólio](https://www.nadastudio.com.br/portfolio): projetos de cliente e soluções próprias, cada um com página de case.
+- [Motion](https://www.nadastudio.com.br/motion): edição de vídeo, motion design e produção visual.
+- [IA para empresas](https://www.nadastudio.com.br/ia-para-empresas): implementação e treinamento de IA dentro de empresas.
 - [Termos de Uso](https://www.nadastudio.com.br/termos-de-uso)
 - [Política de Privacidade](https://www.nadastudio.com.br/politica-de-privacidade)

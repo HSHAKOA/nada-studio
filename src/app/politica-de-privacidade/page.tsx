@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
+import { metadadosDePagina } from "@/lib/metadados";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-export const metadata: Metadata = {
-  title: "Política de Privacidade",
-  description:
+export const metadata: Metadata = metadadosDePagina({
+  titulo: "Política de Privacidade",
+  descricao:
     "Política de privacidade da NADA Studio: quais dados coletamos, por que coletamos e quais são os seus direitos conforme a LGPD.",
-  alternates: {
-    canonical: "/politica-de-privacidade",
-  },
-};
+  caminho: "/politica-de-privacidade",
+});
 
 export default function PoliticaDePrivacidade() {
   return (
@@ -21,7 +20,7 @@ export default function PoliticaDePrivacidade() {
             Política de Privacidade
           </h1>
           <p className="mt-4 text-sm text-black/50">
-            Última atualização: 11 de agosto de 2026
+            Última atualização: 5 de outubro de 2026
           </p>
 
           <p className="mt-8 text-black/70">
@@ -58,15 +57,16 @@ export default function PoliticaDePrivacidade() {
           </p>
           <ul className="mt-4 space-y-2 text-black/70">
             <li>
-              Dados que você nos fornece: ao preencher um formulário de
-              contato ou nos chamar no WhatsApp, você pode informar nome,
-              telefone, e-mail e a mensagem com a descrição do que precisa.
+              Dados que você nos fornece: ao nos chamar no WhatsApp, mandar
+              um e-mail ou uma mensagem no Instagram, você pode informar nome,
+              telefone, e-mail e a descrição do que precisa. O site não tem
+              formulário: o contato acontece por esses canais.
             </li>
             <li>
-              Dados de navegação: ao acessar o site, podem ser coletados
-              automaticamente dados técnicos como endereço IP, tipo de
-              dispositivo, navegador e páginas visitadas, por meio de
-              cookies (ver seção 6).
+              Dados de navegação: quando você acessa o site, a hospedagem
+              (Cloudflare) recebe dados técnicos como o endereço IP e o
+              navegador, e o Google Analytics registra as páginas visitadas,
+              o tipo de aparelho e a região aproximada (ver seção 6).
             </li>
           </ul>
           <p className="mt-4 text-black/70">
@@ -99,9 +99,8 @@ export default function PoliticaDePrivacidade() {
               pede um orçamento ou contrata nossos serviços.
             </li>
             <li>
-              Consentimento: quando você nos envia seus dados
-              voluntariamente por formulário ou WhatsApp para ser
-              contatado.
+              Consentimento: quando você mesmo nos manda seus dados pelo
+              WhatsApp, por e-mail ou pelo Instagram para ser contatado.
             </li>
             <li>
               Legítimo interesse: para melhorar o site e nossa comunicação,
@@ -116,9 +115,9 @@ export default function PoliticaDePrivacidade() {
             do atendimento, e somente na medida necessária, como:
           </p>
           <ul className="mt-4 space-y-2 text-black/70">
-            <li>serviços de hospedagem e infraestrutura do site (por exemplo, Vercel);</li>
-            <li>serviços de banco de dados e armazenamento (por exemplo, Supabase);</li>
-            <li>ferramentas de comunicação e automação utilizadas no atendimento (por exemplo, WhatsApp);</li>
+            <li>hospedagem e entrega do site: Cloudflare;</li>
+            <li>medição de audiência do site: Google, com o Google Analytics (ver seção 6);</li>
+            <li>ferramentas de comunicação e automação usadas no atendimento (por exemplo, WhatsApp);</li>
             <li>autoridades públicas, quando houver obrigação legal.</li>
           </ul>
           <p className="mt-4 text-black/70">
@@ -127,34 +126,53 @@ export default function PoliticaDePrivacidade() {
             Política.
           </p>
 
-          <h2 className="mt-10 text-2xl">6. Cookies</h2>
+          <h2 className="mt-10 text-2xl">6. Cookies e armazenamento no navegador</h2>
           <p className="mt-4 text-black/70">
-            O site utiliza apenas cookies estritamente necessários ao seu
-            funcionamento e à segurança da navegação. Esses cookies não
-            dependem de consentimento prévio, mas você é informado sobre o
-            uso deles aqui.
+            O site usa o Google Analytics, serviço do Google, para medir a
+            audiência: quantas pessoas visitam, quais páginas leem e por
+            quanto tempo, de que tipo de aparelho e navegador, de qual
+            região aproximada e por onde chegaram (uma busca, o Instagram,
+            um link). Usamos esses números só para entender como o site é
+            usado e melhorar as páginas.
           </p>
           <p className="mt-4 text-black/70">
-            Atualmente não utilizamos cookies de análise de audiência,
-            publicidade ou rastreamento de terceiros. Caso isso mude no
-            futuro, esta Política será atualizada e o site passará a exibir
-            um aviso de cookies com opção de aceitar ou recusar os cookies
-            não essenciais antes de sua ativação.
+            Para isso, o Google Analytics grava dois cookies no seu
+            navegador: o _ga, que diferencia um navegador de outro por um
+            código aleatório, e o _ga_BGYNR7JBZW, que guarda o andamento da
+            visita. Os dois valem por até dois anos e são renovados a cada
+            visita.
           </p>
           <p className="mt-4 text-black/70">
-            Você pode gerenciar ou bloquear cookies nas configurações do seu
-            navegador. Ao bloquear cookies, algumas funcionalidades podem
-            não operar corretamente.
+            Fora os cookies, o site guarda no próprio navegador duas
+            informações de funcionamento: se a animação de abertura já
+            apareceu, para ela não se repetir, e, enquanto a aba estiver
+            aberta, a posição de leitura de cada página, para devolver você
+            ao mesmo ponto. Essas informações não identificam você e não
+            saem do seu aparelho.
+          </p>
+          <p className="mt-4 text-black/70">
+            Você pode bloquear ou apagar os cookies nas configurações do
+            navegador ou instalar o{" "}
+            <a
+              href="https://tools.google.com/dlpage/gaoptout"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-black/30 underline-offset-4 hover:decoration-black"
+            >
+              complemento de desativação do Google Analytics
+            </a>
+            , oferecido pelo próprio Google. O site funciona normalmente sem
+            esses cookies.
           </p>
 
           <h2 className="mt-10 text-2xl">7. Transferência internacional de dados</h2>
           <p className="mt-4 text-black/70">
-            Algumas das ferramentas que utilizamos (por exemplo, Vercel e
-            Supabase) podem armazenar dados em servidores localizados fora
-            do Brasil. Nesses casos, nos termos do art. 33 da LGPD,
-            trabalhamos com prestadores que oferecem garantias adequadas de
-            proteção, incluindo cláusulas contratuais e padrões de segurança
-            reconhecidos internacionalmente.
+            O Google (Google Analytics) e a Cloudflare (hospedagem do site)
+            podem tratar dados em servidores fora do Brasil. Nesses casos,
+            nos termos do art. 33 da LGPD, trabalhamos com prestadores que
+            oferecem garantias adequadas de proteção, incluindo cláusulas
+            contratuais e padrões de segurança reconhecidos
+            internacionalmente.
           </p>
 
           <h2 className="mt-10 text-2xl">8. Por quanto tempo guardamos os dados</h2>

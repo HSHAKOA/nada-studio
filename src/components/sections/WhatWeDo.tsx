@@ -1,37 +1,107 @@
-import Reveal from "@/components/Reveal";
+"use client";
+
+import { useEffect, useRef } from "react";
+import Link from "next/link";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Ponto from "@/components/Ponto";
 import SectionMarker from "@/components/SectionMarker";
-import { serviceIcons } from "@/components/icons/ServiceIcons";
 import { sectionMarkers, SERVICOS } from "@/data/content";
+import { MQ, movimentoLiberado } from "@/lib/motion";
 
+gsap.registerPlugin(ScrollTrigger);
+
+const BASE = 200; // diâmetro de desenho do ponto viajante (escala pra baixo = nítido)
+
+// Lista editorial no mesmo padrão dos sintomas: número, pergunta grande,
+// resposta curta. Sem ícone, sem cartão. O ponto final do título é o ponto da
+// marca: no desktop ele chega de longe pelo vazio à direita, passa perto
+// (inverte o que cruza) e pousa no fim da frase. Ver src/lib/ponto.ts.
 export default function WhatWeDo() {
-  return (
-    <section id="o-que-fazemos" className="section bg-[#fafafa]">
-      <div className="wrap">
-        <Reveal>
-          <SectionMarker label="O que fazemos" number={sectionMarkers.whatWeDo} />
-        </Reveal>
-        <Reveal delay={80}>
-          <h2 className="mt-6 max-w-2xl text-[clamp(32px,4.2vw,52px)]">
-            A gente constrói. Você só usa.
-          </h2>
-        </Reveal>
+  const secaoRef = useRef<HTMLElement>(null);
 
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICOS.map((servico, i) => {
-            const Icon = serviceIcons[servico.icone];
-            return (
-              <Reveal key={servico.id} delay={i * 80}>
-                <div className="card flex h-full flex-col">
-                  <Icon aria-hidden="true" className="h-10 w-10 text-black" />
-                  <span className="eyebrow mt-6">{servico.num}</span>
-                  <h3 className="mt-3 text-xl">{servico.titulo}</h3>
-                  <p className="mt-3 text-black/70">{servico.descricao}</p>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
+  useEffect(() => {
+    const secao = secaoRef.current;
+    if (!secao || !movimentoLiberado()) return;
+    const viajante = secao.querySelector<HTMLElement>(".passagem-ponto");
+    const mm = gsap.matchMedia();
+
+    mm.add(MQ.tablet, () => {
+      if (!viajante) return;
+      // O ponto final é procurado a cada medida (o SplitText do título refaz
+      // as linhas); ele só aparece quando o viajante pousa (atributo na seção,
+      // que sobrevive às linhas refeitas).
+      const alvo = () => {
+        const final = secao.querySelector<HTMLElement>(".ponto-final")!;
+        const s = secao.getBoundingClientRect();
+        const r = final.getBoundingClientRect();
+        return { x: r.left - s.left + r.width / 2, y: r.top - s.top + r.height / 2, d: r.width, w: s.width };
+      };
+      secao.dataset.ponto = "viajando";
+
+      const tl = gsap
+        .timeline({
+          scrollTrigger: { trigger: secao, start: "top 80%", end: "top 20%", scrub: 0.6, invalidateOnRefresh: true },
+          onUpdate: () => {
+            const estado = tl.progress() > 0.995 ? "pousado" : "viajando";
+            if (secao.dataset.ponto !== estado) secao.dataset.ponto = estado;
+          },
+        })
+        // Longe → perto: entra pela direita, pequeno, e cresce pelo vazio até
+        // passar por cima do fim da frase (o difference inverte as letras).
+        .fromTo(
+          viajante,
+          { x: () => alvo().w * 0.9 - BASE / 2, y: () => alvo().y - 190 - BASE / 2, scale: 0.03, autoAlpha: 1 },
+          { x: () => alvo().x + 150 - BASE / 2, y: () => alvo().y - 40 - BASE / 2, scale: 0.9, duration: 0.55, ease: "power1.inOut" }
+        )
+        // Perto → longe: recua cruzando o fim da frase e vira o ponto final.
+        .to(viajante, {
+          x: () => alvo().x - BASE / 2,
+          y: () => alvo().y - BASE / 2,
+          scale: () => alvo().d / BASE,
+          duration: 0.45,
+          ease: "power3.inOut",
+        })
+        .set(viajante, { autoAlpha: 0 });
+
+      return () => {
+        delete secao.dataset.ponto;
+      };
+    });
+
+    return () => mm.revert();
+  }, []);
+
+  return (
+    <section ref={secaoRef} id="o-que-fazemos" className="section relative">
+      <div className="wrap">
+        <SectionMarker label="O que fazemos" number={sectionMarkers.whatWeDo} />
+        <h2 data-entra="titulo" className="max-w-2xl text-[clamp(32px,4.2vw,52px)]">
+          A gente constrói. Você só usa<span aria-hidden className="ponto-final" />
+        </h2>
+
+        <ol data-entra="linha" className="regua-topo mt-14">
+          {SERVICOS.map((servico) => (
+            <li
+              key={servico.num}
+              data-entra="linha"
+              className="regua grid gap-2 py-7 md:grid-cols-12 md:items-baseline md:gap-8"
+            >
+              <span className="text-sm text-black/40 md:col-span-1">{servico.num}</span>
+              <h3 className="text-[clamp(22px,2.6vw,32px)] md:col-span-7">{servico.titulo}</h3>
+              <p className="text-black/70 md:col-span-4">
+                {servico.descricao}
+                {servico.href && (
+                  <Link href={servico.href} className="link-u mt-1 block w-fit py-2 text-sm font-medium text-black">
+                    Ver como funciona <span className="seta" aria-hidden>→</span>
+                  </Link>
+                )}
+              </p>
+            </li>
+          ))}
+        </ol>
       </div>
+      <Ponto papel="passagem" className="passagem-ponto" />
     </section>
   );
 }

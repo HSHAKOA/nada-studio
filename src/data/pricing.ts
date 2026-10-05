@@ -9,61 +9,62 @@ export type Pacote = {
   whatsappMsg: string;
 };
 
+// Cada item fala do que muda pro cliente, nunca da tecnologia por trás.
+// Sem valor público aprovado: os formatos não mostram preço.
 export const PACOTES: Pacote[] = [
   {
     id: "landing-page",
-    nome: "Landing Page",
+    nome: "Página de venda",
     prazo: "3 a 7 dias úteis",
-    promessa: "Página única pensada para converter visitantes em clientes pagantes.",
+    promessa: "Uma página só, feita pra transformar quem chega em conversa no WhatsApp.",
     inclui: [
-      "Design sob medida e ultra-rápido no celular",
-      "Otimizada para tráfego pago e alta conversão",
-      "Botão de WhatsApp e formulário com aviso instantâneo",
-      "Configuração de domínio, SSL e tags de rastreamento",
+      "Desenho sob medida, rápido no celular",
+      "Pronta pra receber anúncio do Google e do Instagram",
+      "Botão de WhatsApp e formulário que te avisam na hora",
+      "No seu endereço, segura e medindo de onde vem cada contato",
     ],
-    cta: "Pedir proposta de Landing Page",
-    whatsappMsg: "Oi! Quero uma proposta para criação de Landing Page.",
+    cta: "Pedir proposta de página",
+    whatsappMsg: "Oi! Quero uma proposta de página de venda.",
   },
   {
     id: "site-completo",
     nome: "Site & Automação",
     prazo: "2 a 3 semanas",
-    promessa: "Seu negócio estruturado na internet com atendimento no automático.",
+    promessa: "Seu negócio inteiro na internet, com o atendimento andando sozinho.",
     destaque: true,
     inclui: [
-      "Site multipáginas sob medida (Next.js)",
-      "Atendimento automático e triagem de leads no WhatsApp",
-      "Agendamento sincronizado com Google Agenda",
-      "SEO técnico completo para aparecer nas buscas do Google",
+      "Site com várias páginas, do jeito do seu negócio",
+      "WhatsApp que responde e já separa quem quer contratar",
+      "Horário marcado caindo direto na sua agenda",
+      "Preparado pra ser encontrado no Google",
     ],
-    cta: "Pedir proposta para Site Completo",
-    whatsappMsg: "Oi! Quero uma proposta para Site Institucional com Automação.",
+    cta: "Pedir proposta de site",
+    whatsappMsg: "Oi! Quero uma proposta de site com automação.",
   },
   {
     id: "sistema-sob-medida",
-    nome: "Sistema Sob Medida",
+    nome: "Sistema sob medida",
     prazo: "Escopo sob medida",
-    promessa: "Aplicação web ou ferramenta feita exatamente para o seu fluxo operacional.",
+    promessa: "Uma ferramenta feita pro jeito que a sua operação já funciona.",
     inclui: [
-      "Aplicação web ou painel de gestão exclusivo",
-      "Fluxos inteligentes com IA (OpenAI), n8n e integrações",
-      "Banco de dados seguro e autenticação de usuários",
-      "Acompanhamento e suporte técnico contínuo",
+      "Painel próprio pra controlar o que hoje está em planilha",
+      "Tarefa repetitiva rodando sozinha, ligada ao que você já usa",
+      "Dados guardados com segurança, com acesso só de quem você autorizar",
+      "Suporte direto com quem construiu",
     ],
-    cta: "Conversar sobre Sistema",
-    whatsappMsg: "Oi! Quero entender sobre o desenvolvimento de um Sistema sob medida.",
+    cta: "Conversar sobre sistema",
+    whatsappMsg: "Oi! Quero entender como seria um sistema sob medida pro meu negócio.",
   },
 ];
 
-export const SOB_MEDIDA = {
-  titulo: "Precisa de uma automação pontual ou projeto misto?",
+export const DIAGNOSTICO = {
+  titulo: "Não sabe qual é o seu? Começa pelo diagnóstico gratuito.",
   texto:
-    "Conta pra gente qual tarefa repetitiva está travando seu dia a dia. Analisamos sua rotina e desenhamos a solução ideal sem enrolação.",
-  cta: "Pedir diagnóstico gratuito",
-  whatsappMsg: "Oi! Preciso de uma solução personalizada, posso explicar minha rotina?",
+    "Você conta a rotina e o que está travando. A gente olha o seu caso e diz o que resolver primeiro, sem compromisso.",
+  whatsappMsg: "Oi! Quero o diagnóstico gratuito. Posso explicar minha rotina?",
 };
 
 export const MANUTENCAO =
-  "Depois de pronto, cuidamos de tudo: hospedagem de alta performance, certificado SSL, ajustes contínuos e suporte direto no WhatsApp. Opcional e sem contrato de fidelidade.";
+  "Depois de pronto, a gente cuida: site no ar e rápido, ajustes quando precisar e suporte direto no WhatsApp. Opcional e sem fidelidade.";
 
 export const SELO_DESTAQUE = "mais pedido";

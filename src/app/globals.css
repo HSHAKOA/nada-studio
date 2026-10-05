@@ -1,17 +1,98 @@
-@import "tailwindcss";
+/* source(".."): só src/ gera classe. Sem isso o Tailwind varre todo arquivo
+   fora do .gitignore (docs, .md das skills em .agents/) e cada classe citada
+   num texto vira CSS publicado sem nenhum elemento usando. */
+@import "tailwindcss" source("..");
 
 :root {
   --background: #ffffff;
   --foreground: #000000;
+  /* Vocabulário de movimento (o mesmo do GSAP em src/lib/motion.ts).
+     Uma curva de entrada, uma de saída, uma de transformação. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* chegar e assentar; interação */
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0); /* sair, um pouco mais rápido */
+  --ease-inout: cubic-bezier(0.87, 0, 0.13, 1); /* um estado virando outro */
+  --t-ui: 200ms; /* cor, opacidade, borda */
+  --t-mov: 280ms; /* rolo do menu, seta, deslocamento curto */
+  --t-saida: 160ms; /* saída de UI */
+  --ponto: 10px; /* o ponto da marca em repouso (src/lib/ponto.ts) */
   color-scheme: light;
 }
 
+/* Reserva das fontes enquanto a Archivo e a Inter não chegam (layout.tsx).
+   Mesma Arial de sempre, com um ajuste por peso medido nos textos do site
+   (largura da fonte da marca ÷ Arial). Com a reserva única do next/font, o
+   título em 900 saía 15% mais estreito e mudava de quebra na troca. Onde não
+   existe Arial (Android), cai na sans-serif do sistema, como antes. */
+@font-face {
+  font-family: "Archivo Reserva";
+  src: local("Arial"), local("ArialMT");
+  font-weight: 100 599;
+  size-adjust: 98.7%;
+  ascent-override: 88.96%;
+  descent-override: 21.28%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Archivo Reserva";
+  src: local("Arial Bold"), local("Arial-BoldMT");
+  font-weight: 600;
+  size-adjust: 96.2%;
+  ascent-override: 91.27%;
+  descent-override: 21.83%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Archivo Reserva";
+  src: local("Arial Bold"), local("Arial-BoldMT");
+  font-weight: 700 800;
+  size-adjust: 99.07%;
+  ascent-override: 88.63%;
+  descent-override: 21.2%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Archivo Reserva";
+  src: local("Arial Bold"), local("Arial-BoldMT");
+  font-weight: 900;
+  size-adjust: 110.83%;
+  ascent-override: 79.22%;
+  descent-override: 18.95%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Inter Reserva";
+  src: local("Arial"), local("ArialMT");
+  font-weight: 100 449;
+  size-adjust: 107.12%;
+  ascent-override: 90.44%;
+  descent-override: 22.52%;
+  line-gap-override: 0%;
+}
+
+/* 500 (botões, menu): calibrado nos rótulos; na média do texto daria 106,7%,
+   e "Ver o portfólio" da 404 mudava de linha por 1 px. */
+@font-face {
+  font-family: "Inter Reserva";
+  src: local("Arial"), local("ArialMT");
+  font-weight: 450 599;
+  size-adjust: 108%;
+  ascent-override: 89.7%;
+  descent-override: 22.34%;
+  line-gap-override: 0%;
+}
+
 @theme inline {
+  /* Largura a partir da qual o menu completo cabe no cabeçalho (sete itens
+     mais o botão). Abaixo dela vale o menu do celular. Igual a BP.menu. */
+  --breakpoint-menu: 73.75rem;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
-  --font-hand: var(--font-hand);
 }
 
 @layer base {
@@ -26,18 +107,14 @@
     scrollbar-gutter: stable;
   }
 
-  /* Lenis: o scroll nativo suave briga com o wheel suave do Lenis.
-     Com o Lenis ativo (classe no <html>) o nativo sai de cena — inclusive nos
-     links âncora, que o próprio Lenis passa a animar. O smooth acima fica de
-     fallback pra quem cai sem JS ou com reduced-motion. */
   html.lenis,
   html.lenis body {
     height: auto;
   }
 
   /* Com o Lenis ativo o smooth nativo sai de cena: os dois brigam pela posição
-     do scroll e o nativo acaba cancelado no meio. O SmoothScroll passa a animar
-     os links de âncora. O smooth acima fica de fallback sem JS. */
+     do scroll. O SmoothScroll anima os links de âncora; o smooth acima fica de
+     fallback sem JS ou com movimento reduzido. */
   html.lenis {
     scroll-behavior: auto;
   }
@@ -50,7 +127,11 @@
     background: var(--background);
     color: var(--foreground);
     font-family: var(--font-body), system-ui, sans-serif;
-    overflow-x: hidden;
+    /* clip, não hidden: corta igual sem fazer do body um contêiner de
+       rolagem. Com hidden, a trava do menu (overflow no <html>) fazia o body
+       virar um, e todo position: sticky (Antes/Depois, cena NADA, prévia do
+       índice) soltava da tela enquanto o menu abria. */
+    overflow-x: clip;
   }
 
   ::selection {
@@ -58,13 +139,15 @@
     color: #fff;
   }
 
-  /* focus visibility (a11y) */
-  a:focus-visible,
-  button:focus-visible,
-  [tabindex]:focus-visible {
+  /* Foco de teclado: 2 px, sempre com contraste (preto no claro, branco no escuro). */
+  :focus-visible {
     outline: 2px solid #000;
-    outline-offset: 4px;
-    border-radius: 4px;
+    outline-offset: 3px;
+  }
+
+  .section-invert :focus-visible,
+  [data-escuro] :focus-visible {
+    outline-color: #fff;
   }
 
   h1, h2, h3 {
@@ -72,6 +155,7 @@
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.05;
+    text-wrap: balance;
   }
 
   p {
@@ -82,6 +166,11 @@
 @layer components {
 .section {
   padding-block: clamp(72px, 12vw, 180px);
+}
+
+/* Ritmo: a prova encosta na promessa (portfólio logo depois do Antes/Depois). */
+.section-encosta {
+  padding-top: clamp(48px, 6vw, 96px);
 }
 
 .wrap {
@@ -106,196 +195,1940 @@
   color: rgba(0, 0, 0, 0.55);
 }
 
-.section-invert .eyebrow {
+.section-invert .eyebrow,
+[data-escuro] .eyebrow {
   color: rgba(255, 255, 255, 0.6);
 }
 
-/* pill buttons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  padding: 14px 28px;
-  font-size: 15px;
-  font-weight: 500;
-  transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-  white-space: nowrap;
-}
-
-.btn:hover {
-  transform: scale(1.03);
-}
-
-.btn:active {
-  transform: scale(0.98);
-}
-
-.btn-primary {
-  background: #000;
-  color: #fff;
-}
-
-.btn-primary:hover {
-  opacity: 0.85;
-}
-
-.section-invert .btn-primary {
-  background: #fff;
-  color: #000;
-}
-
-.btn-secondary {
-  background: transparent;
-  color: #000;
-  border: 1px solid rgba(0, 0, 0, 0.25);
-}
-
-.btn-secondary:hover {
-  border-color: #000;
-}
-
-.section-invert .btn-secondary {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.section-invert .btn-secondary:hover {
-  border-color: #fff;
-}
-
-/* card */
-.card {
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
-  padding: clamp(24px, 3vw, 36px);
-  background: #fff;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.18);
-}
-
-/* section invert (black bg respiro) */
 .section-invert {
   background: #000;
   color: #fff;
 }
 
-/* reveal on scroll */
-[data-reveal] {
+/* ── Botões: canto reto; no hover a cor inverte entrando de baixo e a seta
+   sai pela direita enquanto a cópia dela entra pela esquerda (transição, não
+   keyframe: sair no meio volta do ponto em que está). ──────────────────── */
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: #000;
+  --btn-borda: rgba(0, 0, 0, 0.25);
+  --btn-fill: #000;
+  --btn-fill-fg: #fff;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  min-height: 48px;
+  padding: 12px 26px;
+  border: 1px solid var(--btn-borda);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: color 0.45s var(--ease-out), border-color 0.45s var(--ease-out);
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--btn-fill);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.45s var(--ease-out);
+}
+
+.btn .seta {
+  width: 1em;
+  overflow: clip;
+  text-indent: 0;
+  text-shadow: -1.5em 0 currentColor;
+  transition: text-indent 0.45s var(--ease-out);
+}
+
+.btn-primary {
+  --btn-bg: #000;
+  --btn-fg: #fff;
+  --btn-borda: #000;
+  --btn-fill: #fff;
+  --btn-fill-fg: #000;
+}
+
+.section-invert .btn-primary,
+[data-escuro] .btn-primary {
+  --btn-bg: #fff;
+  --btn-fg: #000;
+  --btn-borda: #fff;
+  --btn-fill: #000;
+  --btn-fill-fg: #fff;
+}
+
+.section-invert .btn-secondary,
+[data-escuro] .btn-secondary {
+  --btn-fg: #fff;
+  --btn-borda: rgba(255, 255, 255, 0.3);
+  --btn-fill: #fff;
+  --btn-fill-fg: #000;
+}
+
+@media (hover: hover) {
+  .btn:hover {
+    color: var(--btn-fill-fg);
+    border-color: var(--btn-fill);
+  }
+
+  .btn:hover::before {
+    transform: scaleY(1);
+  }
+
+  .btn:hover .seta {
+    text-indent: 1.5em;
+  }
+}
+
+/* Botão do cabeçalho: a pílula original; o texto troca por máscara (.rolo). */
+.btn-pill {
+  min-height: 0;
+  padding: 14px 28px;
+  border: 0;
+  border-radius: 9999px;
+  line-height: 1.5;
+}
+
+.btn-pill::before {
+  content: none;
+}
+
+@media (hover: hover) {
+  .btn-pill:hover {
+    color: var(--btn-fg);
+  }
+}
+
+.seta {
+  display: inline-block;
+  transition: transform var(--t-mov) var(--ease-out);
+}
+
+/* Link de texto: o sublinhado entra pela esquerda e sai pela direita.
+   content-box: a linha fica colada no texto mesmo com padding de toque. */
+.link-u {
+  background: linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0 1px;
+  background-origin: content-box;
+  transition: background-size 0.45s var(--ease-out);
+}
+
+@media (hover: hover) {
+  .link-u:hover,
+  .group:hover .link-u {
+    background-position: 0 100%;
+    background-size: 100% 1px;
+  }
+
+  .link-u:hover .seta,
+  .group:hover .seta {
+    transform: translateX(4px);
+  }
+}
+
+.group:focus-visible .link-u {
+  background-position: 0 100%;
+  background-size: 100% 1px;
+}
+
+/* ── Cabeçalho: troca de letras nos links, rolo no botão e recolher ao
+   descer (Navbar.tsx) ───────────────────────────────────────────────────── */
+.cabecalho {
+  transition: translate 350ms var(--ease-out), background-color 300ms var(--ease-out),
+    border-color 300ms var(--ease-out);
+}
+
+/* Só o foco de teclado segura o cabeçalho aberto (clique de mouse num link
+   também dá foco e não deve impedir o recolher). */
+.cabecalho[data-recolhido]:not(:has(:focus-visible)) {
+  translate: 0 -100%;
+  transition-duration: 250ms;
+}
+
+/* O texto sobe e a cópia entra por baixo, dentro da caixa da própria linha.
+   Entra em 280 ms e volta em 200 ms; sair no meio reverte de onde está. */
+.rolo {
+  display: inline-flex;
+  flex-direction: column;
+  height: 1.4em;
+  overflow: clip;
+  line-height: 1.4;
+}
+
+.rolo > span {
+  display: block;
+  transition: translate 200ms var(--ease-out);
+}
+
+/* Links do menu: a mesma caixa do .rolo, mas cada letra sobe sozinha e a
+   cópia (::after) entra por baixo, uma depois da outra, da esquerda pra
+   direita (TrocaDeLetras). Animação de translate: roda no compositor.
+   white-space: pre segura os espaços, que sozinhos num inline-block somem. */
+.troca {
+  position: relative;
+  display: inline-block;
+  height: 1.4em;
+  overflow: clip;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.troca-letra {
+  position: relative;
+  display: inline-block;
+  white-space: pre;
+}
+
+.troca-letra::after {
+  content: attr(data-letra);
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+/* 22 ms entre uma letra e a próxima; cada uma leva 0,5 s pra assentar. */
+.motion .troca.tocando .troca-letra {
+  animation: troca-sobe 0.5s var(--ease-out) calc(var(--i) * 22ms) both;
+}
+
+@keyframes troca-sobe {
+  to { translate: 0 -100%; }
+}
+
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+  transition: color var(--t-ui) var(--ease-out);
+}
+
+.nav-link[aria-current="page"],
+.nav-link:focus-visible {
+  color: #000;
+}
+
+/* Página atual: o ponto da marca antes do rótulo, fora do fluxo (os links
+   não mudam de lugar entre uma página e outra). */
+.nav-link[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  left: -11px;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  margin-top: -2.5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .btn-pill:hover .rolo > span {
+    translate: 0 -100%;
+    transition-duration: var(--t-mov);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn-pill:focus-visible .rolo > span {
+    translate: 0 -100%;
+    transition-duration: var(--t-mov);
+  }
+}
+
+/* O link escurece no hover com ou sem movimento; a troca vem por cima. */
+@media (hover: hover) {
+  .nav-link:hover {
+    color: #000;
+  }
+}
+
+/* ── Réguas: a linha divisória é o padrão de entrada das listas. ─────────── */
+.regua,
+.regua-topo {
+  position: relative;
+}
+
+.regua::after,
+.regua-topo::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: currentColor;
+  opacity: calc(0.15 * var(--fio, 1));
+  transform-origin: left;
+  transition: transform 1s var(--ease-out);
+  transition-delay: var(--atraso, 0ms);
+}
+
+.regua::after {
+  bottom: 0;
+}
+
+.regua-topo::before {
+  top: 0;
+}
+
+/* --fio (0 a 1) segura um fio escondido: o buraco negro do Sobre segura o do
+   bloco seguinte até a poeira pousar nele. Vale só pra esse fio; as réguas
+   de dentro do bloco não herdam. */
+[style*="--fio"] :is(.regua, .regua-topo) {
+  --fio: 1;
+}
+
+/* ── Padrões de entrada (só com movimento liberado; ver MotionRoot) ───────
+   título: sobe pela própria linha de base · lista: régua desenhando ·
+   imagem: a moldura aparece e o miolo assenta dentro dela (sem máscara). */
+.motion [data-entra="titulo"]:not(.is-split),
+.motion .frase-socio:not(.is-split) {
+  visibility: hidden;
+}
+
+.motion [data-entra="linha"]:not(.is-in)::after,
+.motion [data-entra="linha"]:not(.is-in)::before {
+  transform: scaleX(0);
+}
+
+.motion [data-entra="imagem"] {
+  transition: opacity 0.7s var(--ease-out);
+  transition-delay: var(--atraso, 0ms);
+}
+
+.motion [data-entra="imagem"]:not(.is-in) {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-[data-reveal].is-visible {
-  opacity: 1;
-  transform: translateY(0);
+.motion [data-entra="imagem"] :is(.capa-miolo, .assenta) {
+  transition: scale 1.3s var(--ease-out);
+  transition-delay: var(--atraso, 0ms);
 }
 
-/* marquee */
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee 22s linear infinite;
+.motion [data-entra="imagem"]:not(.is-in) :is(.capa-miolo, .assenta) {
+  scale: 1.07;
 }
 
-@keyframes marquee {
-  from {
-    transform: translateX(0);
+/* Marcador editorial: escondido até abrir; aí os parênteses se abrem. */
+.marcador {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+  transition: opacity 0.5s var(--ease-out);
+}
+
+.motion .marcador:not(.is-in) {
+  opacity: 0;
+}
+
+.marcador-nome {
+  display: inline-block;
+  overflow: clip;
+}
+
+.marcador-nome > span {
+  padding-inline: 0.45em;
+}
+
+.motion .marcador:not(.is-in) .marcador-nome {
+  width: 0;
+}
+
+/* Caixa da linha do número: ele sobe por dentro dela ao entrar. */
+.marcador-num {
+  margin-left: 0.6em;
+  overflow: clip;
+  font-variant-numeric: tabular-nums;
+}
+
+.marcador-num > span {
+  display: inline-block;
+}
+
+/* Marcador persistente na margem (MotionRoot). Branco com difference: fica
+   legível sobre seção clara e escura sem lógica de cor. A visibilidade é só
+   da classe; o número rola dentro da caixa. */
+.marcador-fixo {
+  display: none;
+}
+
+@media (min-width: 1360px) {
+  .marcador-fixo {
+    display: block;
+    position: fixed;
+    left: 28px;
+    top: 50%;
+    z-index: 40;
+    height: 1.4em;
+    overflow: clip;
+    color: #fff;
+    mix-blend-mode: difference;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.14em;
+    font-variant-numeric: tabular-nums;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-out);
   }
-  to {
-    transform: translateX(-50%);
+
+  .marcador-fixo.is-on {
+    opacity: 1;
+  }
+
+  .marcador-fixo-num {
+    display: block;
   }
 }
 
-.marquee-viewport:hover .marquee-track {
-  animation-play-state: paused;
+/* ── O ponto da marca (src/lib/ponto.ts) ────────────────────────────────── */
+.ponto {
+  display: block;
+  width: var(--ponto);
+  height: var(--ponto);
+  border-radius: 50%;
+  background: #000;
+  pointer-events: none;
 }
 
-/* orbital ecosystem */
-.orbit-node {
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s ease;
-  cursor: pointer;
-  outline: none;
+/* Ponto final de título: o ponto da marca no lugar do glifo. */
+.ponto-final {
+  display: inline-block;
+  width: 0.19em;
+  height: 0.19em;
+  margin-left: 0.05em;
+  border-radius: 50%;
+  background: currentColor;
 }
 
-.orbit-node:focus-visible circle {
-  stroke-opacity: 1 !important;
+[data-ponto="viajando"] .ponto-final {
+  opacity: 0;
 }
 
-.orbit-line {
-  stroke-dasharray: 2 12;
-  animation: orbit-pulse 2.6s linear infinite;
+/* Passagem por O que fazemos: desenhado grande e escalado pra baixo (nítido
+   em qualquer tamanho); difference inverte o texto que ele cruza. */
+.passagem-ponto {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 5;
+  width: 200px;
+  height: 200px;
+  background: #fff;
+  mix-blend-mode: difference;
+  opacity: 0;
+  visibility: hidden;
 }
 
-@keyframes orbit-pulse {
-  to {
-    stroke-dashoffset: -112;
+/* ── Sintomas: lista que a pessoa marca (Symptoms.tsx) ──────────────────── */
+.sintoma-num {
+  color: rgba(0, 0, 0, 0.4);
+  transition: color var(--t-ui) var(--ease-out);
+}
+
+.sintoma-texto {
+  color: rgba(0, 0, 0, 0.8);
+  transition: color var(--t-ui) var(--ease-out);
+}
+
+.sintoma[aria-pressed="true"] :is(.sintoma-num, .sintoma-texto) {
+  color: #000;
+}
+
+/* Traço à mão sob a linha marcada. Mesmo gesto do logotipo. */
+.traco-mao {
+  position: absolute;
+  left: -2%;
+  bottom: -9px;
+  width: 104%;
+  height: 10px;
+  overflow: visible;
+  pointer-events: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+/* Sem vector-effect: com non-scaling-stroke o pathLength deixa de normalizar
+   o tracejado e o traço aparece pela metade. Lacuna maior que o traço e
+   offset 1.02: apagado, a ponta arredondada não vira um pingo no começo. */
+.traco-mao path {
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: 1.02;
+  transition: stroke-dashoffset 0.5s var(--ease-out);
+}
+
+.sintoma[aria-pressed="true"] .traco-mao path {
+  stroke-dashoffset: 0;
+}
+
+/* Seta que chama pra lista: mesmo traço à mão, piscando devagar até a pessoa
+   marcar o primeiro item. Parada com movimento reduzido. */
+.sintoma-seta {
+  flex-shrink: 0;
+  width: 36px;
+  height: 31px;
+  overflow: visible;
+  fill: none;
+  stroke: #000;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: opacity var(--t-mov) var(--ease-out);
+}
+
+.sintoma-seta[data-some] {
+  opacity: 0;
+}
+
+.motion .sintoma-seta:not([data-some]) {
+  animation: seta-chama 1.5s var(--ease-inout) infinite;
+}
+
+@keyframes seta-chama {
+  0%, 100% { opacity: 1; translate: 0 0; }
+  50% { opacity: 0.3; translate: 0 6px; }
+}
+
+@media (hover: hover) {
+  .sintoma:hover :is(.sintoma-num, .sintoma-texto) {
+    color: #000;
+  }
+
+  /* Convite: o traço começa a sair, a marca completa só no clique. */
+  .sintoma:hover:not([aria-pressed="true"]) .traco-mao path {
+    stroke-dashoffset: 0.86;
   }
 }
 
-.orbit-center-pulse {
-  animation: orbit-breathe 4s ease-in-out infinite;
-  transform-box: fill-box;
-  transform-origin: center;
+/* ── Capas de projeto (ver components/Capa.tsx) ─────────────────────────── */
+.capa {
+  /* Altura livre abaixo do marcador, em cqw (4:5 tem 125cqw de altura). */
+  --alto: 107cqw;
+  position: relative;
+  overflow: hidden;
+  container-type: inline-size;
+  background: #000;
+  color: #fff;
 }
 
-@keyframes orbit-breathe {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
+.capa-larga {
+  --alto: 48.5cqw; /* 16:10 = 62.5cqw */
+}
+
+.capa-em-pe {
+  --alto: 160cqw; /* 9:16 = 177.8cqw */
+}
+
+.capa-nosso {
+  background: #fff;
+  color: #000;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.capa-miolo {
+  position: absolute;
+  inset: 0;
+}
+
+.capa-marcador {
+  position: absolute;
+  left: 6cqw;
+  top: 6cqw;
+  z-index: 2;
+  font-size: max(10px, 2.4cqw);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.capa-nome {
+  position: absolute;
+  left: 6cqw;
+  right: 6cqw;
+  bottom: 6cqw;
+  font-family: var(--font-display), sans-serif;
+  font-size: 12cqw;
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.capa-imagem {
+  position: absolute;
+  top: 24%;
+  right: 0;
+  bottom: 0;
+  left: 10%;
+}
+
+/* Filme: o projeto em movimento ocupa a capa inteira. Um fio na borda
+   segura o contorno quando a tela do projeto é clara como a página. */
+.capa-filme .capa-imagem {
+  inset: 0;
+}
+
+.capa-filme::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+}
+
+/* Recorte de tela: a caixa toma a proporção do próprio recorte (nenhuma
+   palavra cortada) e sobe da borda de baixo, centrada, no espaço que o
+   marcador deixa livre. */
+.capa-tela {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: min(88cqw, var(--alto) * var(--proporcao));
+  aspect-ratio: var(--proporcao);
+  translate: -50% 0;
+  transform-origin: 50% 100%;
+}
+
+.capa-nosso .capa-tela {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+/* Tipo número: o número inteiro no meio da capa e, logo abaixo, a faixa da
+   interface real de onde ele saiu. Nada atravessa os dígitos. */
+.capa-numero-grupo {
+  position: absolute;
+  left: 6cqw;
+  right: 6cqw;
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.capa-num {
+  display: block;
+  font-family: var(--font-display), sans-serif;
+  font-size: 15cqw;
+  font-weight: 900;
+  line-height: 0.85;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+}
+
+.capa-faixa {
+  position: relative;
+  height: 6.5cqw;
+  margin-top: 5cqw;
+}
+
+.capa-foto img {
+  filter: grayscale(1) contrast(1.05);
+}
+
+.capa-imagem,
+.capa-tela,
+.capa-nome,
+.capa-numero-grupo {
+  transition: transform 0.8s var(--ease-out);
+}
+
+/* O segundo seletor é a peça de vídeo (PecaVideo): ali o link fica dentro da capa. */
+@media (hover: hover) and (pointer: fine) {
+  a:hover .capa :is(.capa-imagem, .capa-tela, .capa-nome, .capa-numero-grupo),
+  .capa:has(> a:hover) .capa-imagem {
     transform: scale(1.04);
   }
 }
-/* hero: palavra com brilho metálico (linha rotativa) */
+
+/* Retrato do sócio (RetratoSocio.tsx): com mouse (MQ.mouse), a foto se
+   aproxima quando o ponteiro passa por cima, no tempo das capas. A origem é a
+   altura da testa (no componente). No toque, quem aproxima é o scroll. */
+@media (hover: hover) and (pointer: fine) {
+  .motion .retrato img {
+    transition: scale 0.8s var(--ease-out);
+  }
+
+  .motion .retrato:hover img {
+    scale: 1.1;
+  }
+}
+
+/* ── Capa em cena (components/CapaCena.tsx): motion em código pros projetos
+   sem tela pra filmar. Só transform e opacity; o estado parado (movimento
+   reduzido) é o quadro final. As medidas são em cqw: a cena cresce com a capa. */
+.cena {
+  --u: 1cqw;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: calc(6 * var(--u));
+}
+
+/* Na capa larga (16:10) a mesma cena ocupa menos da largura. */
+.capa-larga .cena {
+  --u: 0.6cqw;
+}
+
+/* Leitor: código de barras, a linha de leitura e o movimento registrado. */
+.cena-codigo {
+  position: relative;
+  display: flex;
+  gap: calc(0.9 * var(--u));
+  width: calc(56 * var(--u));
+  height: calc(30 * var(--u));
+}
+
+.cena-codigo > span:not(.cena-leitura) {
+  flex: 1 1 0;
+  background: currentColor;
+}
+
+/* A caixa inteira desce e sobe; a linha fica no meio dela. Difference: sobre
+   a barra a linha escurece, sobre o vão ela acende. */
+.cena-leitura {
+  position: absolute;
+  inset: 0 -7%;
+  display: grid;
+  align-items: center;
+  mix-blend-mode: difference;
+  opacity: 0;
+}
+
+.cena-leitura > i {
+  display: block;
+  height: max(2px, calc(1.1 * var(--u)));
+  background: #fff;
+}
+
+.cena-movimentos {
+  position: relative;
+  width: calc(56 * var(--u));
+  height: calc(10 * var(--u));
+  font-family: var(--font-display), sans-serif;
+  font-size: calc(10 * var(--u));
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.cena-mov {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: calc(2.4 * var(--u));
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.cena-mov small {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: max(10px, calc(2.6 * var(--u)));
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* Parado: a entrada registrada. */
+.cena-entrada {
+  opacity: 1;
+}
+
+.motion .cena-codigo {
+  animation: cena-bip 4.4s var(--ease-out) infinite;
+}
+
+.motion .cena-leitura {
+  animation: cena-leitura 4.4s var(--ease-inout) infinite;
+}
+
+.motion .cena-entrada {
+  animation: cena-mov 4.4s var(--ease-out) infinite;
+}
+
+.motion .cena-saida {
+  animation: cena-mov 4.4s var(--ease-out) -2.2s infinite;
+}
+
+/* Desce lendo (0 a 20%), some; sobe lendo (50 a 70%), some. */
+@keyframes cena-leitura {
+  0% { translate: 0 -50%; opacity: 1; }
+  20% { translate: 0 50%; opacity: 1; }
+  24%, 46% { translate: 0 50%; opacity: 0; }
+  50% { translate: 0 50%; opacity: 1; }
+  70% { translate: 0 -50%; opacity: 1; }
+  74%, 100% { translate: 0 -50%; opacity: 0; }
+}
+
+/* O bip: o código dá um pulso curto no fim de cada leitura. */
+@keyframes cena-bip {
+  0%, 19%, 27%, 69%, 77%, 100% { scale: 1; }
+  22%, 72% { scale: 1.035; }
+}
+
+/* O movimento sobe pela linha dele logo depois do bip e fica até a próxima leitura. */
+@keyframes cena-mov {
+  0%, 20% { opacity: 0; translate: 0 35%; }
+  27%, 44% { opacity: 1; translate: 0 0; }
+  50%, 100% { opacity: 0; translate: 0 0; }
+}
+
+/* Transcrição: a onda do áudio em cima, as linhas de texto se escrevendo embaixo. */
+.cena-onda {
+  display: flex;
+  align-items: center;
+  gap: calc(1.2 * var(--u));
+  width: calc(56 * var(--u));
+  height: calc(20 * var(--u));
+}
+
+.cena-onda > span {
+  flex: 1 1 0;
+  height: 100%;
+  border-radius: 99px;
+  background: currentColor;
+  scale: 1 var(--a);
+}
+
+.cena-texto {
+  display: grid;
+  gap: calc(2.6 * var(--u));
+  width: calc(56 * var(--u));
+}
+
+.cena-texto > span {
+  display: block;
+  height: max(3px, calc(1.6 * var(--u)));
+  border-radius: 99px;
+  background: currentColor;
+  transform-origin: left;
+}
+
+/* Cada barra respira no ritmo dela (a espera negativa desencontra as fases). */
+.motion .cena-onda > span {
+  animation: cena-onda 1.1s var(--ease-inout) calc(var(--i) * -137ms) infinite alternate;
+}
+
+@keyframes cena-onda {
+  from { scale: 1 calc(var(--a) * 0.28); }
+  to { scale: 1 var(--a); }
+}
+
+/* As linhas se escrevem uma depois da outra e somem juntas pra recomeçar. */
+.motion .cena-texto > span {
+  animation: cena-escreve 5.2s var(--ease-out) calc(var(--i) * 620ms) infinite backwards;
+}
+
+@keyframes cena-escreve {
+  0% { scale: 0 1; opacity: 1; }
+  16%, 78% { scale: 1 1; opacity: 1; }
+  88%, 100% { scale: 1 1; opacity: 0; }
+}
+
+/* ── Índice do portfólio (PortfolioList.tsx) ────────────────────────────── */
+.indice-item {
+  transition: opacity 0.4s var(--ease-out);
+}
+
+/* O ponto da introdução reaparece marcando a linha ativa. */
+.indice-ponto {
+  display: none;
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  align-self: center;
+  border-radius: 50%;
+  background: currentColor;
+  transform: scale(0);
+  transition: transform 0.35s var(--ease-out);
+}
+
+.indice-previa {
+  display: none;
+}
+
+/* Troca de projeto: a capa nova entra por cima da anterior. */
+.previa-pilha {
+  display: grid;
+}
+
+.previa-camada {
+  grid-area: 1 / 1;
+}
+
+.previa-entra {
+  animation: previa-entra 240ms var(--ease-out) both;
+}
+
+@keyframes previa-entra {
+  from {
+    opacity: 0;
+    scale: 1.03;
+  }
+}
+
+@media (hover: hover) {
+  .indice-item:hover .seta {
+    transform: translateX(4px);
+  }
+}
+
+@media (min-width: 768px) {
+  .indice {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 34%;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .indice-previa {
+    display: block;
+    position: sticky;
+    top: 112px;
+  }
+
+  .indice-ponto {
+    display: block;
+  }
+
+  [data-ativo] .indice-ponto {
+    transform: scale(1);
+  }
+}
+
+/* Desktop com mouse: a capa acompanha o ponteiro numa faixa à direita do
+   texto. Entra em 240 ms, sai em 160 ms. Só existe com uma linha ativa. */
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .indice {
+    display: block;
+  }
+
+  .indice-previa {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 30;
+    width: clamp(220px, 21vw, 300px);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--t-saida) var(--ease-in);
+  }
+
+  .previa-pilha {
+    scale: 0.97;
+    transition: scale var(--t-saida) var(--ease-in);
+  }
+
+  .indice[data-previa] .indice-previa {
+    opacity: 1;
+    transition: opacity 240ms var(--ease-out);
+  }
+
+  .indice[data-previa] .previa-pilha {
+    scale: 1;
+    transition: scale 240ms var(--ease-out);
+  }
+
+  .indice[data-previa] .indice-item:not([data-ativo]) {
+    opacity: 0.35;
+  }
+}
+
+/* ── Título rotativo (TituloRotativo.tsx: hero da home e IA para empresas):
+   as frases dividem a mesma célula, então a caixa nunca muda de altura; a
+   troca acontece pela linha de base. ─────────────────────────────────── */
+.rotativo {
+  display: inline-grid;
+  vertical-align: top;
+  overflow: clip;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.rotativo > * {
+  grid-area: 1 / 1;
+}
+
+.rotativo > :not(:first-child),
+.motion .rotativo > :first-child {
+  visibility: hidden;
+}
+
+/* Indicador de scroll: a linha com o ponto da marca pendurado (Hero.tsx). */
+.hero-fio {
+  position: relative;
+  width: 1px;
+  height: 3.5rem;
+}
+
+.hero-linha {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  transform-origin: top;
+}
+
+.hero-ponto {
+  position: absolute;
+  left: calc(0.5px - var(--ponto) / 2);
+  bottom: calc(var(--ponto) / -2);
+}
+
+.motion .hero-linha {
+  transform: scaleY(0);
+}
+
+.motion .hero-ponto {
+  transform: scale(0);
+}
+
+/* Brilho metálico: em repouso a palavra é cromo escuro (legível); quando ela
+   chega, a faixa clara do meio passa uma vez (TituloRotativo, Web Animations).
+   O fundo se repete, então a passada anda 150% e termina igual ao começo. Na
+   última frase, a passada se repete a cada 4 s com o título na tela. */
 .metal {
   background: linear-gradient(100deg,
-    #1c1c1c 0%, #6e6e6e 18%, #d8d8d8 33%, #ffffff 41%,
-    #b4b4b4 50%, #4a4a4a 63%, #9e9e9e 78%, #e2e2e2 88%, #2a2a2a 100%);
-  background-size: 260% 100%;
+    #111 0%, #3d3d3d 10%, #1e1e1e 20%, #555 33%, #bdbdbd 42%, #fff 50%,
+    #bdbdbd 58%, #555 67%, #1e1e1e 80%, #3d3d3d 90%, #111 100%);
+  background-size: 300% 100%;
+  background-position: 0% 0;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: metal-shine 5.5s linear infinite;
+}
+
+/* Luz da chegada (TituloRotativo): uma faixa clara atravessa as palavras
+   pretas, uma vez, na ordem de leitura. A palavra continua preta pelo fundo
+   (background-color recortado no texto) e a faixa passa por cima; parada, ela
+   fica fora da palavra. A classe só existe durante a passada. Largura da
+   faixa: 1,5em (LUZ.faixa no componente). */
+.luz {
+  background-color: #000;
+  background-image: linear-gradient(90deg, transparent, #8c8c8c 30%, #ededed 50%, #8c8c8c 70%, transparent);
+  background-repeat: no-repeat;
+  background-size: 1.5em 100%;
+  background-position: -1.5em 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-  .metal {
+  .metal,
+  .luz {
     background: none;
     -webkit-text-fill-color: currentColor;
     color: #000;
   }
 }
 
-@keyframes metal-shine {
-  0% { background-position: 160% 0; }
-  100% { background-position: -60% 0; }
+/* ── Antes/Depois (BeforeAfter.tsx). Desktop: palco preso no topo (sticky)
+   com os dois estados na mesma tela; o Depois abre num círculo que nasce do
+   ponto. Celular: um embaixo do outro. Sem movimento: dois blocos parados. */
+html:not(.motion) [data-coluna] {
+  transform: translateY(calc(var(--k) * -100% / 11));
+}
+
+.motion [data-risco] {
+  text-decoration: line-through 1px rgba(0, 0, 0, 0);
+}
+
+.ba-estado {
+  padding-block: 72px;
+}
+
+.ba-cabeca {
+  margin-bottom: clamp(32px, 4vw, 56px);
+}
+
+.ba-cabeca-copia {
+  display: none;
+}
+
+.ba-titulo {
+  max-width: 48rem;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(32px, 4.2vw, 52px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.ba-valor {
+  font-size: clamp(120px, 19vw, 300px);
+}
+
+.ba-circulo {
+  position: absolute;
+  left: -6%;
+  top: -18%;
+  width: 116%;
+  height: 136%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.ba-ponto {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.motion .ba-depois {
+  clip-path: circle(0px at 50% 40px);
+}
+
+@media (min-width: 768px) {
+  .ba-valor {
+    font-size: clamp(120px, min(19vw, 30svh), 300px);
+  }
+
+  .ba-circulo {
+    left: -12%;
+    width: 124%;
+  }
+
+  /* Trilho = 100svh de palco + 160svh de rolagem (a duração da narrativa).
+     O palco fica preso enquanto ele passa: a altura existe desde a primeira
+     pintura e nada troca de position no meio do caminho (o pin trocava pra
+     fixed e gerava CLS). */
+  .motion .ba-trilho {
+    height: 260svh;
+  }
+
+  .motion .ba-palco {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  .motion .ba-estado {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: 40px;
+  }
+
+  .motion .ba-cabeca-copia {
+    display: block;
+  }
+
+  .motion .ba-depois {
+    clip-path: circle(0px at 80% 50%);
+  }
+}
+
+/* ── Introdução ─────────────────────────────────────────────────────────── */
+/* Quem mostra a tela preta é a regra fora das camadas, no fim deste arquivo
+   (precisa vencer o `flex` do Tailwind). */
+
+/* Rede de segurança: se o JS nunca chegar, a tela preta não prende ninguém. */
+.intro {
+  animation: intro-seguranca 0s 6s forwards;
+}
+
+@keyframes intro-seguranca {
+  to {
+    visibility: hidden;
+  }
+}
+
+/* Antes do JS (o IntroOverlay põe data-viva quando a timeline assume): o
+   Pular fica escondido, porque ainda não funcionaria, e o ponto aparece
+   parado depois de um instante, pra tela preta não ficar vazia na rede lenta.
+   A timeline começa desse ponto já nascido. */
+.intro:not([data-viva]) .intro-pular {
+  visibility: hidden;
+}
+
+.intro:not([data-viva]) .intro-ponto {
+  animation: intro-ponto-espera var(--t-ui) var(--ease-out) 300ms forwards;
+}
+
+@keyframes intro-ponto-espera {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Como funciona: linha de progresso dos passos (HowItWorks.tsx) ──────── */
+.passos {
+  --p: 1;
+  position: relative;
+}
+
+.motion .passos {
+  --p: 0;
+}
+
+.passos-trilho {
+  position: absolute;
+  left: 3px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.passos-trilho::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #000;
+  transform-origin: top;
+  transform: scaleY(var(--p));
+}
+
+@media (min-width: 768px) {
+  .passos-trilho {
+    left: 0;
+    right: 0;
+    bottom: auto;
+    width: auto;
+    height: 1px;
+  }
+
+  .passos-trilho::after {
+    transform-origin: left;
+    transform: scaleX(var(--p));
+  }
+}
+
+/* ── "NADA" em profundidade (CenaNada.tsx) ──────────────────────────────
+   Palco fixo atrás do Problema e dos Passos; as letras do logotipo em
+   contorno, cada uma num plano. A perspectiva (90vw) é a mesma do JS. */
+.nada-cena {
+  position: relative;
+}
+
+.nada-palco {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  margin-bottom: -100svh;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.nada-plano {
+  position: absolute;
+  inset: 0;
+  perspective: 90vw;
+  perspective-origin: 74% 54%;
+}
+
+.nada-palavra {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 135vw;
+  aspect-ratio: 2413 / 925;
+  translate: -50% -50%;
+  transform-style: preserve-3d;
+}
+
+.nada-letra {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--w);
+  height: var(--h);
+  overflow: visible;
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.8;
+}
+
+.motion .nada-letra {
+  opacity: 0;
+}
+
+.nada-conteudo {
+  position: relative;
+  z-index: 1;
+}
+
+.nada-respiro {
+  height: 55svh;
+}
+
+/* Sem movimento: a palavra parada, apagada, atrás do Problema. */
+html:not(.motion) .nada-palco {
+  position: absolute;
+  inset: 0 0 auto;
+  margin-bottom: 0;
+}
+
+html:not(.motion) .nada-palavra {
+  width: 100vw;
+}
+
+html:not(.motion) .nada-letra {
+  opacity: 0.08;
+}
+
+html:not(.motion) .nada-respiro {
+  height: 0;
+}
+
+/* Celular: as quatro letras em coluna, alternando os lados, atrás do texto. */
+@media (max-width: 767px) {
+  .nada-respiro {
+    height: 0;
+  }
+
+  .nada-palco,
+  html:not(.motion) .nada-palco {
+    position: absolute;
+    inset: 0;
+    height: auto;
+    margin-bottom: 0;
+  }
+
+  .nada-plano {
+    perspective: none;
+  }
+
+  .nada-palavra,
+  html:not(.motion) .nada-palavra {
+    inset: 0;
+    width: auto;
+    aspect-ratio: auto;
+    translate: none;
+    transform-style: flat;
+  }
+
+  .nada-letra {
+    width: 70vw;
+    height: auto;
+    stroke: rgba(0, 0, 0, 0.2);
+    stroke-width: 2;
+  }
+
+  .nada-letra[data-i="0"] {
+    top: 3%;
+    left: -10vw;
+  }
+
+  .nada-letra[data-i="1"] {
+    top: 27%;
+    left: 44vw;
+  }
+
+  .nada-letra[data-i="2"] {
+    top: 51%;
+    left: -6vw;
+  }
+
+  .nada-letra[data-i="3"] {
+    top: 75%;
+    left: 42vw;
+  }
+
+  html:not(.motion) .nada-letra {
+    opacity: 1;
+  }
+}
+
+/* ── Buraco negro do manifesto (components/3d/BuracoNegro.tsx) ────────────
+   Palco atrás do título, da largura da tela. A altura e a posição vertical
+   vêm da medida do título. Sem WebGL, fica vazio. */
+.buraco-bloco {
+  position: relative;
+}
+
+/* Escondido até a primeira medida (BuracoNegro.tsx): a caixa muda de lugar
+   ao ser medida, e o Chrome contava isso como layout shift na carga (0,07). */
+.buraco-palco {
+  position: absolute;
+  z-index: -1;
+  left: calc(50% - 50vw);
+  top: 0;
+  width: 100vw;
+  height: 100%;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.buraco-camada,
+.buraco-camada canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.motion .buraco-camada {
+  opacity: 0;
+}
+
+/* Buraco viajante da página Motion (BuracoViajante.tsx): o trilho cobre o
+   começo da página; o quadrado do buraco fica preso no topo dele e anda por
+   transform. Desenhado invertido, ele mistura com difference: no papel fica
+   preto e inverte o texto por onde passa. Nem o trilho nem a raiz criam
+   contexto de empilhamento: se criassem, o difference misturaria só com eles. */
+.viajante {
+  position: relative;
+}
+
+/* clip (não hidden): corta o buraco no fim do trilho sem virar contêiner de
+   rolagem, então o sticky continua preso à tela. Ele some antes de chegar lá. */
+.viajante-trilho {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.viajante-buraco {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  mix-blend-mode: difference;
+}
+
+.viajante-buraco canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* A poeira que explode e desce até o fio do bloco seguinte (explosao.ts):
+   canvas fixo por cima da página, visível só durante a passagem. Fica abaixo
+   do cabeçalho, do menu e do botão fixo do WhatsApp. */
+.explosao {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* ── Ferramentas (ToolsWeBuildWith.tsx): uma onda passa pelos logos ────────
+   A cada 3,2 s cada logo sai de foco e volta, um depois do outro. Só o logo
+   se mexe; o nome fica parado. Sem corte reto: o componente de origem
+   escondia o logo com inset(), aqui é desfoque, opacidade e escala. Começa
+   quando a seção entra (.is-in, do MotionRoot), depois do fio e do título.
+   Parado: os logos em cor. */
+.motion .is-in .onda-logos svg {
+  animation: onda-logo 3.2s var(--ease-inout) calc(900ms + var(--i) * 110ms) infinite;
+}
+
+/* 0,37 s saindo de foco, 0,55 s voltando; o resto do ciclo, parado. */
+@keyframes onda-logo {
+  0%, 28.75%, 100% { opacity: 1; filter: blur(0); scale: 1; }
+  11.5% { opacity: 0.2; filter: blur(6px); scale: 0.9; }
+}
+
+/* ── Instagram (Instagram.tsx, Sobre): o endereço em tipografia gigante, com
+   o ponto da marca no lugar dos pontos e o logo na cor da marca. Parado (sem
+   JS ou com movimento reduzido), ele cabe na largura; com movimento, fica no
+   tamanho do manifesto e atravessa a tela com o scroll. Começa alinhado com
+   o conteúdo do .wrap. ───────────────────────────────────────────────── */
+.insta-faixa {
+  display: block;
+  overflow-x: clip;
+  padding-inline: max(clamp(20px, 5vw, 48px), calc((100% - 1200px) / 2 + clamp(20px, 5vw, 48px)));
+}
+
+/* O endereço tem 8,8em de largura: parado, este corpo cabe no .wrap em
+   qualquer tela (o teto de 124 px é o da largura máxima de 1104 px). */
+.insta-nome {
+  display: inline-block;
+  white-space: nowrap;
+  font-family: var(--font-display), sans-serif;
+  font-size: min(9.4vw, 124px);
+  font-weight: 900;
+  line-height: 0.86;
+  letter-spacing: -0.055em;
+}
+
+.motion .insta-nome {
+  font-size: clamp(64px, 16vw, 232px);
+}
+
+.insta-logo {
+  display: inline-block;
+  width: 0.7em;
+  height: 0.7em;
+  margin-right: 0.14em;
+  vertical-align: -0.02em;
+}
+
+.insta-ponto {
+  display: inline-block;
+  width: 0.19em;
+  height: 0.19em;
+  margin-inline: 0.03em;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ── Tudo conectado (Ecosystem.tsx): seu negócio na raiz, as áreas e o que
+   cada uma faz. As linhas se desenham uma vez e repousam. A quantidade de
+   áreas vem em --areas (posta pelo componente). ───────────────────────── */
+.eco {
+  --linha: rgba(0, 0, 0, 0.22);
+  position: relative;
+}
+
+/* Texto que sobe pela própria linha de base. */
+.eco-texto {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: bottom;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+.eco-texto > span {
+  display: inline-block;
+}
+
+.eco-raiz {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(30px, 3.3vw, 46px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.eco-ponto {
+  flex-shrink: 0;
+}
+
+.eco-nome {
+  font-size: clamp(24px, 2.6vw, 34px);
+  line-height: 1.1;
+}
+
+.eco-acoes {
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 15px;
+}
+
+@media (min-width: 1024px) {
+  .eco {
+    display: grid;
+    grid-template-columns: max-content 96px minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .eco-raiz {
+    padding-right: 20px;
+  }
+
+  .eco-tronco {
+    position: relative;
+    align-self: stretch;
+  }
+
+  /* Tronco: da raiz até a espinha. */
+  .eco-tronco::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 50%;
+    height: 1px;
+    background: var(--linha);
+    transform-origin: left;
+  }
+
+  /* Espinha: do centro da primeira área ao centro da última (meia linha de
+     folga em cada ponta). */
+  .eco-espinha {
+    position: absolute;
+    left: 50%;
+    top: calc(50% / var(--areas, 4));
+    bottom: calc(50% / var(--areas, 4));
+    width: 1px;
+    background: var(--linha);
+  }
+
+  .eco-areas {
+    display: grid;
+    grid-template-rows: repeat(var(--areas, 4), minmax(0, 1fr));
+  }
+
+  .eco-area {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(170px, 2fr) minmax(0, 7fr);
+    align-items: baseline;
+    gap: 24px;
+    padding-block: 22px;
+  }
+
+  /* Ramo: da espinha até o nome da área. */
+  .eco-area::before {
+    content: "";
+    position: absolute;
+    left: -48px;
+    top: 50%;
+    width: 36px;
+    height: 1px;
+    background: var(--linha);
+    transform-origin: left;
+  }
+
+  .eco-acoes {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .motion .eco .eco-ponto {
+    transform: scale(0);
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  .motion .eco .eco-tronco::before {
+    transform: scaleX(0);
+    transition: transform 0.4s var(--ease-out) 250ms;
+  }
+
+  .motion .eco .eco-espinha {
+    transform: scaleY(0);
+    transition: transform 0.6s var(--ease-out) 520ms;
+  }
+
+  .motion .eco .eco-area::before {
+    transform: scaleX(0);
+    transition: transform 0.4s var(--ease-out) var(--d);
+  }
+
+  .motion .eco .eco-texto > span {
+    translate: 0 110%;
+    transition: translate 0.8s var(--ease-out) var(--d);
+  }
+
+  .motion .eco.is-in .eco-ponto,
+  .motion .eco.is-in .eco-tronco::before,
+  .motion .eco.is-in .eco-espinha,
+  .motion .eco.is-in .eco-area::before {
+    transform: none;
+  }
+
+  .motion .eco.is-in .eco-texto > span {
+    translate: 0 0;
+  }
+}
+
+/* Celular e tablet: a mesma árvore em pé. A espinha desce com a rolagem. */
+@media (max-width: 1023px) {
+  .eco {
+    padding-left: 28px;
+  }
+
+  .eco-raiz {
+    margin-left: -28px;
+  }
+
+  .eco-tronco {
+    position: absolute;
+    left: calc(var(--ponto) / 2 - 0.5px);
+    top: 1.2em;
+    bottom: 16px;
+    width: 1px;
+    background: var(--linha);
+    transform-origin: top;
+    transform: scaleY(var(--p, 1));
+  }
+
+  .eco-espinha {
+    display: none;
+  }
+
+  .eco-areas {
+    display: grid;
+    gap: 28px;
+    margin-top: 28px;
+  }
+
+  .eco-area {
+    position: relative;
+  }
+
+  .eco-area::before {
+    content: "";
+    position: absolute;
+    left: -23px;
+    top: 0.6em;
+    width: 15px;
+    height: 1px;
+    background: var(--linha);
+  }
+
+  .eco-acoes {
+    margin-top: 10px;
+  }
+
+  .eco-acoes li {
+    position: relative;
+    padding-block: 5px;
+    padding-left: 22px;
+  }
+
+  .eco-acoes li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--linha);
+  }
+
+  .eco-acoes li:last-child::before {
+    bottom: 50%;
+  }
+
+  .eco-acoes li::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 14px;
+    height: 1px;
+    background: var(--linha);
+  }
+
+  .motion .eco .eco-tronco {
+    transform: scaleY(var(--p, 0));
+  }
+
+  .motion .eco .eco-texto > span {
+    transition: translate 0.7s var(--ease-out) var(--dm);
+  }
+
+  .motion .eco:not(.is-raiz) .eco-ponto {
+    transform: scale(0);
+  }
+
+  .motion .eco .eco-ponto {
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  .motion .eco:not(.is-raiz) .eco-raiz .eco-texto > span,
+  .motion .eco-area:not(.is-in) .eco-texto > span {
+    translate: 0 110%;
+  }
+}
+
+/* ── FAQ: a pergunta se adianta e o sinal gira no hover e no foco ────────── */
+.faq-texto {
+  transition: translate var(--t-mov) var(--ease-out);
+}
+
+.faq-sinal {
+  transition: rotate var(--t-mov) var(--ease-out);
+}
+
+.faq-pergunta[aria-expanded="true"] .faq-sinal {
+  rotate: 45deg;
+}
+
+.faq-pergunta:focus-visible .faq-texto {
+  translate: 6px 0;
+}
+
+@media (hover: hover) {
+  .faq-pergunta:hover .faq-texto {
+    translate: 6px 0;
+  }
+
+  .faq-pergunta:hover:not([aria-expanded="true"]) .faq-sinal {
+    rotate: 90deg;
+  }
+}
+
+/* ── Página Motion: título (MotionHero) e abertura no cartão ──────────────
+   A primeira frase chega letra por letra; a segunda é digitada, com o cursor
+   colado na última letra. Só o eixo y corta: o cursor depois do ponto final
+   passa da caixa da frase e precisa aparecer. */
+.motion-titulo {
+  max-width: 70rem;
+  font-size: clamp(44px, 6.8vw, 104px);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.corte-frase {
+  display: inline-block;
+  overflow: visible clip;
+  vertical-align: top;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+.corte-frase > span {
+  display: inline-block;
+}
+
+.motion .corte-frase > span {
+  visibility: hidden;
+}
+
+.tecla {
+  position: relative;
+}
+
+/* O cursor: um traço fino logo depois da letra que acabou de entrar. */
+.digitando::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 0.12em;
+  bottom: 0.04em;
+  width: 0.06em;
+  margin-left: 0.04em;
+  background: currentColor;
+}
+
+.abertura {
+  display: block;
+  padding: 0;
+  border: 0;
+  text-align: left;
+}
+
+.abertura-marcador {
+  color: #fff;
+  mix-blend-mode: difference;
+}
+
+.abertura-branco {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  clip-path: circle(75% at 50% 50%);
+}
+
+.motion .abertura-branco {
+  clip-path: circle(0% at 50% 50%);
+}
+
+.abertura-ponto {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--ponto);
+  height: var(--ponto);
+  margin: calc(var(--ponto) / -2) 0 0 calc(var(--ponto) / -2);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 10px #fff;
+  opacity: 0;
+}
+
+.abertura-marca {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 46%;
+  translate: -50% -50%;
+}
+
+.abertura-marca path {
+  fill: #000;
+}
+
+.motion .abertura-marca path {
+  fill: transparent;
+}
+
+/* ── Faixa do rodapé (velocidade ligada ao scroll em Marquee.tsx) ────────── */
+.marquee-track {
+  display: flex;
+  width: max-content;
 }
 } /* end @layer components */
+
+/* Intro: só existe com data-intro="tocar" (primeira visita, posto pelo script
+   do <head>). Fora das camadas de propósito: estilo sem camada vence o `flex`
+   do Tailwind, então nas outras visitas a tela preta nem chega a pintar. */
+html:not([data-intro="tocar"]) .intro {
+  display: none;
+}
+
+/* ── Troca de página (View Transitions, ver layout.tsx) ─────────────────── */
+::view-transition-old(.pagina) {
+  animation: 150ms var(--ease-in) both vt-sai;
+}
+
+::view-transition-new(.pagina) {
+  animation: 250ms var(--ease-out) 100ms both vt-entra;
+}
+
+::view-transition-group(.capa) {
+  animation-duration: 450ms;
+  animation-timing-function: var(--ease-out);
+}
+
+@keyframes vt-sai {
+  to { opacity: 0; }
+}
+
+@keyframes vt-entra {
+  from { opacity: 0; }
+}
+
+@media (max-width: 767px) {
+  ::view-transition-group(.capa) {
+    animation-duration: 320ms;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
-  [data-reveal] {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
+  .cabecalho,
+  .rolo > span {
+    transition: none;
   }
 
-  .marquee-track {
-    animation-duration: 60s;
+  .intro:not([data-viva]) .intro-ponto {
+    animation-duration: 0s;
   }
 
-  .metal {
-    animation-duration: 10s;
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

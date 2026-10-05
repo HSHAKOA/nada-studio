@@ -46,3 +46,16 @@ desktop.ini
 # local coding-agent state
 .claude/
 *.skill
+
+# brutos e material interno: o repositório é público. Ficam na máquina.
+# brutos/motion/ é a fonte do scripts/motion.mjs (vídeos de até 35 MB).
+/brutos/
+/*.pdf
+/imagem *
+/nada-master-prompt*.md
+/DESIGN-apple.md
+/IMPLEMENTA*INTEGRAL.md
+
+# skills de agente de terceiros (Higgsfield), reinstaláveis pela fonte
+/.agents/skills/higgsfield-*/
+/skills-lock.json

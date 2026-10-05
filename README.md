@@ -67,15 +67,35 @@ npm run build
 
 O repositório ainda não possui uma suíte automatizada de testes. Lint e build devem ser executados antes de publicar alterações.
 
-## Publicação
+## Imagens
 
-O projeto possui script de build e publicação para Cloudflare Pages:
+O export estático não otimiza imagem no servidor. Ao incluir ou trocar imagem em `public/portfolio`, `public/equipe` ou `public/motion`, gere as larguras que o site serve (480, 960 e 1600 px) e os recortes de capa:
 
 ```bash
-npm run deploy
+node scripts/imagens.mjs
 ```
 
-A publicação depende de autenticação e configuração válidas do Wrangler. Não armazene tokens ou credenciais no repositório.
+Vídeo novo da página Motion: o bruto fica em `brutos/motion/` (fora de `public/` e fora do git) e entra na tabela de `scripts/motion.mjs`, que gera a prévia muda, a peça inteira com som e o pôster em `public/motion`:
+
+```bash
+node scripts/motion.mjs
+node scripts/imagens.mjs
+```
+
+O que ainda falta de foto, vídeo e captura está em `docs/pendencias-assets.md`.
+
+## Publicação
+
+O site é publicado no Cloudflare Pages, projeto `nada-studio`, que está ligado a este repositório: cada push no `master` faz o build (`npm run build`, saída `out/`) e publica em produção. Os outros branches viram prévia. Rode as verificações de qualidade antes do push.
+
+O `npm run deploy` (Wrangler, fixado em `devDependencies`) publica direto da máquina, sem passar pelo Git. É só para emergência: ele concorre com o deploy do push, e o push seguinte substitui o que ele publicou.
+
+```bash
+npx wrangler login     # uma vez por máquina (ou CLOUDFLARE_API_TOKEN e CLOUDFLARE_ACCOUNT_ID no ambiente)
+npm run deploy         # build e wrangler pages deploy out --project-name nada-studio --branch master
+```
+
+Não armazene tokens ou credenciais no repositório.
 
 ## Status
 

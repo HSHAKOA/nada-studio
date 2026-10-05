@@ -1,69 +1,34 @@
-import Reveal from "@/components/Reveal";
 import SectionMarker from "@/components/SectionMarker";
-import {
-  forYouPersonal,
-  forYouPro,
-  sectionMarkers,
-  buildWhatsAppLink,
-} from "@/data/content";
+import { buildWhatsAppLink, forYou, sectionMarkers } from "@/data/content";
 
+// Pra quem a NADA Studio trabalha, em lista editorial (fio, número, público e
+// a cena do que sai das costas de cada um). O fio do topo é o divisor com o
+// manifesto: é ali que a poeira do buraco negro pousa (BuracoNegro.tsx).
 export default function ForYouToo() {
   return (
-    <section id="pra-voce" className="section">
+    <section id="pra-quem" className="section pt-0">
       <div className="wrap">
-        <Reveal>
-          <SectionMarker label="Pra você também" number={sectionMarkers.forYou} />
-        </Reveal>
-        <Reveal delay={80}>
-          <h2 className="max-w-2xl text-[clamp(32px,4.2vw,52px)]">
-            Seu negócio ou o seu dia. A gente resolve os dois.
+        <div data-entra="linha" className="regua-topo pt-[clamp(56px,8vw,112px)]">
+          <SectionMarker label="Pra quem" number={sectionMarkers.forYou} />
+          <h2 data-entra="titulo" className="max-w-3xl text-[clamp(32px,4.2vw,52px)]">
+            {forYou.title}
           </h2>
-        </Reveal>
-        <Reveal delay={160}>
-          <p className="prose-measure mt-6 text-[18px] text-black/70">
-            Profissional ou não, se tem coisa que você repete todo dia, a
-            gente monta junto com você.
-          </p>
-        </Reveal>
-
-        <div className="mt-16 grid gap-6 md:grid-cols-2">
-          <Reveal>
-            <div className="card h-full">
-              <h3 className="text-xl">{forYouPro.title}</h3>
-              <p className="mt-4 text-black/70">{forYouPro.body}</p>
-            </div>
-          </Reveal>
-          <Reveal delay={100}>
-            <div className="card h-full">
-              <h3 className="text-xl">{forYouPersonal.title}</h3>
-              <p className="mt-4 text-black/70">{forYouPersonal.intro}</p>
-              <ul className="mt-4 space-y-2">
-                {forYouPersonal.items.map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-black/80">
-                    <span aria-hidden className="text-black/30">
-                      ·
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
-        </div>
-
-        <Reveal delay={200}>
-          <p className="mt-14 text-[clamp(22px,2.6vw,30px)] font-semibold">
-            Se a tarefa é repetitiva, a gente resolve com você.
-          </p>
-        </Reveal>
-        <Reveal delay={260}>
+          <ol data-entra="linha" className="regua-topo mt-14">
+            {forYou.itens.map((item) => (
+              <li key={item.num} data-entra="linha" className="regua grid gap-3 py-8 md:grid-cols-12 md:gap-8">
+                <span className="text-sm text-black/40 md:col-span-1">{item.num}</span>
+                <h3 className="text-[clamp(22px,2.6vw,32px)] md:col-span-4">{item.publico}</h3>
+                <p className="text-[17px] text-black/70 md:col-span-7 md:pt-1">{item.texto}</p>
+              </li>
+            ))}
+          </ol>
           <a
-            href={buildWhatsAppLink("Oi! Quero resolver uma coisa da minha rotina.")}
-            className="mt-6 inline-flex items-center gap-2 text-lg font-medium underline decoration-black/30 underline-offset-4 hover:decoration-black"
+            href={buildWhatsAppLink("Oi! Quero tirar uma tarefa repetitiva da minha rotina.")}
+            className="link-u mt-10 inline-block py-2 text-lg font-medium"
           >
-            Me conta o que você precisa →
+            Me conta o que você precisa <span className="seta" aria-hidden>→</span>
           </a>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

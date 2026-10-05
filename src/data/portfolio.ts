@@ -1,42 +1,88 @@
-export type TipoProjeto = "cliente" | "produto" | "interno";
+export type TipoProjeto = "cliente" | "interno";
+
+// Capa no sistema da NADA Studio (components/Capa.tsx). A capa é a prévia do
+// que o projeto tem de mais forte, nunca um print de página:
+//   filme        o projeto em movimento, em tela cheia (pôster + vídeo)
+//   recorte      pedaço da interface real, inteiro, sobre o fundo da capa
+//   numero       o resultado em tipografia, com a faixa da interface
+//   foto         foto real do material
+//   cena         motion em código, pra projeto sem tela pra filmar: ilustra o
+//                que ele faz no desenho da marca, sem imitar interface
+//   tipografica  sem asset real: só o nome
+// Interface sempre real. Nunca foto de banco.
+export type Capa = {
+  tipo: "filme" | "recorte" | "foto" | "numero" | "cena" | "tipografica";
+  cena?: "leitor" | "transcricao"; // tipo cena: qual motion (components/CapaCena.tsx)
+  imagem?: string; // pôster do filme (o primeiro quadro), recorte ou foto
+  video?: string; // filme em pé, 4:5 (índice e home)
+  // largura ÷ altura do recorte: a capa mostra o recorte inteiro, na forma
+  // dele. Os recortes saem de scripts/imagens.mjs.
+  proporcao?: number;
+  // Versão do topo do case (16:10); videoPequeno é o mesmo filme pra tela de celular.
+  larga?: { imagem: string; proporcao?: number; video?: string; videoPequeno?: string };
+  posicao?: string; // object-position do recorte (só sem proporção)
+  metrica?: string; // tipo número: o resultado em tipografia grande
+};
+
+// Capa em filme. Os quatro arquivos saem de scripts/gravar-capa.mjs, que
+// grava o site real do projeto quadro a quadro.
+const filme = (nome: string): Capa => ({
+  tipo: "filme",
+  imagem: `/portfolio/capa-${nome}.webp`,
+  video: `/portfolio/capa-${nome}.mp4`,
+  larga: {
+    imagem: `/portfolio/capa-${nome}-larga.webp`,
+    video: `/portfolio/capa-${nome}-larga.mp4`,
+    videoPequeno: `/portfolio/capa-${nome}-larga-p.mp4`,
+  },
+});
 
 // Cada projeto é contado em quatro blocos: antes, problema, depois, resultado.
 // Cena concreta em cada um, nunca resumo abstrato.
 export type Projeto = {
-  id: string;
+  slug: string;
   num: string;
   nome: string;
   subtitulo: string;
   tipo: TipoProjeto;
-  tags: string[];
-  imagem: string;
-  imagemPos?: string;
+  entrega: string; // em palavra comum: site, sistema, catálogo. Nunca tecnologia.
+  chamada: string; // uma linha de resultado, pro índice e pra capa
+  // Na voz de quem lê, tirado do "antes" do próprio case: completa o
+  // "me identifiquei:" da mensagem do WhatsApp no fim da página.
+  identifica: string;
+  capa: Capa;
   antes: string;
   problema: string;
   depois: string;
   resultado: string;
-  tecnica?: string;
+  metrica?: { valor: string; legenda: string }; // só número real
   link?: string;
   linkLabel?: string;
   galeria?: { src: string; largura: number; altura: number; legenda: string }[];
+  // Ferramenta que vive dentro de outro projeto (as do Hub): slug do projeto-mãe.
+  parteDe?: string;
+  // Chamada final própria, no lugar do "Me identifiquei" (ex.: pedir a ferramenta).
+  cta?: { texto: string; botao: string; mensagem: string };
+  // Rótulo curto ao lado do nome no índice; no case, explicado em uma linha.
+  selo?: { rotulo: string; texto: string };
 };
 
-export const SELO_TIPO: Record<TipoProjeto, string> = {
-  cliente: "CLIENTE",
-  produto: "PRODUTO",
-  interno: "INTERNO",
+export const ROTULO_TIPO: Record<TipoProjeto, string> = {
+  cliente: "cliente",
+  interno: "nosso",
 };
 
 export const PROJETOS: Projeto[] = [
   {
-    id: "ana",
+    slug: "ana-marocci",
     num: "01",
     nome: "Ana Marocci",
     subtitulo: "Site para nutricionista",
     tipo: "cliente",
-    tags: ["Next.js", "WhatsApp", "Animação de marca", "Google Forms"],
-    imagem: "/portfolio/ana-marocci.webp",
-    imagemPos: "center 25%",
+    entrega: "Site",
+    chamada: "Um site que mostra quem ela é e serve de destino pra anúncio.",
+    identifica: "meu site também só tem a minha apresentação",
+    capa: filme("ana"), // a abertura da marca
     antes:
       "A Ana tinha um site com a apresentação profissional dela, e só isso.",
     problema:
@@ -47,16 +93,21 @@ export const PROJETOS: Projeto[] = [
       "O link da bio do Instagram agora leva a um site que mostra quem a Ana é e como ela trabalha, e que serve de destino pra anúncio no Google e no Meta quando ela quiser.",
     link: "https://anamaroccinutri.com.br",
     linkLabel: "Ver site no ar",
+    galeria: [
+      { src: "/portfolio/ana-site.webp", largura: 2880, altura: 1800, legenda: "A primeira tela já diz a ideia que a Ana defende." },
+      { src: "/portfolio/ana-site-celular.webp", largura: 1170, altura: 2532, legenda: "No celular, o primeiro botão já abre o WhatsApp dela." },
+    ],
   },
   {
-    id: "thayana",
+    slug: "thayana-de-oliveira",
     num: "02",
     nome: "Thayana de Oliveira",
     subtitulo: "Site e triagem para psicóloga",
     tipo: "cliente",
-    tags: ["Next.js", "WhatsApp API", "Triagem de paciente", "SEO"],
-    imagem: "/portfolio/thayana.webp",
-    imagemPos: "center 10%",
+    entrega: "Site com triagem",
+    chamada: "Ela abre o WhatsApp já sabendo com quem fala.",
+    identifica: "também recebo contato novo sem saber nada sobre a pessoa",
+    capa: filme("thayana"), // a triagem, pergunta por pergunta
     antes:
       "Paciente nova chegava por indicação e caía direto no WhatsApp, sem ela saber nada sobre a pessoa.",
     problema:
@@ -67,16 +118,21 @@ export const PROJETOS: Projeto[] = [
       "Ela abre o WhatsApp já sabendo com quem fala e o que a pessoa procura.",
     link: "https://thayanadeoliveira.com.br",
     linkLabel: "Ver site no ar",
+    galeria: [
+      { src: "/portfolio/thayana-site.webp", largura: 2880, altura: 1800, legenda: "Na primeira tela, pra quem é o atendimento e o botão da triagem." },
+      { src: "/portfolio/thayana-site-celular.webp", largura: 1170, altura: 2532, legenda: "No celular, a triagem começa no primeiro botão." },
+    ],
   },
   {
-    id: "mileide",
+    slug: "mileide-rodrigues",
     num: "03",
     nome: "Mileide Rodrigues",
     subtitulo: "Site e anúncio para psicanalista",
     tipo: "cliente",
-    tags: ["Next.js", "Meta Ads", "Anúncio pro WhatsApp", "SEO"],
-    imagem: "/portfolio/mileide.jpg",
-    imagemPos: "center 25%",
+    entrega: "Site e anúncio",
+    chamada: "Quem clica no anúncio chega no WhatsApp já sabendo o que procura.",
+    identifica: "também dependo de indicação pra encher a agenda",
+    capa: filme("mileide"), // a pergunta que abre o site
     antes:
       "Psicanalista em Anicuns, interior de Goiás, com paciente novo chegando só por indicação e pelo Instagram.",
     problema:
@@ -87,16 +143,21 @@ export const PROJETOS: Projeto[] = [
       "O anúncio cai direto no WhatsApp: a pessoa chega já tendo lido sobre o trabalho e sabendo o que procura.",
     link: "https://mileidepsi.com.br",
     linkLabel: "Ver site no ar",
+    galeria: [
+      { src: "/portfolio/mileide-site.webp", largura: 2880, altura: 1800, legenda: "Uma pergunta na primeira tela e um botão que abre o WhatsApp dela." },
+      { src: "/portfolio/mileide-site-celular.webp", largura: 1170, altura: 2532, legenda: "No celular, os dois botões abrem o WhatsApp." },
+    ],
   },
   {
-    id: "gcstyle",
+    slug: "espaco-gc-style",
     num: "04",
     nome: "Espaço GC Style",
     subtitulo: "Catálogo digital e banner de balcão",
     tipo: "cliente",
-    tags: ["Catálogo digital", "Banner impresso", "NFC + QR Code", "Pedido no WhatsApp"],
-    imagem: "/portfolio/gcstyle-banner.webp",
-    imagemPos: "center 55%",
+    entrega: "Catálogo e banner",
+    chamada: "O balcão virou amostra de um catálogo com mais de 70 fragrâncias.",
+    identifica: "também tenho mais produto do que cabe no balcão",
+    capa: filme("gc-style"), // do banner do balcão pro catálogo e o quiz
     antes:
       "Barbearia que vende perfume árabe no balcão, com espaço pra só alguns provadores.",
     problema:
@@ -110,104 +171,231 @@ export const PROJETOS: Projeto[] = [
     galeria: [
       { src: "/portfolio/gcstyle-banners.webp", largura: 1624, altura: 1000, legenda: "Os dois banners do balcão, linha masculina e linha feminina." },
       { src: "/portfolio/gcstyle-nfc.webp", largura: 1200, altura: 330, legenda: "Aproximou o celular ou apontou a câmera, abriu o catálogo." },
-      { src: "/portfolio/gcstyle.webp", largura: 1440, altura: 900, legenda: "O catálogo: o balcão é só uma amostra." },
+      { src: "/portfolio/gcstyle-site.webp", largura: 2880, altura: 1800, legenda: "O catálogo: o balcão é só uma amostra." },
       { src: "/portfolio/gcstyle-catalogo.webp", largura: 1240, altura: 840, legenda: "Busca por marca, grife de inspiração ou família olfativa." },
-      { src: "/portfolio/gcstyle-vip.webp", largura: 1240, altura: 370, legenda: "Grupo VIP no WhatsApp pra avisar de lote novo." },
-      { src: "/portfolio/gcstyle-celular.webp", largura: 600, altura: 1298, legenda: "Feito pra abrir no celular, na cadeira do corte." },
+      { src: "/portfolio/gcstyle-site-celular.webp", largura: 1170, altura: 2532, legenda: "Feito pra abrir no celular, na cadeira do corte." },
     ],
   },
   {
-    id: "torre",
+    slug: "torre-de-controle",
     num: "05",
     nome: "Torre de Controle",
     subtitulo: "Busca de vaga no automático",
     tipo: "cliente",
-    tags: ["n8n", "IA", "Triagem de vagas", "Currículo sob medida"],
-    imagem: "/portfolio/torre.webp",
-    imagemPos: "left top",
+    entrega: "Sistema",
+    chamada: "De 248 vagas, 85 passaram na triagem já com o currículo pronto.",
+    identifica: "também perco tempo garimpando o que vale no meio do que não serve",
+    capa: filme("torre"), // o Início e a lista de vagas ordenada pela nota
     antes:
       "Procurar vaga era abrir o LinkedIn todo dia, ler descrição por descrição e reescrever o currículo pra cada uma.",
     problema:
       "A vaga boa se perdia no meio de centenas que não tinham nada a ver.",
     depois:
-      "As vagas chegam por e-mail e o n8n puxa tudo pro painel. Uma triagem em duas camadas, regra fixa primeiro e IA depois, dá nota de 0 a 100 pra cada uma. Pra vaga que vale, o painel monta um dossiê com o currículo reescrito pra ela, usando só o que já existe no currículo real.",
+      "As vagas chegam por e-mail e vão sozinhas pro painel. Uma triagem em duas camadas, regra fixa primeiro e IA depois, dá nota de 0 a 100 pra cada uma. Pra vaga que vale, o painel monta um dossiê com o currículo reescrito pra ela, usando só o que já existe no currículo real.",
     resultado:
       "De 248 vagas que entraram, 85 passaram na triagem e já chegaram com o currículo pronto.",
-    tecnica:
-      "Cinco workflows em n8n em produção, triagem com regras determinísticas e chamadas de LLM.",
+    metrica: { valor: "248 → 85", legenda: "vagas que entraram → vagas que passaram na triagem" },
     galeria: [
+      { src: "/portfolio/torre.webp", largura: 1571, altura: 886, legenda: "Vagas: tudo que chegou, ordenado pela nota." },
       { src: "/portfolio/torre-inicio.webp", largura: 1600, altura: 785, legenda: "Início: o que chegou, o que tem mais aderência e o que está em processo." },
       { src: "/portfolio/torre-dossie-v2.webp", largura: 744, altura: 813, legenda: "Dossiê: currículo reescrito pra vaga, pronto pra conferir e enviar." },
     ],
   },
   {
-    id: "hub",
+    // Feito pra uma empresa privada, que não é citada. A tecnologia também não.
+    slug: "leitor-de-estoque",
     num: "06",
+    nome: "Leitor & Controle de Estoque",
+    subtitulo: "Controle de estoque por leitura de código",
+    tipo: "cliente",
+    entrega: "Sistema",
+    chamada: "Cada entrada e saída de insumo registrada num bip.",
+    identifica: "também não sei quanto insumo entra e quanto sai",
+    capa: { tipo: "cena", cena: "leitor" },
+    antes: "Uma empresa privada não tinha controle do insumo que entrava nem do que saía.",
+    problema: "Sem registro, ninguém sabia dizer quanto tinha em estoque nem pra onde tinha ido.",
+    depois:
+      "Um bip do leitor de código e um sistema simples: cada entrada e cada saída de insumo fica registrada na hora.",
+    resultado: "Estoque atualizado a cada bip, sem ninguém digitar nada.",
+  },
+  {
+    slug: "hub-nada-studio",
+    num: "07",
     nome: "Hub NADA Studio",
-    subtitulo: "Sistema interno de gestão",
+    subtitulo: "Sistema de gestão do estúdio",
     tipo: "interno",
-    tags: ["Next.js", "Supabase", "n8n", "Proposta em PDF"],
-    imagem: "/portfolio/hub.jpg",
+    entrega: "Sistema",
+    chamada: "A operação inteira num lugar só.",
+    identifica: "meus clientes também estão em planilha espalhada",
+    capa: filme("hub"), // o painel, o quadro de produção e o funil (nomes borrados)
     antes: "Cliente em planilha espalhada, follow-up esquecido.",
     problema: "Proposta refeita do zero toda semana.",
     depois:
       "Um painel só, com o funil, o acompanhamento dos projetos e a proposta saindo pronta em PDF.",
     resultado:
       "A operação inteira num lugar só, e nada mais depende de alguém lembrar.",
+    galeria: [
+      { src: "/portfolio/hub.jpg", largura: 2304, altura: 1848, legenda: "O painel: produção, funil e metas na mesma tela." },
+    ],
   },
+  // ── Ferramentas do Hub: cada uma é um projeto, porque quem chega pode querer
+  // só uma delas. O texto descreve o que a tela faz hoje, sem número.
   {
-    id: "barcode",
-    num: "07",
-    nome: "Leitor & Controle de Estoque",
-    subtitulo: "Controle de estoque",
-    tipo: "interno",
-    tags: ["Python", "Controle de estoque", "Scanner", "Postgres"],
-    imagem:
-      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=900&auto=format&fit=crop&q=80",
-    antes: "Entrada e saída de matéria-prima anotada na mão, na prancheta.",
-    problema: "Papel se perdia e a contagem do fim do mês nunca batia.",
-    depois: "Um bip no scanner registra a peça.",
-    resultado: "Estoque atualizado na hora, sem ninguém digitar nada.",
-    tecnica: "Desenvolvido em Python, ligado direto no banco.",
-  },
-  {
-    id: "transcricao",
+    slug: "prospeccao-ativa",
     num: "08",
-    nome: "Transcrição & Resumo de Reuniões",
-    subtitulo: "Áudio de reunião virando texto",
+    nome: "Prospecção ativa",
+    subtitulo: "Busca de cliente novo por nicho e cidade",
     tipo: "interno",
-    tags: ["OpenAI Whisper", "n8n", "Busca por palavra", "Resumo de reunião"],
-    imagem:
-      "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=900&auto=format&fit=crop&q=80",
+    entrega: "Ferramenta do Hub",
+    parteDe: "hub-nada-studio",
+    chamada: "A lista de empresas e a primeira mensagem saem prontas.",
+    identifica: "também procuro cliente novo abrindo empresa por empresa",
+    capa: filme("prospeccao-ativa"), // a busca (abordagem, nicho, região) e o relatório, com números borrados
+    antes:
+      "Procurar cliente novo era abrir o Google Maps, olhar empresa por empresa e escrever quase a mesma mensagem pra cada uma.",
+    problema: "Tomava a tarde inteira, e a mensagem saía igual pra todo mundo.",
+    depois:
+      "Você escolhe o que quer oferecer, o nicho e a cidade. A ferramenta lista as empresas, mostra o que falta em cada uma (não tem site, tem pouca avaliação no Google, atende tudo na mão) e monta a primeira mensagem em cima disso. O envio sai aos poucos, com intervalo entre uma e outra, e cada empresa abordada já entra no funil.",
+    resultado: "A abordagem sai escrita pra cada empresa, e ninguém monta uma por uma.",
+  },
+  {
+    slug: "funil-de-clientes",
+    num: "09",
+    nome: "Funil de clientes",
+    subtitulo: "Do primeiro contato ao cliente fechado",
+    tipo: "interno",
+    entrega: "Ferramenta do Hub",
+    parteDe: "hub-nada-studio",
+    chamada: "Ninguém fica esquecido no meio do caminho.",
+    identifica: "também perco cliente porque esqueço de voltar a falar",
+    capa: filme("funil-de-clientes"), // as colunas do funil e a lista de contatos (tudo que identifica alguém, borrado)
+    antes: "Contato novo ficava no WhatsApp, na cabeça e numa planilha que ninguém atualizava.",
+    problema: "Passava uma semana e ninguém lembrava de voltar a falar com quem tinha pedido orçamento.",
+    depois:
+      "Cada contato vira um cartão que anda de coluna: prospect, em contato, proposta, cliente. As etiquetas dizem quem pediu orçamento e quem é pra retomar depois. Quando o retorno atrasa, o cartão avisa. E a conversa do WhatsApp entra sem ninguém digitar de novo.",
+    resultado: "Dá pra ver numa tela só com quem falar hoje.",
+  },
+  {
+    slug: "assistente-do-hub",
+    num: "10",
+    nome: "Assistente do Hub",
+    subtitulo: "Você pede, ele lança",
+    tipo: "interno",
+    entrega: "Ferramenta do Hub",
+    parteDe: "hub-nada-studio",
+    chamada: "Você fala o que precisa e o cartão aparece no lugar certo.",
+    identifica: "também deixo de registrar as coisas porque dá trabalho",
+    capa: filme("assistente-do-hub"), // o painel abrindo e um pedido sendo escrito
+    antes: "Pra registrar qualquer coisa era abrir a tela certa, achar o botão e preencher campo por campo.",
+    problema: "No meio do dia ninguém parava pra isso, e a coisa ficava sem registro.",
+    depois:
+      "Você escreve ou fala do jeito que falaria com um colega: “cria um cartão de vídeo pra campanha”, “o que está atrasado no financeiro?”. Ele cria, move e edita os cartões e lança no financeiro. Antes de mudar qualquer coisa, mostra o que vai fazer e espera você confirmar.",
+    resultado: "Registrar deixou de ser uma tarefa à parte.",
+  },
+  {
+    slug: "producao-de-conteudo",
+    num: "11",
+    nome: "Produção de conteúdo",
+    subtitulo: "Da ideia ao vídeo publicado",
+    tipo: "interno",
+    entrega: "Ferramenta do Hub",
+    parteDe: "hub-nada-studio",
+    chamada: "Cada vídeo com a etapa à vista, da ideia ao publicado.",
+    identifica: "minhas ideias de conteúdo também se perdem no bloco de notas",
+    capa: filme("producao-de-conteudo"), // o quadro deslizando até "Publicado" e o calendário
+    antes: "Ideia de vídeo ficava no bloco de notas, o roteiro num arquivo e a data de postar na cabeça.",
+    problema: "Ninguém sabia o que estava gravado, o que faltava editar e o que já tinha saído.",
+    depois:
+      "Cada conteúdo é um cartão que anda por seis etapas: ideia, roteiro, gravação, edição, aprovação e publicado. O que depende de um ok fica marcado pra quem aprova. E o calendário mostra o que sai em cada dia.",
+    resultado: "Abre o quadro e vê o que tem pra gravar, editar e postar na semana.",
+  },
+  {
+    slug: "projetos-e-tarefas",
+    num: "12",
+    nome: "Projetos e tarefas",
+    subtitulo: "Em que pé está cada projeto",
+    tipo: "interno",
+    entrega: "Ferramenta do Hub",
+    parteDe: "hub-nada-studio",
+    chamada: "Todo projeto com a etapa à vista, do pedido à entrega.",
+    identifica: "também não sei em que pé está cada projeto sem perguntar",
+    capa: filme("projetos-e-tarefas"), // o quadro e os filtros por tipo (títulos borrados)
+    antes: "Pra saber em que pé estava um projeto, era perguntar no grupo.",
+    problema: "Tarefa pequena sumia entre uma conversa e outra, e a entrega atrasava sem ninguém ver.",
+    depois:
+      "Cada projeto é um cartão que anda do pendente ao entregue, passando por revisão e aprovação. Dá pra filtrar o que é de cliente, o que é interno e o que é melhoria. As tarefas ficam dentro do projeto delas.",
+    resultado: "Uma tela mostra o que está parado e em que etapa.",
+  },
+  {
+    // Código aberto (Apache 2.0). O texto segue o README do projeto: gravação,
+    // transcrição local, histórico e agendamento. Resumo automático ainda não
+    // existe lá, então não é prometido aqui.
+    slug: "transcricao-de-reunioes",
+    num: "13",
+    nome: "Transcrição de Reuniões",
+    subtitulo: "Reunião gravada e transcrita no próprio computador",
+    tipo: "interno",
+    entrega: "Ferramenta de código aberto",
+    chamada: "Abre e acha, buscando por qualquer palavra.",
+    identifica: "minhas reuniões também ficam gravadas e ninguém revê",
+    capa: { tipo: "cena", cena: "transcricao" },
     antes: "Reunião ficava gravada em áudio e ninguém revia.",
     problema:
       "A informação existia, mas achar dava mais trabalho que perguntar de novo.",
     depois:
-      "Quando a gravação termina, o áudio vira texto organizado e um resumo com os combinados cai no canal da equipe.",
+      "A ferramenta roda no seu computador. Grava o que os outros falam e o seu microfone ao mesmo tempo, transcreve ali mesmo e guarda tudo num histórico que dá pra buscar. Dá pra deixar agendado: a reunião de toda segunda começa a gravar sozinha. Nenhum áudio sai da máquina.",
     resultado: "Abre e acha, buscando por qualquer palavra.",
+    link: "https://github.com/HSHAKOA/Agente-de-transcrito-de-reuni-es-",
+    linkLabel: "Ver o código",
+    selo: { rotulo: "Grátis", texto: "Qualquer um pode pegar e usar." },
+    cta: {
+      texto: "É grátis e de código aberto. É só pedir que a gente manda.",
+      botao: "Quero receber a ferramenta",
+      mensagem: "Oi! Vi a ferramenta de transcrição de reuniões no site da NADA Studio e quero receber pra usar.",
+    },
   },
   {
-    id: "noazul",
-    num: "09",
+    slug: "no-azul",
+    num: "14",
     nome: "No Azul",
-    subtitulo: "Controle financeiro",
+    subtitulo: "Controle de entrada e saída de despesas",
     tipo: "interno",
-    tags: ["n8n", "Open Finance", "Aviso no WhatsApp", "Painel"],
-    imagem:
-      "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=900&auto=format&fit=crop&q=80",
+    entrega: "App",
+    chamada: "8 horas por mês viraram 10 minutos.",
+    identifica: "também só descubro que estourei o mês quando já é tarde",
+    capa: { tipo: "numero", metrica: "8h → 10min" },
     antes:
       "Duas horas todo sábado batendo fatura com extrato, lançando gasto na mão.",
     problema: "Descobria que tinha estourado o mês quando já era tarde.",
     depois:
-      "O gasto entra e se categoriza sozinho, e um aviso chega no WhatsApp antes de estourar.",
+      "Feito pra usar todo dia: o que entrou e o que saiu, sem montar planilha. O gasto entra e se categoriza sozinho, e um aviso chega no WhatsApp antes de estourar.",
     resultado: "8 horas por mês viraram 10 minutos.",
+    metrica: { valor: "8 h → 10 min", legenda: "por mês, só pra saber onde o dinheiro foi" },
   },
 ];
 
+// Home: três naturezas diferentes (site, sistema, físico-digital).
+export const DESTAQUES_HOME = ["ana-marocci", "torre-de-controle", "espaco-gc-style"];
+
 export const PORTFOLIO_HEADER = {
   marcador: "Portfólio",
-  num: "001",
   titulo: "O que a gente já construiu.",
   subtitulo:
-    "Trabalho de cliente, produto próprio e ferramenta que a gente fez porque precisava.",
+    "Trabalho de cliente e solução que nasceu aqui dentro. Em cada um, o problema e o que mudou.",
 };
+
+// Projetos internos não são "ferramenta interna": nasceram pra resolver
+// problema da NADA e podem virar solução pro negócio de quem lê.
+export const GRUPOS: Record<TipoProjeto, { marcador: string; titulo: string; texto?: string }> = {
+  cliente: { marcador: "Clientes", titulo: "Feito pra quem confiou na gente." },
+  interno: {
+    marcador: "É nosso",
+    titulo: "É nosso. Pode ser seu.",
+    texto:
+      "Nasceu pra resolver um problema da NADA Studio e roda aqui todo dia. A mesma solução pode ser adaptada pro seu negócio.",
+  },
+};
+
+export function projetoPorSlug(slug: string) {
+  return PROJETOS.find((p) => p.slug === slug);
+}

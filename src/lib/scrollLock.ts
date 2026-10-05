@@ -23,6 +23,11 @@ export function registrarLenis(instancia: Lenis | null) {
   aplicar();
 }
 
+// Lenis ativo (só existe com mouse e movimento liberado).
+export function lenisAtual() {
+  return lenis;
+}
+
 export function travarScroll() {
   travas += 1;
   aplicar();

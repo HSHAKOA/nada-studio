@@ -1,4 +1,3 @@
-import Reveal from "@/components/Reveal";
 import SectionMarker from "@/components/SectionMarker";
 import { membershipItems, sectionMarkers } from "@/data/content";
 
@@ -6,41 +5,21 @@ export default function Membership() {
   return (
     <section id="mensalidade" className="section section-invert">
       <div className="wrap">
-        <Reveal>
-          <SectionMarker label="A mensalidade" number={sectionMarkers.membership} />
-        </Reveal>
-        <Reveal delay={80}>
-          <h2 className="max-w-2xl text-[clamp(32px,4.2vw,52px)]">
-            Depois de pronto, a gente continua junto.
-          </h2>
-        </Reveal>
-        <Reveal delay={160}>
-          <p className="mt-6 text-white/70">
-            Depois de pronto, a gente continua cuidando de tudo:
-          </p>
-        </Reveal>
+        <SectionMarker label="A mensalidade" number={sectionMarkers.membership} />
+        <h2 data-entra="titulo" className="max-w-2xl text-[clamp(32px,4.2vw,52px)]">
+          Depois de pronto, a gente continua junto.
+        </h2>
 
-        <ul className="mt-10 grid gap-4 md:grid-cols-2">
-          {membershipItems.map((item, i) => (
-            <Reveal
-              key={item}
-              delay={i * 80}
-              as="li"
-              className="flex items-start gap-3 border-t border-white/15 pt-4 text-lg"
-            >
+        <ul className="mt-12 grid gap-x-12 md:grid-cols-2">
+          {membershipItems.map((item) => (
+            <li key={item} data-entra="linha" className="regua-topo flex items-start gap-3 py-5 text-lg">
               <span aria-hidden className="text-white/40">
                 ·
               </span>
               {item}
-            </Reveal>
+            </li>
           ))}
         </ul>
-
-        <Reveal delay={320}>
-          <p className="mt-14 text-[clamp(22px,2.6vw,30px)] font-semibold">
-            Você cuida do negócio. A gente cuida do resto.
-          </p>
-        </Reveal>
       </div>
     </section>
   );

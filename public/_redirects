@@ -1,2 +1,6 @@
 # Redirect vercel domain or custom rules if any
 https://nada-studio.vercel.app/* https://www.nadastudio.com.br/:splat 301!
+
+# A página de IA mudou de endereço em 04/10/2026 (nome novo: IA para empresas).
+/ia-nas-empresas /ia-para-empresas 301
+/ia-nas-empresas/ /ia-para-empresas 301
