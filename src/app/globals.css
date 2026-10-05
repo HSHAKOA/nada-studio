@@ -634,6 +634,13 @@
   visibility: hidden;
 }
 
+/* Viajando, só o viajante; pousado (ou sem o atributo: celular, movimento
+   reduzido, sem JS), só o ponto do título. Um atributo decide os dois. */
+[data-ponto="viajando"] .passagem-ponto {
+  opacity: 1;
+  visibility: visible;
+}
+
 /* ── Sintomas: lista que a pessoa marca (Symptoms.tsx) ──────────────────── */
 .sintoma-num {
   color: rgba(0, 0, 0, 0.4);

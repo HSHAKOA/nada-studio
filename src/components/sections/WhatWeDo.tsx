@@ -28,30 +28,55 @@ export default function WhatWeDo() {
 
     mm.add(MQ.tablet, () => {
       if (!viajante) return;
-      // O ponto final é procurado a cada medida (o SplitText do título refaz
-      // as linhas); ele só aparece quando o viajante pousa (atributo na seção,
-      // que sobrevive às linhas refeitas).
+      // Onde o ponto final do título fica parado. Medido pelo layout
+      // (offsetLeft/offsetTop até a seção), que ignora transform: medido na
+      // tela, pegava a linha do título ainda deslocada pela entrada (SplitText)
+      // e o pouso ficava abaixo do ponto. Procurado a cada medida: o SplitText
+      // refaz as linhas.
       const alvo = () => {
         const final = secao.querySelector<HTMLElement>(".ponto-final")!;
-        const s = secao.getBoundingClientRect();
-        const r = final.getBoundingClientRect();
-        return { x: r.left - s.left + r.width / 2, y: r.top - s.top + r.height / 2, d: r.width, w: s.width };
+        const d = final.getBoundingClientRect().width;
+        let x = 0;
+        let y = 0;
+        let el: HTMLElement | null = final;
+        while (el && el !== secao) {
+          x += el.offsetLeft;
+          y += el.offsetTop;
+          el = el.offsetParent as HTMLElement | null;
+        }
+        return { x: x + d / 2, y: y + final.offsetHeight / 2, d, w: secao.offsetWidth };
       };
-      secao.dataset.ponto = "viajando";
+
+      // Um atributo só decide quem aparece, no CSS: "viajando" mostra o
+      // viajante e esconde o ponto do título; "pousado", o contrário. Os dois
+      // trocam no mesmo instante, e o GSAP só move o viajante. Antes, o do
+      // título aparecia em 0,995 e o viajante só sumia em 1 (no meio, os dois
+      // na tela, ou nenhum, com o difference de um sobre o outro), e o sumiço
+      // gravado pelo GSAP saía de sincronia depois de um refresh.
+      const pousar = (progresso: number) => {
+        const estado = progresso > 0.995 ? "pousado" : "viajando";
+        if (secao.dataset.ponto !== estado) secao.dataset.ponto = estado;
+      };
 
       const tl = gsap
         .timeline({
-          scrollTrigger: { trigger: secao, start: "top 80%", end: "top 20%", scrub: 0.6, invalidateOnRefresh: true },
-          onUpdate: () => {
-            const estado = tl.progress() > 0.995 ? "pousado" : "viajando";
-            if (secao.dataset.ponto !== estado) secao.dataset.ponto = estado;
+          scrollTrigger: {
+            trigger: secao,
+            start: "top 80%",
+            end: "top 20%",
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+            // O refresh (resize, fonte, imagem) mexe no progresso sem passar
+            // pelo onUpdate: confere de novo no fim.
+            onRefresh: (self) => pousar(self.animation?.progress() ?? 0),
           },
+          onUpdate: () => pousar(tl.progress()),
         })
         // Longe → perto: entra pela direita, pequeno, e cresce pelo vazio até
         // passar por cima do fim da frase (o difference inverte as letras).
         .fromTo(
           viajante,
-          { x: () => alvo().w * 0.9 - BASE / 2, y: () => alvo().y - 190 - BASE / 2, scale: 0.03, autoAlpha: 1 },
+          { x: () => alvo().w * 0.9 - BASE / 2, y: () => alvo().y - 190 - BASE / 2, scale: 0.03 },
           { x: () => alvo().x + 150 - BASE / 2, y: () => alvo().y - 40 - BASE / 2, scale: 0.9, duration: 0.55, ease: "power1.inOut" }
         )
         // Perto → longe: recua cruzando o fim da frase e vira o ponto final.
@@ -61,8 +86,8 @@ export default function WhatWeDo() {
           scale: () => alvo().d / BASE,
           duration: 0.45,
           ease: "power3.inOut",
-        })
-        .set(viajante, { autoAlpha: 0 });
+        });
+      pousar(tl.progress());
 
       return () => {
         delete secao.dataset.ponto;
