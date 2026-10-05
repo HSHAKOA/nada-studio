@@ -963,6 +963,89 @@ ROTEIROS["projetos-e-tarefas"] = {
   montar: (pasta, f, m) => filmeEmPartes(pasta, m, [["quadro", "quadroFim"], ["filtros", "fim"]]),
 };
 
+// ── Sistema feito pra uma empresa privada (não citada) ────────────────────
+// Gravado numa cópia de demonstração que roda só nesta máquina, com dados
+// inventados, relógio fixo e sem a marca da empresa: nenhuma tela mostra
+// cliente, funcionário ou número real, então nada precisa ser borrado. A
+// cópia não fala com banco nem com automação. Fica em brutos/hub-demo (fora
+// do git):  node brutos/hub-demo/build.mjs && node brutos/hub-demo/servir.mjs
+const demo = () => (process.env.DEMO_URL ?? "http://127.0.0.1:5599").replace(/\/$/, "");
+const abrirDemo = async (t, tela) => {
+  await t.navegar(demo() + "/");
+  await t.pular(3000); // fontes e dados da demonstração
+  await t.js(`${tela}; 0`);
+  await t.pular(900);
+};
+
+// Controle de ponto: o dia de hoje e o mês, o banco de horas e os dois
+// disparos do último dia do mês (o aviso de dia sem registro e o espelho em PDF).
+ROTEIROS.ponto = {
+  slug: "ponto",
+  async gravar(t, f) {
+    await abrirDemo(t, `navigate("ponto")`);
+    t.marca("registros");
+    await t.gravar(1300);
+    await t.rolar(f === "pe" ? 640 : 330, 2600); // do dia de hoje ao resumo e à tabela do mês
+    await t.gravar(1100);
+    t.marca("registrosFim");
+
+    await t.js(`switchPontoTab("banco"); 0`);
+    await t.irPara(".ponto-tab", f === "pe" ? 70 : 28); // as abas no topo, o banco de horas logo abaixo
+    await t.pular(600);
+    t.marca("banco");
+    await t.gravar(1700);
+    t.marca("bancoFim");
+
+    await t.js(`navigate("envios"); 0`);
+    await t.pular(1500);
+    await t.irPara("#envios-lista .card:nth-child(3)", f === "pe" ? 70 : 28);
+    await t.pular(100);
+    t.marca("envios");
+    await t.gravar(1900);
+    t.marca("fim");
+  },
+  montar: (pasta, f, m) => filmeEmPartes(pasta, m, [["registros", "registrosFim"], ["banco", "bancoFim"], ["envios", "fim"]]),
+};
+
+// Implantação de clientes: a lista por semana (com quem atrasou no topo), um
+// cliente aberto com o roteiro e o prazo, a ata pronta pro WhatsApp e o
+// painel que pausa as mensagens automáticas. Nenhum botão de envio é tocado.
+ROTEIROS.implantacao = {
+  slug: "implantacao",
+  async gravar(t, f) {
+    await abrirDemo(t, `navigate("implantacoes")`);
+    t.marca("lista");
+    await t.gravar(1200);
+    await t.rolar(f === "pe" ? 560 : 420, 2600); // cada cliente na sua semana
+    await t.gravar(900);
+    t.marca("listaFim");
+
+    await t.js(`openCliente("c3", "implantacoes"); 0`);
+    await t.pular(900);
+    await t.irPara(0);
+    t.marca("cliente");
+    await t.gravar(1100);
+    await t.rolar(f === "pe" ? 560 : 260, 2200); // as semanas concluídas e a lista da semana em andamento
+    await t.gravar(900);
+    t.marca("clienteFim");
+
+    await t.js(`gerarAtaFaseWA("c3", "fase_4"); 0`);
+    await t.pular(500);
+    t.marca("ata");
+    await t.gravar(2000);
+    t.marca("ataFim");
+
+    await t.js(`closeModal("modal-ata"); navigate("envios"); 0`);
+    await t.pular(1500);
+    await t.irPara("#envios-lista", f === "pe" ? 70 : 28);
+    await t.pular(100);
+    t.marca("envios");
+    await t.gravar(1800);
+    t.marca("fim");
+  },
+  montar: (pasta, f, m) => filmeEmPartes(pasta, m, [["lista", "listaFim"], ["cliente", "clienteFim"], ["ata", "ataFim"], ["envios", "fim"]]),
+};
+
 async function main() {
   const [nome, ...opcoes] = process.argv.slice(2);
   const nomes = nome === "todos" ? Object.keys(ROTEIROS) : [nome];
