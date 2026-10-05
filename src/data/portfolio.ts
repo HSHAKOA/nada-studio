@@ -268,8 +268,37 @@ export const PROJETOS: Projeto[] = [
     ],
   },
   {
-    slug: "hub-nada-studio",
+    // Mesmo sistema e mesma empresa do Controle de Ponto: vale o comentário de
+    // lá. As peças da galeria são saídas reais do gerador; o status de
+    // aprovação das telas é de demonstração.
+    slug: "gerador-de-banners",
     num: "09",
+    nome: "Gerador de Banners",
+    subtitulo: "Os banners do ano, gerados por IA no tamanho certo",
+    tipo: "cliente",
+    entrega: "Ferramenta",
+    chamada: "O calendário de campanhas do ano, com cada banner gerado e aprovado na mesma tela.",
+    identifica: "também refaço banner de campanha um por um, todo mês",
+    capa: filme("banners"), // um mês aberto, a prévia dos dois formatos, o ano e os departamentos
+    antes:
+      "Loja virtual pede banner novo a cada campanha: Páscoa, Dia das Mães, festa junina, Black Friday. E cada peça sai em mais de um tamanho, pro site e pro celular.",
+    problema: "São 48 campanhas no ano, cada uma em dois tamanhos. Feito peça por peça, não dava tempo.",
+    depois:
+      "O ano vira um calendário: doze meses, quatro campanhas em cada um. A ferramenta gera o banner de cada campanha com IA, já no tamanho do site e do celular, e escreve o título por cima com a fonte certa, sem erro de grafia. Cada peça passa por aprovação: dá pra ver os formatos lado a lado, aprovar ou mandar refazer só um. Existe um padrão que vale pra todas as lojas e a versão de cada loja, com a logo dela. Os banners de departamento e os kits saem do mesmo jeito.",
+    resultado: "O calendário do ano fica numa tela só, com o que já foi aprovado e o que falta criar.",
+    galeria: [
+      { src: "/portfolio/banners-calendario.webp", largura: 2880, altura: 1800, legenda: "O ano em doze meses, com quatro campanhas em cada um. O status de aprovação é de demonstração." },
+      { src: "/portfolio/banners-previa.webp", largura: 2880, altura: 1800, legenda: "Uma campanha nos dois formatos, pronta pra aprovar ou refazer." },
+      { src: "/portfolio/banners-peca-pascoa.webp", largura: 2256, altura: 576, legenda: "Peça gerada pela ferramenta: banner de Páscoa no formato do site." },
+      { src: "/portfolio/banners-peca-maes.webp", largura: 2256, altura: 576, legenda: "Dia das Mães." },
+      { src: "/portfolio/banners-peca-arraia.webp", largura: 2256, altura: 576, legenda: "Festa junina." },
+      { src: "/portfolio/banners-departamentos.webp", largura: 2880, altura: 1800, legenda: "Os banners de departamento saem da mesma tela." },
+      { src: "/portfolio/banners-peca-acougue.webp", largura: 2256, altura: 382, legenda: "Banner de departamento gerado pela ferramenta." },
+    ],
+  },
+  {
+    slug: "hub-nada-studio",
+    num: "10",
     nome: "Hub NADA Studio",
     subtitulo: "Sistema de gestão do estúdio",
     tipo: "interno",
@@ -291,7 +320,7 @@ export const PROJETOS: Projeto[] = [
   // só uma delas. O texto descreve o que a tela faz hoje, sem número.
   {
     slug: "prospeccao-ativa",
-    num: "10",
+    num: "11",
     nome: "Prospecção ativa",
     subtitulo: "Busca de cliente novo por nicho e cidade",
     tipo: "interno",
@@ -309,7 +338,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     slug: "funil-de-clientes",
-    num: "11",
+    num: "12",
     nome: "Funil de clientes",
     subtitulo: "Do primeiro contato ao cliente fechado",
     tipo: "interno",
@@ -326,7 +355,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     slug: "assistente-do-hub",
-    num: "12",
+    num: "13",
     nome: "Assistente do Hub",
     subtitulo: "Você pede, ele lança",
     tipo: "interno",
@@ -343,7 +372,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     slug: "producao-de-conteudo",
-    num: "13",
+    num: "14",
     nome: "Produção de conteúdo",
     subtitulo: "Da ideia ao vídeo publicado",
     tipo: "interno",
@@ -360,7 +389,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     slug: "projetos-e-tarefas",
-    num: "14",
+    num: "15",
     nome: "Projetos e tarefas",
     subtitulo: "Em que pé está cada projeto",
     tipo: "interno",
@@ -380,7 +409,7 @@ export const PROJETOS: Projeto[] = [
     // transcrição local, histórico e agendamento. Resumo automático ainda não
     // existe lá, então não é prometido aqui.
     slug: "transcricao-de-reunioes",
-    num: "15",
+    num: "16",
     nome: "Transcrição de Reuniões",
     subtitulo: "Reunião gravada e transcrita no próprio computador",
     tipo: "interno",
@@ -405,7 +434,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     slug: "no-azul",
-    num: "16",
+    num: "17",
     nome: "No Azul",
     subtitulo: "Controle de entrada e saída de despesas",
     tipo: "interno",

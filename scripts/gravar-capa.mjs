@@ -1046,6 +1046,46 @@ ROTEIROS.implantacao = {
   montar: (pasta, f, m) => filmeEmPartes(pasta, m, [["lista", "listaFim"], ["cliente", "clienteFim"], ["ata", "ataFim"], ["envios", "fim"]]),
 };
 
+// Gerador de banners: um mês aberto com as peças geradas, a prévia dos dois
+// formatos de uma campanha e a aprovação, o calendário do ano e os banners de
+// departamento. As imagens são saídas reais do gerador; nenhum botão de gerar
+// é tocado (a demonstração não fala com a IA).
+ROTEIROS.banners = {
+  slug: "banners",
+  async gravar(t, f) {
+    const folga = f === "pe" ? 70 : 60;
+    await abrirDemo(t, `navigate("banners"); bxToggleFocus("jun")`);
+    await t.irPara(".yr-card.focused", folga);
+    await t.pular(300);
+    t.marca("mes");
+    await t.gravar(1400);
+    await t.js(`bxPreview("jun", 1); 0`); // Dia dos Namorados: web e celular lado a lado
+    await t.gravar(2000);
+    await t.js(`bxSetOk("jun", 1); bxClosePrev(); 0`);
+    await t.gravar(1300); // a peça volta pro mês como aprovada
+    t.marca("mesFim");
+
+    await t.js(`bxToggleFocus("jun"); 0`);
+    await t.irPara(".yr-top", f === "pe" ? 70 : 90);
+    await t.pular(300);
+    t.marca("ano");
+    await t.gravar(1000);
+    await t.rolar((await t.js("scrollY")) + (f === "pe" ? 960 : 330), f === "pe" ? 2900 : 2300); // até os meses que já têm peça
+    await t.gravar(700);
+    t.marca("anoFim");
+
+    await t.js(`switchTab("agrupamento"); 0`);
+    await t.irPara(".yr-top", f === "pe" ? 70 : 90);
+    await t.pular(400);
+    t.marca("deptos");
+    await t.gravar(900);
+    await t.rolar((await t.js("scrollY")) + (f === "pe" ? 560 : 400), 2400); // os banners de departamento
+    await t.gravar(700);
+    t.marca("fim");
+  },
+  montar: (pasta, f, m) => filmeEmPartes(pasta, m, [["mes", "mesFim"], ["ano", "anoFim"], ["deptos", "fim"]]),
+};
+
 async function main() {
   const [nome, ...opcoes] = process.argv.slice(2);
   const nomes = nome === "todos" ? Object.keys(ROTEIROS) : [nome];
