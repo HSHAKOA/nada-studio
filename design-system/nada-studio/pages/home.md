@@ -8,7 +8,7 @@ Ordem fixa: impacto → identificação → transformação e prova → portfól
 
 | # | Seção | `id` | Fundo | Movimento | Componente |
 |---|---|---|---|---|---|
-| — | Intro | — | preto → branco | em toda carga nova da home (entrada, nova aba, F5); nunca no voltar nem na navegação interna; ~2,5 s (1,6 s no celular); pular por botão ou Esc | `IntroOverlay` |
+| — | Intro | — | preto → branco | em toda carga nova da home (entrada, nova aba, F5); nunca no voltar nem na navegação interna; ~3 s (2 s no celular); pular por botão ou Esc | `IntroOverlay` |
 | — | Hero | `top` | branco | na chegada, a luz atravessa o título palavra por palavra e termina no cromo; a frase variável dá uma volta e para; o cromo brilha a cada frase e, na última, a cada 4 s; fio com o ponto (origem → queda) | `Hero`, `TituloRotativo` |
 | 001 | Isso é com a gente | `isso-e-com-a-gente` | branco | lista que a pessoa marca (traço à mão); seta pisca até o primeiro clique | `Symptoms` |
 | 002 | Antes/Depois | `antes-depois` | branco → preto | ≥ 768: palco preso (sticky) por 160svh com scrub (riscos, queda do ponto, círculo, dígitos rolam até 10, traço circula). Celular: o Depois abre uma vez num círculo | `BeforeAfter` |

@@ -6,11 +6,13 @@ import NadaWordmark from "./NadaWordmark";
 import { travarScroll } from "@/lib/scrollLock";
 import { EASE_TRANSFORMA, MQ, movimentoLiberado } from "@/lib/motion";
 
-// A timeline base dura ~2,5 s; no celular ela acelera pra caber em ~1,6 s.
-// Se o JS chegou tarde (a pessoa já esperou na tela preta), cabe em ~1,1 s.
+// A timeline é desenhada em ~2,5 s (DURACAO) e toca no ritmo de cada caso:
+// ~3 s no desktop, ~2 s no celular. Se o JS chegou tarde (a pessoa já
+// esperou na tela preta), cabe em ~1,4 s.
 const DURACAO = 2.5;
-const DURACAO_MOBILE = 1.6;
-const DURACAO_TARDE = 1.1;
+const DURACAO_DESKTOP = 3;
+const DURACAO_MOBILE = 2;
+const DURACAO_TARDE = 1.4;
 // Espera na tela preta (desde a primeira pintura) a partir da qual encurta.
 const ESPERA_TARDE = 700;
 
@@ -195,7 +197,7 @@ export default function IntroOverlay() {
           .to([branco, marca], { autoAlpha: 0, duration: 0.3 }, "voo");
       }
 
-      tl.timeScale(tarde ? DURACAO / DURACAO_TARDE : matchMedia(MQ.mobile).matches ? DURACAO / DURACAO_MOBILE : 1);
+      tl.timeScale(DURACAO / (tarde ? DURACAO_TARDE : matchMedia(MQ.mobile).matches ? DURACAO_MOBILE : DURACAO_DESKTOP));
       // O ponto já nasceu no CSS: a timeline começa com ele nascido.
       if (pontoNaTela) tl.seek(0.2);
     }, overlay);
