@@ -8,7 +8,7 @@ Ordem fixa: impacto → identificação → transformação e prova → portfól
 
 | # | Seção | `id` | Fundo | Movimento | Componente |
 |---|---|---|---|---|---|
-| — | Intro | — | preto → branco | só na 1ª entrada no site, e só pela home; ~2,5 s (1,6 s no celular); pular por botão ou Esc | `IntroOverlay` |
+| — | Intro | — | preto → branco | em toda carga nova da home (entrada, nova aba, F5); nunca no voltar nem na navegação interna; ~2,5 s (1,6 s no celular); pular por botão ou Esc | `IntroOverlay` |
 | — | Hero | `top` | branco | na chegada, a luz atravessa o título palavra por palavra e termina no cromo; a frase variável dá uma volta e para; o cromo brilha a cada frase e, na última, a cada 4 s; fio com o ponto (origem → queda) | `Hero`, `TituloRotativo` |
 | 001 | Isso é com a gente | `isso-e-com-a-gente` | branco | lista que a pessoa marca (traço à mão); seta pisca até o primeiro clique | `Symptoms` |
 | 002 | Antes/Depois | `antes-depois` | branco → preto | ≥ 768: palco preso (sticky) por 160svh com scrub (riscos, queda do ponto, círculo, dígitos rolam até 10, traço circula). Celular: o Depois abre uma vez num círculo | `BeforeAfter` |
@@ -21,7 +21,7 @@ Ordem fixa: impacto → identificação → transformação e prova → portfól
 ## Regras próprias
 
 - **Hero:** H1 `clamp(42px, 6.5vw, 78px)` em 900; altura mínima `100svh`; o `<main>` não leva `pt-24` (o hero tem `pt-28`).
-- **Intro:** decidida pelo script do `<head>` antes da pintura ([layout.tsx](../../../src/app/layout.tsx)); `?intro` força. Se o JS não chegar, a tela preta some sozinha em 6 s.
+- **Intro:** decidida pelo script do `<head>` antes da pintura ([layout.tsx](../../../src/app/layout.tsx)), pelo tipo de navegação do documento, sem nada guardado no navegador; `?intro` força. Se o JS não chegar, a tela preta some sozinha em 4 s.
 - **O ponto:** roteiro completo só aqui ([ponto.ts](../../../src/lib/ponto.ts)). Ausente nos Sintomas, no Portfólio e nos Formatos.
 - **Antes/Depois:** o título fica dentro do palco (não existe tela vazia antes de o palco prender) e se repete invertido no Depois. O preto só engole o 8 depois que o ponto toca nele.
 - **Portfólio encosta no Antes/Depois** (`section-encosta`): a promessa e a prova ficam juntas.

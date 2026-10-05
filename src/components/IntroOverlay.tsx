@@ -57,7 +57,8 @@ function tocarBang(canvas: HTMLCanvasElement, quantidade: number) {
 // passa de preto a branco num círculo que sai do ponto → o logotipo voa até o
 // cabeçalho e pousa no lugar do de lá (que fica escondido até o pouso: é o
 // mesmo objeto chegando) → a página aparece em volta dele.
-// Só na primeira visita ao site (ver layout.tsx); ?intro força de novo.
+// Em toda carga nova da home (entrada, nova aba, F5), nunca no voltar/avançar
+// nem na navegação interna (ver layout.tsx); ?intro força.
 export default function IntroOverlay() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -74,9 +75,9 @@ export default function IntroOverlay() {
     const marca = marcaRef.current;
     if (!overlay || !canvas || !branco || !ponto || !marca) return;
 
-    // Quem decide é o script do <head> (layout.tsx), no carregamento da página:
-    // só a primeira entrada no site, pela home, vira "tocar". Chegar na home
-    // depois, por navegação interna, nunca toca.
+    // Quem decide é o script do <head> (layout.tsx), no carregamento do
+    // documento: carga nova da home vira "tocar". Chegar na home por
+    // navegação interna ou pelo voltar nunca toca.
     const raiz = document.documentElement;
     if (raiz.dataset.intro !== "tocar") {
       overlay.style.display = "none";

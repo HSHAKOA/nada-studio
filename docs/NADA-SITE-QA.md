@@ -11,6 +11,7 @@ npm run build                                 # export estático em out/
 node scripts/qa/bundle.mjs --comparar qa-anterior.json   # JS/CSS por página e libs importadas
 node scripts/qa/classes-fora-do-src.mjs       # CSS publicado sem uso (esperado: nada)
 node scripts/qa/assets.mjs                    # arquivo citado sem estar em out/, link interno quebrado
+node scripts/qa/ciclo-de-vida.mjs             # intro em carga nova, F5 no topo, voltar restaura, entradas rearmam (Chrome)
 node scripts/qa/servir.mjs                    # serve out/ em http://127.0.0.1:4173 para medir
 ```
 
@@ -40,12 +41,12 @@ Em toda largura:
 - [ ] **Toque:** nenhum hover preso depois do toque; menu, acordeões e botão fixo funcionam; um vídeo por vez; rolagem nativa (sem Lenis).
 - [ ] **Hover (mouse):** botões, links, cabeçalho, capas, prévias. Sair no meio da animação volta de onde está.
 - [ ] **Movimento reduzido** (DevTools → Rendering → `prefers-reduced-motion: reduce`, recarregar): tudo visível e completo, sem pin, sem vídeo tocando, sem transição de página, intro curta e parada.
-- [ ] **Primeira visita** (aba anônima, ou `?intro`): intro toca uma vez, "Pular" e Esc funcionam, o scroll fica travado durante, o logotipo pousa no lugar do cabeçalho.
+- [ ] **Carga nova da home** (entrada, nova aba, F5, ou `?intro`): a página nasce no topo e a intro toca, "Pular" e Esc funcionam, o scroll fica travado durante, o logotipo pousa no lugar do cabeçalho. Voltar/avançar e navegação interna não tocam a intro.
 - [ ] **Navegação interna:** transição de página, elemento compartilhado (capa → case), página nova começa no topo, cenas reiniciam limpas.
 - [ ] **Voltar:** volta para a posição de antes, inclusive depois de uma cena fixa; nenhum elemento flutuante fica preso na tela.
-- [ ] **Refresh:** mantém a posição; link com `#âncora` cai na seção certa.
+- [ ] **Refresh:** volta ao topo, sem pintar no meio e pular, e as entradas abaixo da dobra rearmam; link com `#âncora` cai na seção certa.
 - [ ] **Resize:** atravessar as fronteiras de breakpoint com a página aberta não deixa `transform`, `clip-path` ou estilo preso.
-- [ ] **Sem JS** (DevTools → desativar JavaScript): o conteúdo aparece (o portão de movimento solta em até 4 s; a tela preta da intro some em 6 s).
+- [ ] **Sem JS** (DevTools → desativar JavaScript): o conteúdo aparece (o portão de movimento solta em até 4 s; a tela preta da intro some em 4 s).
 - [ ] **Economia de dados:** vídeo fica no pôster.
 
 ## 3. Técnico

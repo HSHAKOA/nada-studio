@@ -28,16 +28,20 @@ const inter = Inter({
   fallback: ["Inter Reserva"],
 });
 
-// Roda antes da primeira pintura:
-// - intro: só na primeira vez que a pessoa entra no site, e só se essa
-//   entrada for pela home (entrou por outra página, já conta como visto).
-//   Fica marcado no navegador (localStorage), não por aba. ?intro força.
+// Roda antes da primeira pintura, uma vez por carga de documento (navegação
+// interna não passa por aqui):
+// - intro: toda carga nova da home (entrada, nova aba, F5) toca. Voltar e
+//   avançar não tocam: a página volta como estava. Nada fica guardado no
+//   navegador; o "nada-intro" de versões antigas é apagado. ?intro força.
 //   Sem o atributo "tocar", a tela preta nem chega a aparecer. Se o JS não
 //   começar a intro em 4 s (rede muito lenta, script bloqueado), a página
 //   abre sem ela: a tela preta não prende ninguém esperando;
+// - rolagem: fora voltar/avançar, a restauração do navegador fica desligada
+//   já aqui, e a página nasce no topo (sem pintar no meio e pular depois). A
+//   posição de cada página é do SmoothScroll;
 // - movimento liberado: classe `motion` (estados iniciais das animações).
 //   Se o JS não montar em 4 s, a classe sai e tudo aparece parado.
-const SCRIPT_INICIAL = `(function(){var d=document.documentElement;try{var f=/[?&]intro\\b/.test(location.search),v=localStorage.getItem("nada-intro")||sessionStorage.getItem("nada-intro");if(f||(!v&&location.pathname==="/"))d.setAttribute("data-intro","tocar");if(!v)localStorage.setItem("nada-intro","1")}catch(e){}setTimeout(function(){if(d.getAttribute("data-intro")==="tocar"&&!document.querySelector(".intro[data-viva]"))d.setAttribute("data-intro","vista")},4000);if(!matchMedia("(prefers-reduced-motion: reduce)").matches){d.classList.add("motion");setTimeout(function(){if(!window.__nadaMotion)d.classList.remove("motion")},4000)}})()`;
+const SCRIPT_INICIAL = `(function(){var d=document.documentElement,t="";try{var n=performance.getEntriesByType("navigation")[0];t=n?n.type:"";if(t!=="back_forward")history.scrollRestoration="manual";localStorage.removeItem("nada-intro");sessionStorage.removeItem("nada-intro")}catch(e){}if(/[?&]intro\\b/.test(location.search)||(location.pathname==="/"&&t!=="back_forward"))d.setAttribute("data-intro","tocar");setTimeout(function(){if(d.getAttribute("data-intro")==="tocar"&&!document.querySelector(".intro[data-viva]"))d.setAttribute("data-intro","vista")},4000);if(!matchMedia("(prefers-reduced-motion: reduce)").matches){d.classList.add("motion");setTimeout(function(){if(!window.__nadaMotion)d.classList.remove("motion")},4000)}})()`;
 
 const siteUrl = "https://www.nadastudio.com.br";
 

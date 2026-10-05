@@ -143,12 +143,10 @@ export default function PoliticaDePrivacidade() {
             visita.
           </p>
           <p className="mt-4 text-black/70">
-            Fora os cookies, o site guarda no próprio navegador duas
-            informações de funcionamento: se a animação de abertura já
-            apareceu, para ela não se repetir, e, enquanto a aba estiver
-            aberta, a posição de leitura de cada página, para devolver você
-            ao mesmo ponto. Essas informações não identificam você e não
-            saem do seu aparelho.
+            Fora os cookies, o site guarda no navegador, só enquanto a aba
+            estiver aberta, a posição de leitura de cada página: quando você
+            usa o voltar, a página abre no mesmo ponto. Essa informação não
+            identifica você e não sai do seu aparelho.
           </p>
           <p className="mt-4 text-black/70">
             Você pode bloquear ou apagar os cookies nas configurações do

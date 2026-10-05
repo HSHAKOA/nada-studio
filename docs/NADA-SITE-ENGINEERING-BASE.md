@@ -65,7 +65,7 @@ Cada item diz o que é, onde está aqui e o cuidado ao levar.
 - **Vocabulário declarativo:** o conteúdo declara a intenção (`data-entra="titulo|linha|imagem|marcador"`) e um executor global ([MotionRoot.tsx](../src/components/MotionRoot.tsx)) anima. É o modelo para separar motion de conteúdo.
 - **Lenis + GSAP num laço só** ([SmoothScroll.tsx](../src/components/SmoothScroll.tsx)): Lenis no `gsap.ticker`, `lenis.on("scroll", ScrollTrigger.update)`, `lagSmoothing(0)`. Só com mouse de verdade.
 - **Trava de scroll com contador** ([scrollLock.ts](../src/lib/scrollLock.ts)): `lenis.stop()` + `overflow: hidden`; dois overlays não destravam um ao outro.
-- **Rolagem entre páginas:** restauração do navegador desligada; posição guardada por rota (`sessionStorage`); voltar/recarregar devolve a posição; link novo vai ao topo; âncora espera o layout (dois quadros + refresh) por causa do pin; link para a própria página rola em vez de não fazer nada.
+- **Rolagem entre páginas:** restauração do navegador desligada (já no `<head>`, fora voltar/avançar); posição guardada por rota (`sessionStorage`) só para o histórico: voltar/avançar devolve a posição; recarregar, entrada nova e link novo vão ao topo, que passa a ser a posição guardada; âncora espera o layout (dois quadros + refresh) por causa do pin; link para a própria página rola em vez de não fazer nada.
 - **Troca de página:** View Transitions com classe (`.pagina`) e elemento compartilhado (capa → topo do case). Um nome por elemento na tela; movimento reduzido desliga.
 
 ### Primitives de seção (CSS)

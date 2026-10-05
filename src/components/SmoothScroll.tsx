@@ -66,10 +66,11 @@ function depoisDoLayout(fn: () => void) {
 
 // Rolagem do site inteiro:
 // - Lenis (inércia) só com mouse de verdade; no toque a rolagem é a nativa.
-// - Voltar/avançar e recarregar devolvem a posição de cada página. A
-//   restauração do navegador fica desligada porque a troca de página do App
-//   Router acontece depois dela (e dentro da View Transition): ele rolaria a
-//   página velha, não a nova.
+// - Voltar/avançar devolvem a posição de cada página. Recarregar (F5),
+//   entrar de novo e link novo começam no topo: a posição guardada serve ao
+//   histórico, não a uma carga nova. A restauração do navegador fica
+//   desligada porque a troca de página do App Router acontece depois dela (e
+//   dentro da View Transition): ele rolaria a página velha, não a nova.
 // - Âncoras (#secao) caem no lugar certo na própria página, vindo de outra ou
 //   abrindo o link direto.
 export default function SmoothScroll() {
@@ -214,25 +215,32 @@ export default function SmoothScroll() {
     // A intro vai tocar: a página fica no topo, travada por ela.
     if (pathname === "/" && document.documentElement.dataset.intro === "tocar") {
       if (inicial) irPara(0);
+      guardar(pathname, 0);
       soltar();
       return;
     }
 
     const hash = location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+    // Só o histórico restaura: voltar/avançar dentro do site (popstate) ou
+    // carga de documento pelo voltar/avançar. Recarregar não: a posição de
+    // antes do F5 não ganha da carga nova.
     const tipo = inicial
       ? (performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined)?.type
       : undefined;
-    const restaurar = voltou || tipo === "reload" || tipo === "back_forward";
+    const restaurar = voltou || tipo === "back_forward";
 
     if (hash) return depois(hash);
     if (restaurar) {
       const y = lido(pathname);
       if (y !== null) return depois(y);
     }
-    // Navegação nova (clique em link, logotipo de outra página) e carregamento
-    // inicial: começa no topo. O Next tenta isso sozinho, mas com o Lenis no
-    // meio de uma inércia a página podia continuar onde a anterior estava.
+    // Navegação nova (clique em link, logotipo de outra página), carga nova e
+    // recarga: começa no topo. O Next tenta isso sozinho, mas com o Lenis no
+    // meio de uma inércia a página podia continuar onde a anterior estava. O
+    // topo vira a posição guardada da página: um voltar depois traz aqui, não
+    // ao ponto de uma visita anterior.
     irPara(0);
+    guardar(pathname, 0);
     soltar();
   }, [pathname]);
 
