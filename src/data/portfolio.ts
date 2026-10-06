@@ -453,7 +453,9 @@ export const PROJETOS: Projeto[] = [
   {
     // Programa de computador (janela), feito pelo Eric. A capa é montada com
     // capturas reais de uma busca (ver scripts/gravar-capa.mjs). As fotos dos
-    // cartões são resultado da busca de imagens, de terceiros.
+    // cartões são resultado da busca de imagens, de terceiros. Conferido em
+    // 05/10/2026: o download sai em JPG 1000x1000 sobre branco; o recorte
+    // automático do fundo não estava instalado no executável testado.
     slug: "imagens-para-ecommerce",
     num: "18",
     nome: "Imagens E-commerce",
@@ -468,7 +470,7 @@ export const PROJETOS: Projeto[] = [
     problema:
       "A maioria das imagens que se acha na internet vem em WebP e com fundo. Pra cada produto era procurar, baixar, converter e recortar.",
     depois:
-      "Você digita o nome do produto, banana ou picanha, e o programa busca as imagens com filtro de conteúdo adulto e mostra as opções lado a lado. Um clique baixa a escolhida já recortada, com fundo branco, na pasta que você definir. Dá pra passar uma lista de produtos e fazer tudo em lote.",
+      "Você digita o nome do produto, banana ou picanha, e o programa busca as imagens com filtro de conteúdo adulto e mostra as opções lado a lado. Um clique baixa a escolhida em JPG, centralizada num quadro branco de 1000 por 1000, na pasta que você definir. Tem a opção de recortar o fundo da foto, e dá pra passar uma lista de produtos e fazer tudo em lote.",
     resultado: "A foto do produto sai pronta pra subir na loja, sem abrir editor de imagem.",
     galeria: [
       { src: "/portfolio/imagens-ecommerce-busca.webp", largura: 1280, altura: 800, legenda: "É só digitar o produto. A busca já sai com filtro de conteúdo adulto." },
