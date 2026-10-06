@@ -9,6 +9,8 @@ const BARRAS = [2, 1, 3, 1, 1, 2, 4, 1, 2, 1, 3, 2, 1, 1, 4, 2, 1, 3, 1, 2, 1, 1
 const ONDA = [0.3, 0.55, 0.8, 0.45, 0.95, 0.6, 0.35, 0.7, 1, 0.5, 0.75, 0.4, 0.85, 0.55, 0.3, 0.65, 0.9, 0.45, 0.6, 0.35];
 // Larguras das linhas de texto que a onda vira, em % da coluna.
 const LINHAS = [92, 78, 86, 54];
+// Larguras das manchetes do jornal, em % da coluna.
+const MANCHETES = [86, 62, 78, 48, 70];
 
 // Leitor de estoque: a linha de leitura passa pelo código, bipa e o movimento
 // (entrada ou saída) aparece.
@@ -53,6 +55,30 @@ function Transcricao() {
   );
 }
 
-export default function CapaCena({ cena }: { cena: "leitor" | "transcricao" }) {
-  return cena === "leitor" ? <Leitor /> : <Transcricao />;
+// Jornal do dia: a edição em cima (mundo, depois IA) e as manchetes entrando
+// uma a uma, cada uma com o ponto dela.
+function Jornal() {
+  return (
+    <div className="cena cena-jornal">
+      <p className="cena-edicoes">
+        <span className="cena-edicao cena-edicao-mundo">Mundo</span>
+        <span className="cena-edicao cena-edicao-ia">IA</span>
+      </p>
+      <div className="cena-manchetes">
+        {MANCHETES.map((largura, i) => (
+          <span key={i} style={{ "--i": i } as React.CSSProperties}>
+            <b />
+            <i style={{ width: `${largura}%` }} />
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const CENAS = { leitor: Leitor, transcricao: Transcricao, jornal: Jornal };
+
+export default function CapaCena({ cena }: { cena: keyof typeof CENAS }) {
+  const Cena = CENAS[cena];
+  return <Cena />;
 }

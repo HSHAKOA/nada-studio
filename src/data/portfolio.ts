@@ -12,7 +12,7 @@ export type TipoProjeto = "cliente" | "interno";
 // Interface sempre real. Nunca foto de banco.
 export type Capa = {
   tipo: "filme" | "recorte" | "foto" | "numero" | "cena" | "tipografica";
-  cena?: "leitor" | "transcricao"; // tipo cena: qual motion (components/CapaCena.tsx)
+  cena?: "leitor" | "transcricao" | "jornal"; // tipo cena: qual motion (components/CapaCena.tsx)
   imagem?: string; // pôster do filme (o primeiro quadro), recorte ou foto
   video?: string; // filme em pé, 4:5 (índice e home)
   // largura ÷ altura do recorte: a capa mostra o recorte inteiro, na forma
@@ -474,6 +474,25 @@ export const PROJETOS: Projeto[] = [
       { src: "/portfolio/imagens-ecommerce-busca.webp", largura: 1280, altura: 800, legenda: "É só digitar o produto. A busca já sai com filtro de conteúdo adulto." },
       { src: "/portfolio/imagens-ecommerce-resultados.webp", largura: 1280, altura: 800, legenda: "As opções lado a lado, cada uma com o botão que baixa a foto com fundo branco." },
     ],
+  },
+  {
+    // Automação da NADA Studio: uma rotina agendada escreve o jornal e o n8n
+    // entrega no grupo pela Evolution API. Não tem tela pra filmar: capa em
+    // cena. O "antes" e o "problema" esperam a confirmação do Eric.
+    slug: "jornal-do-dia",
+    num: "19",
+    nome: "Jornal do Dia",
+    subtitulo: "As notícias do dia no grupo do WhatsApp, toda manhã",
+    tipo: "interno",
+    entrega: "Automação",
+    chamada: "Toda manhã, o resumo das notícias chega pronto no grupo.",
+    identifica: "também quero me atualizar sem abrir dez sites toda manhã",
+    capa: { tipo: "cena", cena: "jornal" },
+    antes: "Pra acompanhar o que mudou no mundo e em inteligência artificial, era abrir site por site, todo dia.",
+    problema: "Tomava tempo, e a mesma notícia aparecia repetida de um dia pro outro.",
+    depois:
+      "Uma rotina agendada pesquisa as notícias da manhã, escolhe até sete e escreve o resumo de cada uma, com a fonte. O n8n recebe o texto, confere se veio no formato combinado e manda pro grupo pela Evolution API. São duas edições por dia: uma do mundo, outra de inteligência artificial. Cada notícia enviada entra num histórico, e a rotina consulta esse histórico pra não repetir. Se o texto chega fora do formato, a mensagem não sai: jornal atrasado é melhor que jornal errado.",
+    resultado: "De manhã, o grupo abre o WhatsApp e o jornal já está lá.",
   },
 ];
 

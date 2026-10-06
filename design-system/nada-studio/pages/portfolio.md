@@ -35,7 +35,7 @@ Ordem: voltar → capa 16:10 (pré-carregada, compartilha a transição com o í
 | `recorte` | pedaço da interface real, inteiro, na proporção dele |
 | `numero` | o resultado em tipografia, com a faixa da interface real logo abaixo |
 | `foto` | foto real do material |
-| `cena` | motion em código para projeto sem tela para filmar (`CapaCena`: leitor, transcrição). Só transform e opacity; parado = quadro final |
+| `cena` | motion em código para projeto sem tela para filmar (`CapaCena`: leitor, transcrição, jornal). Só transform e opacity; parado = quadro final |
 | `tipografica` | sem material: só o nome. Não aparece no celular |
 
 - Fundo preto para cliente; branco com fio para projeto nosso. Marcador `( cliente ) 01` no canto, menos no filme.
