@@ -219,86 +219,8 @@ export const PROJETOS: Projeto[] = [
     resultado: "Estoque atualizado a cada bip, sem ninguém digitar nada.",
   },
   {
-    // Feito pra equipe de implantação e suporte de uma empresa privada, que não
-    // é citada. A tecnologia também não. As telas são de uma cópia de
-    // demonstração com dados inventados (ver scripts/gravar-capa.mjs).
-    // O "antes" e o "problema" esperam a confirmação de quem viveu o caso.
-    slug: "controle-de-ponto",
-    num: "07",
-    nome: "Controle de Ponto",
-    subtitulo: "Ponto do dia e espelho do mês enviado sozinho",
-    tipo: "cliente",
-    entrega: "Sistema",
-    chamada: "No último dia do mês, o espelho de ponto sai pronto pro gestor.",
-    identifica: "também fecho o ponto do mês na correria",
-    capa: filme("ponto"), // o dia e o mês, o banco de horas e os dois disparos do fim do mês
-    antes: "O ponto da equipe ficava numa planilha, e o espelho do mês era montado na mão pra mandar pro gestor.",
-    problema: "Dia sem registro só aparecia no fechamento, quando ninguém mais lembrava a hora em que tinha entrado.",
-    depois:
-      "Cada pessoa bate a entrada e a saída num clique e marca se o dia foi presencial ou em casa. O sistema calcula as horas, o saldo do mês e o banco de horas, e guarda os gastos do dia. No último dia do mês, avisa às 16h45 se ficou dia útil sem registro. Às 18h, monta o espelho em PDF e manda pro gestor no WhatsApp.",
-    resultado: "O mês fecha sem planilha e sem ninguém precisar lembrar de enviar.",
-    galeria: [
-      { src: "/portfolio/ponto-registros.webp", largura: 2880, altura: 1800, legenda: "O dia de hoje no topo e o mês inteiro abaixo, com o saldo de cada dia. Os dados são de demonstração." },
-      { src: "/portfolio/ponto-banco.webp", largura: 2880, altura: 1800, legenda: "Banco de horas: o saldo de cada mês e o acumulado." },
-      { src: "/portfolio/ponto-envios.webp", largura: 2880, altura: 1800, legenda: "Os dois disparos do último dia do mês: o aviso de dia sem registro e o espelho em PDF." },
-    ],
-  },
-  {
-    // Mesmo sistema e mesma empresa do Controle de Ponto: vale o comentário de lá.
-    slug: "implantacao-de-clientes",
-    num: "08",
-    nome: "Implantação de Clientes",
-    subtitulo: "Acompanhamento de cliente novo, da assinatura ao lançamento",
-    tipo: "cliente",
-    entrega: "Sistema",
-    chamada: "Cada cliente novo com a etapa e o prazo à vista, e a ata sai pronta.",
-    identifica: "também perco o fio de cada cliente novo quando são vários ao mesmo tempo",
-    capa: filme("implantacao"), // a lista por semana, um cliente aberto, a ata e o painel de envios
-    antes: "Uma equipe colocava várias lojas virtuais no ar ao mesmo tempo, cada uma numa etapa diferente.",
-    problema: "Pra saber quem estava atrasado, era abrir conversa por conversa. E a ata de cada reunião era escrita do zero.",
-    depois:
-      "Cada cliente segue um roteiro de semanas, com a lista do que precisa estar pronto em cada uma. A tela mostra o percentual, o prazo da etapa e quem atrasou. No fim da reunião, a ata sai montada pra e-mail ou WhatsApp, com o que foi feito, o que falta e a pauta da próxima. Um painel controla as mensagens automáticas: dá pra pausar, pôr em teste ou desligar cada uma, e em dia de instabilidade nenhuma sai. Cada pessoa da equipe só vê o que o papel dela permite.",
-    resultado: "Abre a tela e vê quem está em dia, quem atrasou e o que falar na próxima reunião.",
-    galeria: [
-      { src: "/portfolio/implantacao-lista.webp", largura: 2880, altura: 1800, legenda: "Cada cliente na sua semana, e quem atrasou no topo. Os nomes são de demonstração." },
-      { src: "/portfolio/implantacao-cliente.webp", largura: 2880, altura: 1800, legenda: "Um cliente aberto: o roteiro, o percentual e o prazo de cada etapa." },
-      { src: "/portfolio/implantacao-ata.webp", largura: 2880, altura: 1800, legenda: "A ata da reunião, pronta pra colar no WhatsApp." },
-      { src: "/portfolio/implantacao-envios.webp", largura: 2880, altura: 1800, legenda: "O painel das mensagens automáticas: pausar, testar ou desligar cada uma." },
-      { src: "/portfolio/implantacao-usuarios.webp", largura: 2880, altura: 1800, legenda: "Cada papel da equipe enxerga só as telas de que precisa." },
-    ],
-  },
-  {
-    // Mesmo sistema e mesma empresa do Controle de Ponto: vale o comentário de
-    // lá. As peças da galeria são saídas reais do gerador; o status de
-    // aprovação das telas é de demonstração.
-    slug: "gerador-de-banners",
-    num: "09",
-    nome: "Gerador de Banners",
-    subtitulo: "Os banners do ano, gerados por IA no tamanho certo",
-    tipo: "cliente",
-    entrega: "Ferramenta",
-    chamada: "O calendário de campanhas do ano, com cada banner gerado e aprovado na mesma tela.",
-    identifica: "também refaço banner de campanha um por um, todo mês",
-    capa: filme("banners"), // um mês aberto, a prévia dos dois formatos, o ano e os departamentos
-    antes:
-      "Loja virtual pede banner novo a cada campanha: Páscoa, Dia das Mães, festa junina, Black Friday. E cada peça sai em mais de um tamanho, pro site e pro celular.",
-    problema: "São 48 campanhas no ano, cada uma em dois tamanhos. Feito peça por peça, não dava tempo.",
-    depois:
-      "O ano vira um calendário: doze meses, quatro campanhas em cada um. A ferramenta gera o banner de cada campanha com IA, já no tamanho do site e do celular, e escreve o título por cima com a fonte certa, sem erro de grafia. Cada peça passa por aprovação: dá pra ver os formatos lado a lado, aprovar ou mandar refazer só um. Existe um padrão que vale pra todas as lojas e a versão de cada loja, com a logo dela. Os banners de departamento e os kits saem do mesmo jeito.",
-    resultado: "O calendário do ano fica numa tela só, com o que já foi aprovado e o que falta criar.",
-    galeria: [
-      { src: "/portfolio/banners-calendario.webp", largura: 2880, altura: 1800, legenda: "O ano em doze meses, com quatro campanhas em cada um. O status de aprovação é de demonstração." },
-      { src: "/portfolio/banners-previa.webp", largura: 2880, altura: 1800, legenda: "Uma campanha nos dois formatos, pronta pra aprovar ou refazer." },
-      { src: "/portfolio/banners-peca-pascoa.webp", largura: 2256, altura: 576, legenda: "Peça gerada pela ferramenta: banner de Páscoa no formato do site." },
-      { src: "/portfolio/banners-peca-maes.webp", largura: 2256, altura: 576, legenda: "Dia das Mães." },
-      { src: "/portfolio/banners-peca-arraia.webp", largura: 2256, altura: 576, legenda: "Festa junina." },
-      { src: "/portfolio/banners-departamentos.webp", largura: 2880, altura: 1800, legenda: "Os banners de departamento saem da mesma tela." },
-      { src: "/portfolio/banners-peca-acougue.webp", largura: 2256, altura: 382, legenda: "Banner de departamento gerado pela ferramenta." },
-    ],
-  },
-  {
     slug: "hub-nada-studio",
-    num: "10",
+    num: "07",
     nome: "Hub NADA Studio",
     subtitulo: "Sistema de gestão do estúdio",
     tipo: "interno",
@@ -320,7 +242,7 @@ export const PROJETOS: Projeto[] = [
   // só uma delas. O texto descreve o que a tela faz hoje, sem número.
   {
     slug: "prospeccao-ativa",
-    num: "11",
+    num: "08",
     nome: "Prospecção ativa",
     subtitulo: "Busca de cliente novo por nicho e cidade",
     tipo: "interno",
@@ -338,7 +260,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     slug: "funil-de-clientes",
-    num: "12",
+    num: "09",
     nome: "Funil de clientes",
     subtitulo: "Do primeiro contato ao cliente fechado",
     tipo: "interno",
@@ -355,7 +277,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     slug: "assistente-do-hub",
-    num: "13",
+    num: "10",
     nome: "Assistente do Hub",
     subtitulo: "Você pede, ele lança",
     tipo: "interno",
@@ -372,7 +294,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     slug: "producao-de-conteudo",
-    num: "14",
+    num: "11",
     nome: "Produção de conteúdo",
     subtitulo: "Da ideia ao vídeo publicado",
     tipo: "interno",
@@ -389,7 +311,7 @@ export const PROJETOS: Projeto[] = [
   },
   {
     slug: "projetos-e-tarefas",
-    num: "15",
+    num: "12",
     nome: "Projetos e tarefas",
     subtitulo: "Em que pé está cada projeto",
     tipo: "interno",
@@ -403,6 +325,84 @@ export const PROJETOS: Projeto[] = [
     depois:
       "Cada projeto é um cartão que anda do pendente ao entregue, passando por revisão e aprovação. Dá pra filtrar o que é de cliente, o que é interno e o que é melhoria. As tarefas ficam dentro do projeto delas.",
     resultado: "Uma tela mostra o que está parado e em que etapa.",
+  },
+  {
+    // Sistema feito pelo Eric pra uma equipe de implantação e suporte; entra
+    // como nosso (decisão do Eric, 06/10/2026). A empresa e a tecnologia não
+    // são citadas. As telas são de uma cópia de demonstração com dados
+    // inventados (ver scripts/gravar-capa.mjs).
+    slug: "controle-de-ponto",
+    num: "13",
+    nome: "Controle de Ponto",
+    subtitulo: "Ponto do dia e espelho do mês enviado sozinho",
+    tipo: "interno",
+    entrega: "Sistema",
+    chamada: "No último dia do mês, o espelho de ponto sai pronto pro gestor.",
+    identifica: "também fecho o ponto do mês na correria",
+    capa: filme("ponto"), // o dia e o mês, o banco de horas e os dois disparos do fim do mês
+    antes: "O ponto da equipe ficava numa planilha, e o espelho do mês era montado na mão pra mandar pro gestor.",
+    problema: "Dia sem registro só aparecia no fechamento, quando ninguém mais lembrava a hora em que tinha entrado.",
+    depois:
+      "Cada pessoa bate a entrada e a saída num clique e marca se o dia foi presencial ou em casa. O sistema calcula as horas, o saldo do mês e o banco de horas, e guarda os gastos do dia. No último dia do mês, avisa às 16h45 se ficou dia útil sem registro. Às 18h, monta o espelho em PDF e manda pro gestor no WhatsApp.",
+    resultado: "O mês fecha sem planilha e sem ninguém precisar lembrar de enviar.",
+    galeria: [
+      { src: "/portfolio/ponto-registros.webp", largura: 2880, altura: 1800, legenda: "O dia de hoje no topo e o mês inteiro abaixo, com o saldo de cada dia. Os dados são de demonstração." },
+      { src: "/portfolio/ponto-banco.webp", largura: 2880, altura: 1800, legenda: "Banco de horas: o saldo de cada mês e o acumulado." },
+      { src: "/portfolio/ponto-envios.webp", largura: 2880, altura: 1800, legenda: "Os dois disparos do último dia do mês: o aviso de dia sem registro e o espelho em PDF." },
+    ],
+  },
+  {
+    // Mesmo sistema do Controle de Ponto: vale o comentário de lá.
+    slug: "implantacao-de-clientes",
+    num: "14",
+    nome: "Implantação de Clientes",
+    subtitulo: "Acompanhamento de cliente novo, da assinatura ao lançamento",
+    tipo: "interno",
+    entrega: "Sistema",
+    chamada: "Cada cliente novo com a etapa e o prazo à vista, e a ata sai pronta.",
+    identifica: "também perco o fio de cada cliente novo quando são vários ao mesmo tempo",
+    capa: filme("implantacao"), // a lista por semana, um cliente aberto, a ata e o painel de envios
+    antes: "Uma equipe colocava várias lojas virtuais no ar ao mesmo tempo, cada uma numa etapa diferente.",
+    problema: "Pra saber quem estava atrasado, era abrir conversa por conversa. E a ata de cada reunião era escrita do zero.",
+    depois:
+      "Cada cliente segue um roteiro de semanas, com a lista do que precisa estar pronto em cada uma. A tela mostra o percentual, o prazo da etapa e quem atrasou. No fim da reunião, a ata sai montada pra e-mail ou WhatsApp, com o que foi feito, o que falta e a pauta da próxima. Um painel controla as mensagens automáticas: dá pra pausar, pôr em teste ou desligar cada uma, e em dia de instabilidade nenhuma sai. Cada pessoa da equipe só vê o que o papel dela permite.",
+    resultado: "Abre a tela e vê quem está em dia, quem atrasou e o que falar na próxima reunião.",
+    galeria: [
+      { src: "/portfolio/implantacao-lista.webp", largura: 2880, altura: 1800, legenda: "Cada cliente na sua semana, e quem atrasou no topo. Os nomes são de demonstração." },
+      { src: "/portfolio/implantacao-cliente.webp", largura: 2880, altura: 1800, legenda: "Um cliente aberto: o roteiro, o percentual e o prazo de cada etapa." },
+      { src: "/portfolio/implantacao-ata.webp", largura: 2880, altura: 1800, legenda: "A ata da reunião, pronta pra colar no WhatsApp." },
+      { src: "/portfolio/implantacao-envios.webp", largura: 2880, altura: 1800, legenda: "O painel das mensagens automáticas: pausar, testar ou desligar cada uma." },
+      { src: "/portfolio/implantacao-usuarios.webp", largura: 2880, altura: 1800, legenda: "Cada papel da equipe enxerga só as telas de que precisa." },
+    ],
+  },
+  {
+    // Mesmo sistema do Controle de Ponto: vale o comentário de lá. As peças da
+    // galeria são saídas reais do gerador; o status de aprovação das telas é
+    // de demonstração.
+    slug: "gerador-de-banners",
+    num: "15",
+    nome: "Gerador de Banners",
+    subtitulo: "Os banners do ano, gerados por IA no tamanho certo",
+    tipo: "interno",
+    entrega: "Ferramenta",
+    chamada: "O calendário de campanhas do ano, com cada banner gerado e aprovado na mesma tela.",
+    identifica: "também refaço banner de campanha um por um, todo mês",
+    capa: filme("banners"), // um mês aberto, a prévia dos dois formatos, o ano e os departamentos
+    antes:
+      "Loja virtual pede banner novo a cada campanha: Páscoa, Dia das Mães, festa junina, Black Friday. E cada peça sai em mais de um tamanho, pro site e pro celular.",
+    problema: "São 48 campanhas no ano, cada uma em dois tamanhos. Feito peça por peça, não dava tempo.",
+    depois:
+      "O ano vira um calendário: doze meses, quatro campanhas em cada um. A ferramenta gera o banner de cada campanha com IA, já no tamanho do site e do celular, e escreve o título por cima com a fonte certa, sem erro de grafia. Cada peça passa por aprovação: dá pra ver os formatos lado a lado, aprovar ou mandar refazer só um. Existe um padrão que vale pra todas as lojas e a versão de cada loja, com a logo dela. Os banners de departamento e os kits saem do mesmo jeito.",
+    resultado: "O calendário do ano fica numa tela só, com o que já foi aprovado e o que falta criar.",
+    galeria: [
+      { src: "/portfolio/banners-calendario.webp", largura: 2880, altura: 1800, legenda: "O ano em doze meses, com quatro campanhas em cada um. O status de aprovação é de demonstração." },
+      { src: "/portfolio/banners-previa.webp", largura: 2880, altura: 1800, legenda: "Uma campanha nos dois formatos, pronta pra aprovar ou refazer." },
+      { src: "/portfolio/banners-peca-pascoa.webp", largura: 2256, altura: 576, legenda: "Peça gerada pela ferramenta: banner de Páscoa no formato do site." },
+      { src: "/portfolio/banners-peca-maes.webp", largura: 2256, altura: 576, legenda: "Dia das Mães." },
+      { src: "/portfolio/banners-peca-arraia.webp", largura: 2256, altura: 576, legenda: "Festa junina." },
+      { src: "/portfolio/banners-departamentos.webp", largura: 2880, altura: 1800, legenda: "Os banners de departamento saem da mesma tela." },
+      { src: "/portfolio/banners-peca-acougue.webp", largura: 2256, altura: 382, legenda: "Banner de departamento gerado pela ferramenta." },
+    ],
   },
   {
     // Código aberto (Apache 2.0). O texto segue o README do projeto: gravação,

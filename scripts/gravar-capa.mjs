@@ -963,9 +963,9 @@ ROTEIROS["projetos-e-tarefas"] = {
   montar: (pasta, f, m) => filmeEmPartes(pasta, m, [["quadro", "quadroFim"], ["filtros", "fim"]]),
 };
 
-// ── Sistema feito pra uma empresa privada (não citada) ────────────────────
+// ── Sistema do Eric (ponto, implantação, banners) ─────────────────────────
 // Gravado numa cópia de demonstração que roda só nesta máquina, com dados
-// inventados, relógio fixo e sem a marca da empresa: nenhuma tela mostra
+// inventados, relógio fixo e sem a marca da empresa onde ele rodou: nenhuma tela mostra
 // cliente, funcionário ou número real, então nada precisa ser borrado. A
 // cópia não fala com banco nem com automação. Fica em brutos/hub-demo (fora
 // do git):  node brutos/hub-demo/build.mjs && node brutos/hub-demo/servir.mjs

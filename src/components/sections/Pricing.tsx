@@ -47,7 +47,7 @@ export default function Pricing() {
             return (
               <article
                 key={pacote.id}
-                className={`flex flex-col border-b border-black/15 py-8 md:border-b-0 md:px-8 md:first:pl-0 md:last:pr-0 ${
+                className={`flex flex-col border-b border-black/15 py-8 md:border-b-0 md:px-6 lg:px-8 md:first:pl-0 md:last:pr-0 ${
                   pacote.destaque ? "order-first md:order-none" : ""
                 }`}
               >
@@ -89,7 +89,8 @@ export default function Pricing() {
                       ))}
                     </ul>
                     {/* mt-auto: no desktop os três botões alinham na base. */}
-                    <a href={buildWhatsAppLink(pacote.whatsappMsg)} className="btn btn-secondary mt-auto w-full">
+                    {/* Em três colunas no tablet o texto não cabe numa linha: quebra em vez de cortar. */}
+                    <a href={buildWhatsAppLink(pacote.whatsappMsg)} className="btn btn-secondary mt-auto w-full whitespace-normal text-balance text-center px-4 lg:px-[26px]">
                       {pacote.cta} <span className="seta" aria-hidden>→</span>
                     </a>
                   </div>

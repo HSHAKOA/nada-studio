@@ -21,7 +21,7 @@ No celular, a primeira capa é pré-carregada com `srcset` e `fetchPriority: hig
 
 ## Case
 
-Ordem: voltar → capa 16:10 (pré-carregada, compartilha a transição com o índice) → cabeçalho em 5 colunas (marcador tipo + número, H1 `clamp(40px, 5.5vw, 72px)` em 900, subtítulo, Entrega e "Faz parte de", link externo) e corpo em 7 colunas (O problema, O que a gente fez, O resultado) → faixa preta do número (se houver número e a capa não for do tipo número) → Por dentro (galeria real; print em pé limitado a 360 px) → O que tem dentro (só no Hub) → Próximo projeto (com fio) → chamada final com a mensagem pronta.
+Ordem: voltar → capa 16:10 (pré-carregada, compartilha a transição com o índice) → cabeçalho em 5 colunas (marcador tipo + número, H1 `clamp(40px, 5.5vw, 72px)` em 900 (encolhe até a maior palavra caber inteira na coluna: `.titulo-case`), subtítulo, Entrega e "Faz parte de", link externo) e corpo em 7 colunas (O problema, O que a gente fez, O resultado) → faixa preta do número (se houver número e a capa não for do tipo número) → Por dentro (galeria real; print em pé limitado a 360 px) → O que tem dentro (só no Hub) → Próximo projeto (com fio) → chamada final com a mensagem pronta.
 
 - Ritmo interno de subseção: `clamp(56px, 8vw, 112px)`. A página termina no preto da chamada final.
 - A mensagem do WhatsApp sai pronta: o projeto e o motivo ("me identifiquei: …").

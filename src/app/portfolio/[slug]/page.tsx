@@ -71,6 +71,8 @@ export default async function CasePage({ params }: Props) {
   }`;
   // Ferramenta do Hub aponta pro Hub; o Hub lista as ferramentas dele.
   const mae = projeto.parteDe ? projetoPorSlug(projeto.parteDe) : undefined;
+  // O título encolhe até a maior palavra caber inteira na coluna (.titulo-case em globals.css).
+  const letrasDaMaiorPalavra = Math.max(...projeto.nome.split(" ").map((palavra) => palavra.length));
   const ferramentas = PROJETOS.filter((p) => p.parteDe === projeto.slug);
   const mensagem = projeto.cta?.mensagem ?? identifiquei;
 
@@ -89,9 +91,13 @@ export default async function CasePage({ params }: Props) {
           </div>
 
           <div className="wrap grid gap-12 py-[clamp(56px,8vw,112px)] md:grid-cols-12">
-            <header className="md:col-span-5">
+            <header className="@container md:col-span-5">
               <SectionMarker label={ROTULO_TIPO[projeto.tipo]} number={projeto.num} />
-              <h1 data-entra="titulo" className="text-[clamp(40px,5.5vw,72px)] font-black leading-[0.95] tracking-[-0.035em]">
+              <h1
+                data-entra="titulo"
+                className="titulo-case font-black leading-[0.95] tracking-[-0.035em]"
+                style={{ "--letras": letrasDaMaiorPalavra } as React.CSSProperties}
+              >
                 {projeto.nome}
               </h1>
               <p className="mt-5 text-lg text-black/65">{projeto.subtitulo}</p>

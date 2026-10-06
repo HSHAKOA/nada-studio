@@ -456,6 +456,16 @@
   }
 }
 
+/* ── Título do case (portfolio/[slug]) ──────────────────────────────────────
+   O tamanho do padrão (clamp do H1 do case) até a maior palavra encostar na
+   largura da coluna; dali pra baixo encolhe, e a palavra cabe inteira, nunca
+   cortada nem partida. --letras = letras da maior palavra (page.tsx). 0.66em
+   por letra é a média medida na palavra mais larga ("E-commerce", 0.648), com
+   folga. A coluna é o container (@container no header). */
+.titulo-case {
+  font-size: min(clamp(40px, 5.5vw, 72px), calc(100cqi / (var(--letras) * 0.66)));
+}
+
 /* ── Réguas: a linha divisória é o padrão de entrada das listas. ─────────── */
 .regua,
 .regua-topo {
