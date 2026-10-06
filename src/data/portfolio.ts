@@ -498,8 +498,9 @@ export const PROJETOS: Projeto[] = [
   },
 ];
 
-// Home: três naturezas diferentes (site, sistema, físico-digital).
-export const DESTAQUES_HOME = ["ana-marocci", "torre-de-controle", "espaco-gc-style"];
+// Home: o público do site, não a variedade do que a gente faz. Nutricionista,
+// psicóloga e barbearia: quem chega se reconhece em pelo menos um.
+export const DESTAQUES_HOME = ["ana-marocci", "thayana-de-oliveira", "espaco-gc-style"];
 
 export const PORTFOLIO_HEADER = {
   marcador: "Portfólio",

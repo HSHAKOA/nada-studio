@@ -2,18 +2,22 @@
 // "Seu negócio não deveria precisar de você pra funcionar."
 export const HERO_HEADLINE_FIXA = "Se o seu negócio para quando você para,";
 
+// O que a NADA Studio é, em uma linha: a primeira coisa lida na home, antes
+// do título. Os três nomes são os mesmos de SERVICOS, do menu e do rodapé.
+export const HERO_DESCRITOR = "Estúdio de sites, automação e vídeo.";
+
 // Frase que se reveza no título (TituloRotativo): `metal` é a palavra em cromo.
 export type Variacao = { antes: string; metal: string; depois: string };
 
+// Duas frases: o problema e a resposta. O título troca uma vez e para na
+// resposta (sem movimento, só ela aparece).
 export const HERO_VARIACOES: Variacao[] = [
-  { antes: "tem alguma coisa ", metal: "errada", depois: "." },
   { antes: "você não tem negócio, tem ", metal: "emprego", depois: "." },
-  { antes: "o problema não é ", metal: "esforço", depois: "." },
-  { antes: "falta o que trabalha por ", metal: "você", depois: "." },
+  { antes: "a gente ", metal: "constrói", depois: " o que trabalha por você." },
 ];
 
 export const HERO_SUB =
-  "A gente tira das suas costas o que te prende na operação. Site, atendimento e o repetitivo rodando sem você no meio.";
+  "Site que vende, atendimento que responde sozinho e vídeo que mostra o que você faz. Pra profissionais e pequenos negócios.";
 
 // Linha de prova na base do hero. Só dado real: o número vem do portfólio.
 // Sem contagem de projetos: número pequeno enfraquecia mais do que provava.
@@ -45,11 +49,13 @@ export const GOOGLE_REVIEW_LINK = "https://maps.app.goo.gl/wyPhb2ahTweBx9yDA";
 // A oferta concreta do site: rótulo dominante dos CTAs de decisão.
 export const DIAGNOSTICO_CTA = "Pedir diagnóstico gratuito";
 
+// "IA para empresas" fica fora do cabeçalho: o site fala com profissional e
+// pequeno negócio, e empresa maior é outra conversa. A página continua no ar,
+// alcançada pelo pé da lista de serviços (SERVICOS_EMPRESAS) e pelo rodapé.
 export const navLinks = [
   { label: "Sobre", href: "/sobre" },
   { label: "Portfólio", href: "/portfolio" },
-  { label: "Motion", href: "/motion" },
-  { label: "IA para empresas", href: "/ia-para-empresas" },
+  { label: "Vídeo", href: "/motion" },
   { label: "Equipe", href: "/equipe" },
   { label: "Como funciona", href: "/como-funciona" },
   { label: "FAQ", href: "/faq" },
@@ -113,24 +119,36 @@ export const ANTES_DEPOIS = {
   creditoHref: "/portfolio/no-azul",
 };
 
-export const services = [
-  { number: "01", title: "Sites" },
-  { number: "02", title: "Tarefa repetitiva" },
-  { number: "03", title: "Ferramenta sob medida" },
-];
-
-// Pergunta na frente, resposta curta atrás: cada linha confirma uma dor que a
-// pessoa já reconhece antes de dizer o que a gente faz.
+// Os três serviços, com o nome na frente: quem bate o olho lê o que a gente
+// faz antes de ler pra que serve. A lista da home e a coluna do rodapé saem
+// daqui. `href`: serviço que tem página própria.
 export const SERVICOS = [
-  { num: "01", titulo: "Seu negócio ainda depende de você pra aparecer?", descricao: "Site sob medida. Achável, com cara de sério." },
-  { num: "02", titulo: "…pra responder cada cliente?", descricao: "Atendimento que responde sozinho, 24h." },
-  { num: "03", titulo: "…pra mandar orçamento?", descricao: "Página feita pra vender, com o orçamento saindo pronto." },
-  { num: "04", titulo: "…pra trazer gente nova?", descricao: "Anúncio que aparece pra quem já procura o que você vende." },
-  { num: "05", titulo: "…pra copiar dado de um lugar pro outro?", descricao: "WhatsApp, agenda, pedido e planilha conversando entre si." },
-  // Única linha que diz "IA": é o nome do serviço (ver IA_EMPRESAS).
-  { num: "06", titulo: "…pra ensinar a equipe a usar IA?", descricao: "Implementação e treinamento de IA dentro da empresa.", href: "/ia-para-empresas" },
-  { num: "07", titulo: "…pra tudo?", descricao: "Ferramenta sob medida pro seu processo." },
-] as { num: string; titulo: string; descricao: string; href?: string }[];
+  {
+    num: "01",
+    titulo: "Sites",
+    descricao: "Sob medida, rápido no celular, pronto pro Google e pra anúncio. Quem chega cai direto no seu WhatsApp.",
+  },
+  {
+    num: "02",
+    titulo: "Automação",
+    descricao:
+      "Atendimento, agenda e cobrança andando sem você. Quando a planilha não dá mais conta, a gente monta o sistema no lugar dela.",
+  },
+  {
+    num: "03",
+    titulo: "Vídeo",
+    descricao: "Edição e motion pra mostrar o que você faz, do reels à abertura do site.",
+    href: "/motion",
+    rotulo: "Ver os vídeos",
+  },
+] as { num: string; titulo: string; descricao: string; href?: string; rotulo?: string }[];
+
+// Empresa maior é outra conversa: tem porta própria, fora da lista.
+export const SERVICOS_EMPRESAS = {
+  texto: "Empresa com equipe? A conversa é outra:",
+  link: "IA para empresas",
+  href: "/ia-para-empresas",
+};
 
 export const steps = [
   {
@@ -211,10 +229,12 @@ export const ECOSSISTEMA = {
   ],
 };
 
+// Sem pergunta de preço: o site não levanta objeção que a pessoa ainda não
+// fez. O assunto aqui é o tempo que ela já perde, não o valor do projeto.
 export const costOfNotDoing = {
-  header: "“É caro?” O caro é continuar perdendo tempo.",
+  header: "Não fazer nada também custa.",
   text: "Faz a conta. Quantas horas por semana você (ou sua equipe) gasta no repetitivo? Multiplica por um mês. Por um ano. Esse tempo já tem um custo. Só que ele é invisível, sai fatiado, todo dia.",
-  destaque: "Não fazer nada também custa. Só que você paga em hora perdida.",
+  destaque: "E você já paga, em hora perdida.",
   microCta: "Descobrir quanto você perde",
 };
 
@@ -325,7 +345,7 @@ export const faqItems = [
 export const MOTION = {
   // Duas frases: a segunda entra num corte seco (MotionHero).
   titulo: ["Do nada nasce tudo.", "Inclusive o vídeo."] as const,
-  sub: "O braço de vídeo da NADA Studio: edição, motion design e produção visual pra mostrar o que o seu negócio faz, com o mesmo cuidado do site.",
+  sub: "Edição, motion design e produção visual, feitos pelo mesmo estúdio que faz o seu site.",
   capacidades: [
     {
       num: "01",
@@ -525,10 +545,10 @@ export const CHAMADAS = {
 // Numeração por página (cada rota reinicia em 001, na ordem em que aparece).
 export const sectionMarkers = {
   // home
-  isso: "001",
-  beforeAfter: "002",
-  portfolio: "003",
-  whatWeDo: "004",
+  whatWeDo: "001",
+  isso: "002",
+  beforeAfter: "003",
+  portfolio: "004",
   pricing: "005",
   cta: "006",
   // /sobre

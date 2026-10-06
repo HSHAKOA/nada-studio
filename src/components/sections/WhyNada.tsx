@@ -4,7 +4,8 @@ import BuracoNegro from "@/components/3d/BuracoNegro";
 import { sectionMarkers } from "@/data/content";
 
 // O manifesto é o conceito da marca: ocupa a escala da página. Atrás do
-// título, o buraco negro: o nada como o ponto onde tudo começa.
+// título, o buraco negro: o nada como o ponto onde tudo começa. O nada é a
+// folha em branco de onde a gente parte, nunca o problema de quem chega.
 export default function WhyNada() {
   return (
     <section id="por-que-nada" className="section isolate">
@@ -25,14 +26,14 @@ export default function WhyNada() {
 
         <div className="mt-16 grid gap-8 md:grid-cols-12">
           <p className="text-[clamp(18px,1.7vw,22px)] leading-relaxed text-black/75 md:col-span-6 md:col-start-7">
-            Tudo começa do zero. De uma folha em branco, de um &ldquo;e se...&rdquo;. A
-            gente pega esse nada (o seu problema, o seu tempo perdido, a sua ideia
-            solta) e faz virar coisa que funciona. Sites, sistemas e a forma como
-            eles são mostrados.
+            Tudo começa do zero. De uma folha em branco, de um &ldquo;e se...&rdquo;.
+            Você chega com o problema, o tempo que anda perdendo, a ideia solta.
+            A gente parte do nada e faz virar coisa que funciona. Sites,
+            sistemas e a forma como eles são mostrados.
           </p>
           <p className="md:col-span-6 md:col-start-7">
             <Link href="/motion" className="link-u inline-block py-2 text-[17px] font-medium">
-              Conhecer o braço de vídeo e motion <span className="seta" aria-hidden>→</span>
+              Ver os vídeos que a gente faz <span className="seta" aria-hidden>→</span>
             </Link>
           </p>
         </div>

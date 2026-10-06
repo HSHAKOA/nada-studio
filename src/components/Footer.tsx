@@ -5,9 +5,9 @@ import { SiGooglemaps, SiInstagram, SiWhatsapp } from "react-icons/si";
 import {
   GOOGLE_REVIEW_LINK,
   INSTAGRAM_LINK,
+  SERVICOS,
   WHATSAPP_LINK,
   navLinks,
-  services,
   trustBadges,
 } from "@/data/content";
 
@@ -25,8 +25,8 @@ export default function Footer() {
           {/* A marca nunca aparece como "NADA" solto: é o logotipo. */}
           <NadaWordmark className="w-[120px] fill-white" />
           <p className="mt-4 max-w-[32ch] text-white/60">
-            Do nada nasce tudo. Sites, tarefa repetitiva e ferramenta sob
-            medida pra quem quer o tempo de volta.
+            Do nada nasce tudo. Sites, automação e vídeo pra quem quer o
+            tempo de volta.
           </p>
           <div className="mt-6 -ml-3 flex items-center gap-1">
             <a href={WHATSAPP_LINK} aria-label="WhatsApp" className={ICONE}>
@@ -61,14 +61,12 @@ export default function Footer() {
         <div>
           <p className="eyebrow mb-3">Serviços</p>
           <nav className="flex flex-col">
-            {services.map((service) => (
-              <Link key={service.number} href="/#o-que-fazemos" className={LINK}>
-                {service.title}
+            {/* Os mesmos três nomes da home; o que tem página própria leva a ela. */}
+            {SERVICOS.map((servico) => (
+              <Link key={servico.num} href={servico.href ?? "/#o-que-fazemos"} className={LINK}>
+                {servico.titulo}
               </Link>
             ))}
-            <Link href="/motion" className={LINK}>
-              Vídeo e motion
-            </Link>
             <Link href="/ia-para-empresas" className={LINK}>
               IA para empresas
             </Link>

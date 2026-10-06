@@ -22,7 +22,7 @@ function Rolo({ children }: { children: string }) {
 
 // Cabeçalho protegido pelo PDF auditado: o desenho segue igual, e o menu do
 // celular voltou ao original. Mudou o comportamento: o menu completo só a
-// partir de 1180 px (abaixo disso os sete links não cabem), a página atual
+// partir de 1180 px (limite medido com sete links; hoje são seis), a página atual
 // marcada, a troca de letras em sequência no hover dos links (o botão segue com o
 // rolo) e o recolher ao descer (volta ao subir), que tira a barra de cima das
 // seções escuras.

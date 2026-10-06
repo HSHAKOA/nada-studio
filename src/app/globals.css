@@ -625,7 +625,8 @@
   background: currentColor;
 }
 
-[data-ponto="viajando"] .ponto-final {
+[data-ponto="viajando"] .ponto-final,
+[data-ponto="longe"] .ponto-final {
   opacity: 0;
 }
 
@@ -645,7 +646,8 @@
 }
 
 /* Viajando, só o viajante; pousado (ou sem o atributo: celular, movimento
-   reduzido, sem JS), só o ponto do título. Um atributo decide os dois. */
+   reduzido, sem JS), só o ponto do título; longe (a viagem ainda não começou),
+   nenhum dos dois. Um atributo decide tudo. */
 [data-ponto="viajando"] .passagem-ponto {
   opacity: 1;
   visibility: visible;
@@ -1269,8 +1271,10 @@
   grid-area: 1 / 1;
 }
 
-.rotativo > :not(:first-child),
-.motion .rotativo > :first-child {
+/* Parado (movimento reduzido, sem JS), fica a última frase, onde o título
+   termina. Com movimento, todas começam escondidas e o GSAP mostra a da vez. */
+.rotativo > :not(:last-child),
+.motion .rotativo > :last-child {
   visibility: hidden;
 }
 

@@ -10,12 +10,15 @@
 //   trecho              papel        o que faz                                    onde
 //   intro               nascimento   nasce no centro, vira o traço do logotipo    IntroOverlay
 //   hero                origem       pendurado na ponta da linha do indicador     Hero
-//   hero → sintomas     queda        a linha recolhe e ele cai pra fora da tela   Hero
+//   saída do hero       queda        a linha recolhe, ele cai pra fora da tela    Hero
+//                                    e some lá (não fica parado onde caiu)
+//   o que a gente faz   passagem     longe → perto → longe pelo vazio, pousa      WhatWeDo
+//                                    como o ponto final do título. Só começa
+//                                    depois que a queda saiu da tela: um ponto
+//                                    por vez
 //   sintomas            ausente      área de leitura
 //   antes/depois        impacto      cai sobre o 8 e abre o círculo preto          BeforeAfter
 //   portfólio           ausente      as capas mandam
-//   o que fazemos       passagem     longe → perto → longe pelo vazio, pousa      WhatWeDo
-//                                    como o ponto final do título
 //   formatos            ausente      área de decisão, nada se move
 //   chamada final       retorno      reaparece pequeno e abre a seção preta       CTA
 //

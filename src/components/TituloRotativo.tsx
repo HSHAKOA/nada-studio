@@ -61,8 +61,9 @@ type Props = {
 // palavra em cromo (.metal). Na chegada, uma luz atravessa o título palavra
 // por palavra e termina no cromo. As frases dão uma volta e param na última,
 // onde o cromo segue brilhando de tempos em tempos (pausa fora da tela).
-// Na home, espera a intro terminar. Movimento reduzido: a primeira frase,
-// parada, sem luz.
+// Na home, espera a intro terminar. Movimento reduzido ou sem JS: só a última
+// frase, parada, sem luz (é nela que o título termina, e na home é a
+// resposta). O HTML já sai assim; a volta começa pela primeira.
 export default function TituloRotativo({ fixa, variacoes, className, id }: Props) {
   const tituloRef = useRef<HTMLHeadingElement>(null);
   const fixaRef = useRef<HTMLSpanElement>(null);
@@ -88,6 +89,12 @@ export default function TituloRotativo({ fixa, variacoes, className, id }: Props
     let limparLuz = () => {};
 
     function iniciar() {
+      // O HTML marca a última frase como a lida (título parado). Com a volta,
+      // quem é lida é a que está na tela, começando pela primeira.
+      frases.forEach((frase, i) => {
+        if (i === 0) frase.removeAttribute("aria-hidden");
+        else frase.setAttribute("aria-hidden", "true");
+      });
       ctx.add(() => {
         gsap.fromTo(frases[0], { yPercent: 105, autoAlpha: 1 }, { yPercent: 0, duration: DUR.entrada, ease: EASE });
 
@@ -177,7 +184,7 @@ export default function TituloRotativo({ fixa, variacoes, className, id }: Props
       <br />
       <span ref={trocaRef} className="rotativo">
         {variacoes.map((variacao, v) => (
-          <span key={v} data-var aria-hidden={v > 0 || undefined}>
+          <span key={v} data-var aria-hidden={v < variacoes.length - 1 || undefined}>
             {/* O espaço fica fora da palavra: dentro de um inline-block ele
                 cai no fim da linha e some. */}
             {tokenizar(variacao).map((token, i, todos) => (

@@ -18,9 +18,10 @@ export const metadata: Metadata = {
   },
 };
 
-// Ordem: impacto → identificação → transformação/prova → portfólio →
-// serviços → decisão → fechamento. O primeiro trabalho real aparece logo
-// depois do Antes/Depois.
+// Ordem: a resposta antes da história. Impacto (com o que a gente é) →
+// serviços → identificação → transformação/prova → portfólio → decisão →
+// fechamento. Quem já sabe o que procura acha na primeira rolagem; o primeiro
+// trabalho real continua logo depois do Antes/Depois.
 export default function Home() {
   return (
     <>
@@ -28,10 +29,10 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero local={HERO_LOCAL} />
+        <WhatWeDo />
         <Symptoms />
         <BeforeAfter />
         <PortfolioTeaser />
-        <WhatWeDo />
         <Pricing />
         <CTA />
       </main>

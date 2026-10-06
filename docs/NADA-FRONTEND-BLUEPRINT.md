@@ -90,7 +90,7 @@ Levar os que existem e não carregam identidade: container, ritmo de seção, po
 ## Responsive
 
 - Breakpoints num lugar só (`lib/motion.ts` + `:root`/`@theme`), espelhados no CSS com comentário.
-- 768 e 1024 como base; o limite do menu sai do conteúdo do cabeçalho do cliente (aqui 1180, porque são sete links).
+- 768 e 1024 como base; o limite do menu sai do conteúdo do cabeçalho do cliente (aqui 1180, medido com sete links; hoje são seis).
 - Efeito de mouse depende de `(hover: hover) and (pointer: fine)`, não da largura.
 - `svh` para tela cheia, `cqw` para componente que escala com a caixa.
 - Primeira pintura já no estado do celular; o cliente ajusta sem pular.

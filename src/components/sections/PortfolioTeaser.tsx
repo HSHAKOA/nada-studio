@@ -6,9 +6,9 @@ import { DESTAQUES_HOME, PROJETOS } from "@/data/portfolio";
 
 const DESTAQUES = PROJETOS.filter((p) => DESTAQUES_HOME.includes(p.slug));
 
-// Prova real logo depois do Antes/Depois: um site, um sistema e um projeto
-// físico-digital, cada um com uma linha de resultado. Encosta no Antes/Depois:
-// a promessa e a prova ficam juntas.
+// Prova real logo depois do Antes/Depois: três clientes do público do site
+// (nutricionista, psicóloga, barbearia), cada um com uma linha de resultado.
+// Encosta no Antes/Depois: a promessa e a prova ficam juntas.
 export default function PortfolioTeaser() {
   return (
     <section id="portfolio" className="section section-encosta">

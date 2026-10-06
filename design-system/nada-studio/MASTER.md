@@ -52,7 +52,7 @@ Exceções reais (as únicas):
 ### O ponto
 
 - Círculo preto de 10 px (`--ponto`, `PONTO_PX`), classe `.ponto`, componente `Ponto` com `data-papel` no DOM.
-- Roteiro e papéis em [ponto.ts](../../src/lib/ponto.ts): nascimento (intro), origem e queda (hero), impacto (Antes/Depois), passagem (O que fazemos), retorno (chamada final), raiz (ecossistema), marca (página atual no menu, linha ativa do portfólio).
+- Roteiro e papéis em [ponto.ts](../../src/lib/ponto.ts): nascimento (intro), origem e queda (hero), passagem (O que a gente faz), impacto (Antes/Depois), retorno (chamada final), raiz (ecossistema), marca (página atual no menu, linha ativa do portfólio).
 - Só aparece quando tem papel. Em área de leitura ou de decisão, ausente.
 - Ponto final de título: `.ponto-final` (0,19em), o ponto da marca no lugar do glifo.
 
@@ -89,8 +89,9 @@ Escala de títulos em uso (valor real e papel):
 | **H2 de seção (padrão)** | **`clamp(32px, 4.2vw, 52px)`** | 700 / 1.05 / -0.02em | 16 usos + `.ba-titulo` |
 | H2 secundário | `clamp(28px, 3.4vw, 44px)` | 700 | grupos do portfólio, Ferramentas, Hub |
 | H3 grande | `clamp(24px, 2.8vw, 34px)` | 700 | manchete do Antes/Depois, diagnóstico |
-| H3 de lista | `clamp(22px, 2.6vw, 32px)` | 700 | serviços, ferramentas do Hub |
-| Destaque | `clamp(20px, 2.4vw, 26px)` | 600 | fecho dos sintomas |
+| Título de frente | `clamp(36px, 5vw, 64px)` | 900 / 1 / -0.035em | serviços (home), capacidades (Motion) |
+| H3 de lista | `clamp(22px, 2.6vw, 32px)` | 700 | públicos (Sobre), grupos da Motion, ferramentas do Hub |
+| Destaque | `clamp(20px, 2.4vw, 26px)` | 600 | fecho dos sintomas; descritor do hero (em Archivo 700) |
 
 Corpo:
 
@@ -159,7 +160,7 @@ Breakpoints (`BP` e `MQ` em [motion.ts](../../src/lib/motion.ts), espelhados no 
 ### Cabeçalho (`Navbar`)
 - Fixo e transparente no topo. Rolado: `bg-white/85 backdrop-blur-md border-b border-black/10`.
 - Recolhe ao descer (depois de 160 px, com tolerância de 8 px) e volta ao subir. O foco de teclado segura o cabeçalho aberto.
-- A partir de 1180: sete links e o botão pílula; a página atual tem o ponto (5 px) antes do rótulo; no hover, as letras do link sobem e a cópia entra por baixo, uma depois da outra, da esquerda pra direita (`TrocaDeLetras`: animação CSS de translate, no compositor, pra não brigar com o desfoque do cabeçalho).
+- A partir de 1180: seis links e o botão pílula (Sobre, Portfólio, Vídeo, Equipe, Como funciona, FAQ; "IA para empresas" saiu do cabeçalho em 06/10/2026 e segue no rodapé e no pé da lista de serviços; o limite de 1180 foi medido com sete); a página atual tem o ponto (5 px) antes do rótulo; no hover, as letras do link sobem e a cópia entra por baixo, uma depois da outra, da esquerda pra direita (`TrocaDeLetras`: animação CSS de translate, no compositor, pra não brigar com o desfoque do cabeçalho).
 - Abaixo de 1180: botão de duas linhas (44 px) e menu de tela cheia branco com links centralizados. Trava o scroll, deixa `main` e `footer` inertes e fecha no Esc.
 
 ### Rodapé (`Footer`)
@@ -214,7 +215,7 @@ Texto corrido não anima.
 
 - **Retrato do sócio** (`RetratoSocio`, página Equipe): a foto se aproxima com o scroll. Cresce de 1 a 1,1 dentro do quadro, que não se mexe, enquanto ele sobe do pé da tela até o meio (scrub 0,6, `ease: "none"`), a partir da altura da testa, e recua na volta. Sem pin, então vale também no celular. No lugar do assentar de 1.07 a 1 das outras imagens.
 - **Frase do sócio** (`FraseSocio`, página Equipe): duas batidas. A primeira metade da frase sobe pela linha de base, como os títulos; a segunda começa 0,6 s depois, como quem fala e depois conclui. Um disparo (`top 90%`); lado a lado, a segunda frase começa 0,2 s depois da primeira.
-- **Título rotativo** (`TituloRotativo`, hero da home e IA para empresas): linha fixa e frases que se revezam embaixo, cada uma com a palavra em cromo. Na chegada, a luz atravessa o título em velocidade constante (18 em/s), palavra por palavra, e termina no brilho do cromo. As frases dão uma volta e param na última, cujo cromo brilha a cada 4 s (pausa fora da tela). Movimento reduzido: a primeira frase, parada.
+- **Título rotativo** (`TituloRotativo`, hero da home e IA para empresas): linha fixa e frases que se revezam embaixo, cada uma com a palavra em cromo. Na chegada, a luz atravessa o título em velocidade constante (18 em/s), palavra por palavra, e termina no brilho do cromo. As frases dão uma volta e param na última, cujo cromo brilha a cada 4 s (pausa fora da tela). Movimento reduzido ou sem JS: só a última frase, parada (é onde o título termina).
 - **Retrato do sócio no hover** (`RetratoSocio`): com mouse, a foto se aproxima até 1,1 quando o ponteiro passa por cima (0,8 s, `--ease-out`); no toque, a aproximação continua sendo a do scroll. Nunca as duas juntas.
 - **Buraco negro do manifesto** (`BuracoNegro`, página Sobre): WebGL (three) atrás do título, que continua HTML. A narrativa anda com o scroll, do topo até o centro do buraco chegar a 20% da tela (scrub 0,8): primeiro só a sombra, o anel e poucos traços; depois o disco acende; por fim a poeira chega, de dentro pra fora. Paralaxe de 60 px na seção e mouse de poucos graus (só ponteiro fino a partir de 1024). Celular: a mesma narrativa uma vez, em 4 s. Movimento reduzido: um quadro parado, completo. Os parâmetros ficam em [config.ts](../../src/components/3d/buraco-negro/config.ts).
   - Passagem pro bloco 002 (a partir de 768 px): a poeira explode, desce em arco e pousa alinhada no fio que abre o "Pra quem", que então aparece no lugar dela. Scrub entre o centro do buraco a 40% da tela e o fio a 60%; rolando de volta, ela volta. Os grãos são um canvas 2D fixo por cima da página, só durante a passagem ([explosao.ts](../../src/components/3d/buraco-negro/explosao.ts)); a poeira do WebGL some quando eles saem e o disco esvazia. O fio fica escondido por `--fio` até o pouso.

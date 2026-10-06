@@ -6,17 +6,18 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Ponto from "@/components/Ponto";
 import SectionMarker from "@/components/SectionMarker";
-import { sectionMarkers, SERVICOS } from "@/data/content";
+import { sectionMarkers, SERVICOS, SERVICOS_EMPRESAS } from "@/data/content";
 import { MQ, movimentoLiberado } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const BASE = 200; // diâmetro de desenho do ponto viajante (escala pra baixo = nítido)
 
-// Lista editorial no mesmo padrão dos sintomas: número, pergunta grande,
-// resposta curta. Sem ícone, sem cartão. O ponto final do título é o ponto da
-// marca: no desktop ele chega de longe pelo vazio à direita, passa perto
-// (inverte o que cruza) e pousa no fim da frase. Ver src/lib/ponto.ts.
+// A resposta antes da história: logo depois do hero, os três serviços com o
+// nome em letra grande (o mesmo desenho das frentes da página Motion) e, no
+// pé, a porta das empresas. Sem ícone, sem cartão. O ponto final do título é
+// o ponto da marca: no desktop ele chega de longe pelo vazio à direita, passa
+// perto (inverte o que cruza) e pousa no fim da frase. Ver src/lib/ponto.ts.
 export default function WhatWeDo() {
   const secaoRef = useRef<HTMLElement>(null);
 
@@ -53,8 +54,11 @@ export default function WhatWeDo() {
       // título aparecia em 0,995 e o viajante só sumia em 1 (no meio, os dois
       // na tela, ou nenhum, com o difference de um sobre o outro), e o sumiço
       // gravado pelo GSAP saía de sincronia depois de um refresh.
+      // "longe": a viagem ainda não começou e nenhum dos dois aparece. A seção
+      // vem logo depois do hero, e o viajante parado na largada ficava na tela
+      // junto com o ponto do hero, que ainda está caindo.
       const pousar = (progresso: number) => {
-        const estado = progresso > 0.995 ? "pousado" : "viajando";
+        const estado = progresso > 0.995 ? "pousado" : progresso > 0 ? "viajando" : "longe";
         if (secao.dataset.ponto !== estado) secao.dataset.ponto = estado;
       };
 
@@ -62,8 +66,10 @@ export default function WhatWeDo() {
         .timeline({
           scrollTrigger: {
             trigger: secao,
-            start: "top 80%",
-            end: "top 20%",
+            // Começa depois que o ponto do hero saiu da tela (ele some com o
+            // topo desta seção a ~65% da altura): um ponto por vez.
+            start: "top 60%",
+            end: "top 10%",
             scrub: 0.6,
             invalidateOnRefresh: true,
             // O refresh (resize, fonte, imagem) mexe no progresso sem passar
@@ -100,31 +106,36 @@ export default function WhatWeDo() {
   return (
     <section ref={secaoRef} id="o-que-fazemos" className="section relative">
       <div className="wrap">
-        <SectionMarker label="O que fazemos" number={sectionMarkers.whatWeDo} />
+        <SectionMarker label="O que a gente faz" number={sectionMarkers.whatWeDo} />
         <h2 data-entra="titulo" className="max-w-2xl text-[clamp(32px,4.2vw,52px)]">
           A gente constrói. Você só usa<span aria-hidden className="ponto-final" />
         </h2>
 
         <ol data-entra="linha" className="regua-topo mt-14">
           {SERVICOS.map((servico) => (
-            <li
-              key={servico.num}
-              data-entra="linha"
-              className="regua grid gap-2 py-7 md:grid-cols-12 md:items-baseline md:gap-8"
-            >
+            <li key={servico.num} data-entra="linha" className="regua grid gap-3 py-10 md:grid-cols-12 md:gap-8">
               <span className="text-sm text-black/40 md:col-span-1">{servico.num}</span>
-              <h3 className="text-[clamp(22px,2.6vw,32px)] md:col-span-7">{servico.titulo}</h3>
-              <p className="text-black/70 md:col-span-4">
+              <h3 className="text-[clamp(36px,5vw,64px)] font-black leading-none tracking-[-0.035em] md:col-span-5">
+                {servico.titulo}
+              </h3>
+              <p className="text-[17px] text-black/70 md:col-span-6 md:pt-2">
                 {servico.descricao}
                 {servico.href && (
                   <Link href={servico.href} className="link-u mt-1 block w-fit py-2 text-sm font-medium text-black">
-                    Ver como funciona <span className="seta" aria-hidden>→</span>
+                    {servico.rotulo} <span className="seta" aria-hidden>→</span>
                   </Link>
                 )}
               </p>
             </li>
           ))}
         </ol>
+
+        <p className="mt-10 text-[17px] text-black/70">
+          {SERVICOS_EMPRESAS.texto}{" "}
+          <Link href={SERVICOS_EMPRESAS.href} className="link-u inline-block py-2 font-medium text-black">
+            {SERVICOS_EMPRESAS.link} <span className="seta" aria-hidden>→</span>
+          </Link>
+        </p>
       </div>
       <Ponto papel="passagem" className="passagem-ponto" />
     </section>

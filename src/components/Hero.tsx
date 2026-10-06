@@ -10,6 +10,7 @@ import {
   buildWhatsAppLink,
   HERO_CTA,
   HERO_CTA_MSG,
+  HERO_DESCRITOR,
   HERO_HEADLINE_FIXA,
   HERO_SUB,
   HERO_VARIACOES,
@@ -18,11 +19,11 @@ import { DUR, EASE, MQ, movimentoLiberado } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Hero em repouso. O título (TituloRotativo) recebe a luz na chegada, dá uma
-// volta pelas quatro frases e para na última, com o cromo brilhando. No canto,
-// a linha do indicador com o ponto da marca pendurado (a origem); ao rolar, a
-// linha recolhe e o ponto cai pra fora da tela, rumo ao Antes/Depois (ver
-// src/lib/ponto.ts).
+// Hero em repouso. A primeira linha diz o que a NADA Studio é, antes de
+// qualquer história. O título (TituloRotativo) recebe a luz na chegada, troca
+// do problema pra resposta e para nela, com o cromo brilhando. No canto, a
+// linha do indicador com o ponto da marca pendurado (a origem); ao rolar, a
+// linha recolhe e o ponto cai pra fora da tela (ver src/lib/ponto.ts).
 // `local`: linha discreta na base (onde a gente atende).
 export default function Hero({ local }: { local: string }) {
   const heroRef = useRef<HTMLElement>(null);
@@ -56,7 +57,10 @@ export default function Hero({ local }: { local: string }) {
             { y: 0, scale: 1 },
             { y: () => innerHeight * 0.95, scale: 1.7, ease: "power2.in", duration: 1, immediateRender: false },
             0
-          );
+          )
+          // No fim da queda ele já está fora da tela: some ali. Sem isso ficava
+          // parado onde caiu, à vista ao lado da seção seguinte.
+          .to(ponto, { autoAlpha: 0, ease: "none", duration: 0.05 }, 0.95);
       });
       // Tela estreita com indicador: ele só some no primeiro movimento.
       mm.add(MQ.mobile, () => {
@@ -79,22 +83,29 @@ export default function Hero({ local }: { local: string }) {
   return (
     <section ref={heroRef} id="top" className="relative flex min-h-[100svh] flex-col pt-28 pb-8">
       <div className="wrap relative z-10 flex flex-1 flex-col justify-center">
+        {/* Na fonte dos títulos (Archivo), em preto: é da família do título e
+            é lida antes dele. */}
+        <p className="font-display mb-4 text-[clamp(20px,2.4vw,26px)] leading-tight font-bold tracking-[-0.02em] text-balance">
+          {HERO_DESCRITOR}
+        </p>
         <TituloRotativo
           fixa={HERO_HEADLINE_FIXA}
           variacoes={HERO_VARIACOES}
           className="text-[clamp(42px,6.5vw,78px)] font-black leading-[1.02] tracking-[-0.035em]"
         />
 
-        <p className="prose-measure mt-6 text-[18px] leading-relaxed text-black/70 md:text-[20px]">
+        {/* Respiros um ponto mais curtos que o padrão: a linha de cima entrou e
+            os botões continuam na primeira tela do notebook de 768 px. */}
+        <p className="prose-measure mt-5 text-[18px] leading-relaxed text-black/70 md:text-[20px]">
           {HERO_SUB}
         </p>
 
-        <div className="mt-10 flex flex-wrap items-center gap-4">
+        <div className="mt-8 flex flex-wrap items-center gap-4">
           <a href={buildWhatsAppLink(HERO_CTA_MSG)} className="btn btn-primary">
             {HERO_CTA} <span className="seta" aria-hidden>→</span>
           </a>
-          <Link href="/como-funciona" className="btn btn-secondary">
-            Ver como funciona
+          <Link href="/#o-que-fazemos" className="btn btn-secondary">
+            Ver o que a gente faz
           </Link>
         </div>
       </div>
